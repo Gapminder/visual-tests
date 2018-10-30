@@ -34,6 +34,8 @@ build/Release
 
 # Dependency directories
 node_modules/
+e2e/helpers/client_secret.json
+results/testResults.txt
 jspm_packages/
 
 # TypeScript v1 declaration files

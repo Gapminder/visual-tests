@@ -1,0 +1,32 @@
+{
+  "name": "visual-tests",
+  "version": "1.0.0",
+  "description": "visually tests all pages of tools-pages",
+  "main": "protractor.conf.js",
+  "scripts": {
+    "wd-update": "node ./node_modules/protractor/bin/webdriver-manager update",
+    "test": "node ./e2e/helpers/spreadsheet.js && node ./node_modules/protractor/bin/protractor protractor.conf.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abidrana7/visual-tests.git"
+  },
+  "keywords": [
+    "test",
+    "visual",
+    "image-comparison"
+  ],
+  "author": "Abid Ali",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abidrana7/visual-tests/issues"
+  },
+  "homepage": "https://github.com/abidrana7/visual-tests#readme",
+  "devDependencies": {
+    "eyes.selenium": "0.0.83",
+    "google-spreadsheet": "^2.0.6",
+    "jasmine-spec-reporter": "^4.2.1",
+    "protractor": "^5.4.1",
+    "typescript": "^3.1.3"
+  }
+}

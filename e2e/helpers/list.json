@@ -1,0 +1,32 @@
+{
+    "MOUNTAIN CHART": [
+        "#$chart-type=mountain",
+        "#$state$marker$select@$geo=ago;&$geo=deu;&$geo=alb;;;;&chart-type=mountain"
+    ],
+    "BUBBLE CHART": [
+        "?embedded=true#$state$;&data$reader=ddf&path=https:////raw.githubusercontent.com//open-numbers//ddf--world_bank--world_development_indicators//develop",
+        "#$state$marker$select@$geo=ind&trailStartTime=2018;&$geo=chn&trailStartTime=2018;;;;&chart-type=bubbles",
+        "#$state$marker$select@$geo=ind&trailStartTime=2018;&$geo=chn&trailStartTime=2018;&$geo=afg&trailStartTime=2018;&$geo=alb&trailStartTime=2018;&$geo=aut&trailStartTime=2018;;;;&chart-type=bubbles"
+    ],
+    "MAP CHART": [
+        "#$chart-type=map",
+        "#$state$marker$select@$geo=ago;;&size$which=population_aged_60plus_years_total_number&domainMin:null&domainMax:null&spaceRef:null;;;&chart-type=map"
+    ],
+    "BASE URL": [
+        "https://tools.gapminder.org/"
+    ],
+    "BAR CHART": [
+        "#$chart-type=barrank",
+        "#$state$marker$select@$geo=alb;&$geo=nam;;;;&chart-type=barrank"
+    ],
+    "LINE CHART": [
+        "#$chart-type=linechart",
+        "#$state$entities$show$geo$/$in@=ago;;;;;&chart-type=linechart",
+        "?embedded=true#$state$;&data$reader=ddf&path=https:////raw.githubusercontent.com//open-numbers//ddf--gapminder--legal_slavery//master;&chart-type=linechart",
+        "#$state$time$value=2016;&entities$show$;;&marker$axis_y$which=electricity_generation_total&scaleType=linear&spaceRef:null;;;&chart-type=linechart"
+    ],
+    "POPBYAGE CHART": [
+        "#$chart-type=barrank",
+        "#$state$marker$select@$geo=alb;&$geo=nam;;;;&chart-type=barrank"
+    ]
+}

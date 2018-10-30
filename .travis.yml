@@ -1,0 +1,34 @@
+language: node_js
+node_js:
+  - '9.5.0'
+
+addons:
+  sauce_connect: true
+
+notifications:
+  email:
+    recipients:
+      - abidrana7@gmail.com
+    on_success: change
+    on_failure: always
+
+  #slack:
+    #rooms:
+      #- gapminder:siB4Z9ymsYR6qHnRPpgUoB2Q#vizabi-spam
+    #on_success: change
+    #on_failure: always
+
+cache:
+  directories:
+    - node_modules
+    - e2e/helpers/client_secret.json
+
+install:
+  - npm install
+
+script:
+  # to download binaries
+  #- npm run wd-update
+
+  # run unit tests
+  - npm test
