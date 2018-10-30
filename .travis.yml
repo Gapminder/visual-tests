@@ -5,8 +5,7 @@ node_js:
 addons:
   sauce_connect:
     username: "gapminder"
-  jwt:
-    secure: "6a9bed19-2742-4df7-9d2a-7b3fa420d37a"
+    access_key: "6a9bed19-2742-4df7-9d2a-7b3fa420d37a"
 
 notifications:
   email:
