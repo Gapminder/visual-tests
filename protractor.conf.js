@@ -206,9 +206,6 @@ const capabilityForLocalRun = {
 const SAUCE_USERNAME = process.env.SAUCE_USERNAME;
 const SAUCE_ACCESS_KEY = process.env.SAUCE_ACCESS_KEY;
 
-export SAUCE_USERNAME=SAUCE_USERNAME;
-export SAUCE_ACCESS_KEY=SAUCE_ACCESS_KEY;
-
 console.log(`SAUCE_USERNAME : ${SAUCE_USERNAME}`);
 console.log(`SAUCE_ACCESS_KEY : ${SAUCE_ACCESS_KEY}`);
 
