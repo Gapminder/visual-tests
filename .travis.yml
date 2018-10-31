@@ -3,9 +3,7 @@ node_js:
   - '9.5.0'
 
 addons:
-  sauce_connect:
-    username: "gapminder"
-    access_key: "6a9bed19-2742-4df7-9d2a-7b3fa420d37a"
+  sauce_connect: true
 
 notifications:
   email:
