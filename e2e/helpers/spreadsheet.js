@@ -4,9 +4,8 @@ var creds = require('./client_secret.json');
 var fs = require('fs');
 const SPREADSHEET_ID = '14HrBvsbbaFTwcf-CDRwKUNGxGxD3v-QyyIH-2xe-66E';
 
-const chartLinks = {};
+const suiteLinks = {};
 var getLinksArr = [];
-var chartsTitle = ['BASE URL', 'BUBBLE CHART', 'MAP CHART', 'LINE CHART', 'MOUNTAIN CHART', 'BAR CHART', 'POPBYAGE CHART'];
 
 async function getIndexSheet(sheetIndex) {
 
@@ -25,9 +24,9 @@ async function getCellData() {
   const sheet = await getIndexSheet(0);
   const cells = await promisify(sheet.getCells)({
 
-    'min-row': 1,
+    'min-row': 6,
     'max-row': 800,
-    'min-col': 1,
+    'min-col': 2,
     'max-col': 2,
     'return-empty': true
 
@@ -40,20 +39,17 @@ async function getCellData() {
 
 async function getRequiredData(sheet, cells, i){
 
-  var cellVal = cells[i].value;
+  var suiteName = cells[i].value;
   var colNum = cells[i].col + 1;
   var minRow = cells[i].row + 1;
 
-  for (j=0; j<chartsTitle.length; j++){
+  if (suiteName !== ''){
 
-    if (cellVal == chartsTitle[j]){
-
-      getChartRows(sheet, minRow, colNum, chartsTitle[j]);
-    }
+    getChartRows(sheet, minRow, colNum, suiteName);
   }
 }
 
-async function getChartRows(sheet, minRow, colNum, chartName){
+async function getChartRows(sheet, minRow, colNum, suiteName){
 
   const chartRows = await promisify(sheet.getCells)({
     'min-row': minRow,
@@ -71,13 +67,9 @@ async function getChartRows(sheet, minRow, colNum, chartName){
     await getLinks(chartRows, j);
   }
 
-  chartLinks[ chartName ] = await getLinksArr;
-  /*chartLinks[ chartName ] = await (chartLinks[ chartName ]).filter(function (el) {
-    return el !== '';
-  });*/
-  //console.log(`${chartName} LINKS :,${chartLinks[ chartName ]}`);
+  suiteLinks[ suiteName ] = await getLinksArr;
 
-  fs.writeFile("./e2e/helpers/list.json", JSON.stringify(chartLinks, null, 4), function (err) {
+  fs.writeFile("./e2e/helpers/list.json", JSON.stringify(suiteLinks, null, 4), function (err) {
     if (err) {
       return console.log(err);
     }
