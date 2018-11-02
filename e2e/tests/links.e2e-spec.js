@@ -9,7 +9,7 @@ var dateTime = date+' '+time;
 
 const eyes = new Eyes();
 eyes.setApiKey(process.env.APPLITOOLS_API_KEY);
-eyes.setBatch(dateTime, ENV['TRAVIS_JOB_NUMBER']);
+eyes.setBatch(dateTime, process.env.TRAVIS_JOB_NUMBER);
 
 var ALL_CHARTS = JSON.parse(fs.readFileSync("./e2e/helpers/list.json"));
 var ALL_CHARTS_KEYS = [];
