@@ -3,12 +3,12 @@ const helper = require("./../helpers/helper.js");
 const fs = require('fs');
 
 const eyes = new Eyes();
-eyes.setApiKey("fkGHtw0JGHjQI9HeAPHC84ac1tSxrldKGfclGuBsAJ0110");
+eyes.setApiKey(process.env.APPLITOOLS_API_KEY);
+
+console.log(` APPLITOOLS_API_KEY : ${process.env.APPLITOOLS_API_KEY}`);
 
 var ALL_CHARTS = JSON.parse(fs.readFileSync("./e2e/helpers/list.json"));
 var ALL_CHARTS_KEYS = [];
-
-
 
 function completeTest(){
 
@@ -54,14 +54,14 @@ function testRunner(CHART_KEY, link, index ) {
 
     console.log(`   --> ${index} > ${link}`);
 
-    //eyes.open(browser, CHART_KEY, `${CHART_KEY} > ${index}`);
+    eyes.open(browser, CHART_KEY, `${CHART_KEY} > ${index}`);
     helper.navigateToUrl(link);
-    //eyes.checkWindow(`${index}`);
+    eyes.checkWindow(`${index}`);
 
     //link = link.substring(150, 30);
     //console.log('link : ', link);
 
-    //eyes.close();
+    eyes.close();
   });
 }
 
