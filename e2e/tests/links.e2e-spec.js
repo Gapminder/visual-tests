@@ -6,8 +6,7 @@ var today = new Date();
 var date = today.getUTCFullYear()+'-'+(today.getUTCMonth()+1)+'-'+today.getUTCDate();
 var time = today.getUTCHours() + ":" + today.getUTCMinutes() + ":" + today.getUTCSeconds();
 var dateTime = date+' '+time;
-dateTime = dateTime+' JOB: '+ process.env.TRAVIS_JOB_NUMBER;
-console.log(` process.env.TRAVIS_JOB_NUMBER : ${process.env.TRAVIS_JOB_NUMBER}`);
+//dateTime = dateTime+' JOB: '+ process.env.TRAVIS_JOB_NUMBER;
 
 const eyes = new Eyes();
 eyes.setApiKey(process.env.APPLITOOLS_API_KEY);
