@@ -32,7 +32,7 @@ script:
   #- npm run wd-update
 
   # applitools batch name
-  - export APPLITOOLS_BATCH_ID=`echo ${TRAVIS_PULL_REQUEST_SHA:=$TRAVIS_COMMIT}`
+  - export APPLITOOLS_BATCH_ID=${TRAVIS_JOB_NUMBER}
 
   # run unit tests
   - npm test
