@@ -54,14 +54,14 @@ function testRunner(CHART_KEY, link, index ) {
 
     console.log(`   --> ${index} > ${link}`);
 
-    eyes.open(browser, CHART_KEY, `${CHART_KEY} > ${index}`);
+    //eyes.open(browser, CHART_KEY, `${CHART_KEY} > ${index}`);
     helper.navigateToUrl(link);
-    eyes.checkWindow(`${index}`);
+    //eyes.checkWindow(`${index}`);
 
     //link = link.substring(150, 30);
     //console.log('link : ', link);
 
-    eyes.close();
+    //eyes.close();
   });
 }
 
