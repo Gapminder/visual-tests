@@ -8,7 +8,6 @@ var time = today.getUTCHours() + ":" + today.getUTCMinutes() + ":" + today.getUT
 var dateTime = date+' '+time;
 dateTime = dateTime+' JOB: '+ process.env.TRAVIS_JOB_NUMBER;
 console.log(` process.env.TRAVIS_JOB_NUMBER : ${process.env.TRAVIS_JOB_NUMBER}`);
-console.log(` dateTime : ${dateTime}`);
 
 const eyes = new Eyes();
 eyes.setApiKey(process.env.APPLITOOLS_API_KEY);
