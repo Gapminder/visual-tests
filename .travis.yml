@@ -22,6 +22,7 @@ cache:
   directories:
     - node_modules
     - e2e/helpers/client_secret.json
+    - e2e/helpers/list.json
 
 install:
   - npm install
@@ -29,6 +30,9 @@ install:
 script:
   # to download binaries
   #- npm run wd-update
+
+  # applitools batch name
+  - export APPLITOOLS_BATCH_ID=`echo ${TRAVIS_PULL_REQUEST_SHA:=$TRAVIS_COMMIT}`
 
   # run unit tests
   - npm test

@@ -3,12 +3,12 @@ const helper = require("./../helpers/helper.js");
 const fs = require('fs');
 
 const eyes = new Eyes();
-eyes.setApiKey("fkGHtw0JGHjQI9HeAPHC84ac1tSxrldKGfclGuBsAJ0110");
+eyes.setApiKey(process.env.APPLITOOLS_API_KEY);
+
+console.log(` APPLITOOLS_API_KEY : ${process.env.APPLITOOLS_API_KEY}`);
 
 var ALL_CHARTS = JSON.parse(fs.readFileSync("./e2e/helpers/list.json"));
 var ALL_CHARTS_KEYS = [];
-
-
 
 function completeTest(){
 
