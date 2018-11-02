@@ -5,7 +5,8 @@ const fs = require('fs');
 var today = new Date();
 var date = today.getUTCFullYear()+'-'+(today.getUTCMonth()+1)+'-'+today.getUTCDate();
 var time = today.getUTCHours() + ":" + today.getUTCMinutes() + ":" + today.getUTCSeconds();
-var dateTime = date+' '+time;
+//var dateTime = date+' '+time;
+var dateTime = process.env.TRAVIS_JOB_NUMBER;
 //dateTime = dateTime+' JOB: '+ process.env.TRAVIS_JOB_NUMBER;
 
 const eyes = new Eyes();
