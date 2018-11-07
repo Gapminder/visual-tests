@@ -2,16 +2,19 @@ const Eyes = require("eyes.selenium").Eyes;
 const helper = require("./../helpers/helper.js");
 const fs = require('fs');
 
+var pad0 = function(arg) {
+  return (arg < 10 ? "0" : "") + arg;
+}
+
 var today = new Date();
-var date = today.getUTCFullYear()+'-'+(today.getUTCMonth()+1)+'-'+today.getUTCDate();
-var time = today.getUTCHours() + ":" + today.getUTCMinutes() + ":" + today.getUTCSeconds();
-//var dateTime = date+' '+time;
-var dateTime = process.env.TRAVIS_JOB_NUMBER;
-//dateTime = dateTime+' JOB: '+ process.env.TRAVIS_JOB_NUMBER;
+var date = today.getUTCFullYear() + '-' + pad0(today.getUTCMonth() + 1) + '-' + pad0(today.getUTCDate());
+var time = pad0(today.getUTCHours()) + ":" + pad0(today.getUTCMinutes()) + ":" + pad0(today.getUTCSeconds());
+
+var batchName = date + " " + time + " " + process.env.TRAVIS_JOB_NUMBER;
 
 const eyes = new Eyes();
 eyes.setApiKey(process.env.APPLITOOLS_API_KEY);
-eyes.setBatch(dateTime);
+eyes.setBatch(batchName);
 
 var ALL_CHARTS = JSON.parse(fs.readFileSync("./e2e/helpers/list.json"));
 var ALL_CHARTS_KEYS = [];
