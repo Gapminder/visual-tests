@@ -12,11 +12,11 @@ notifications:
     on_success: change
     on_failure: always
 
-  #slack:
-    #rooms:
-      #- gapminder:siB4Z9ymsYR6qHnRPpgUoB2Q#vizabi-spam
-    #on_success: change
-    #on_failure: always
+  slack:
+    rooms:
+      - gapminder:siB4Z9ymsYR6qHnRPpgUoB2Q#vizabi-spam
+    on_success: change
+    on_failure: always
 
 cache:
   directories:
