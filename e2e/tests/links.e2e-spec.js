@@ -10,7 +10,7 @@ var today = new Date();
 var date = today.getUTCFullYear() + '-' + pad0(today.getUTCMonth() + 1) + '-' + pad0(today.getUTCDate());
 var time = pad0(today.getUTCHours()) + ":" + pad0(today.getUTCMinutes()) + ":" + pad0(today.getUTCSeconds());
 
-var batchName = date + " " + time + " " + process.env.TRAVIS_JOB_NUMBER;
+var batchName = date + " " + time + " — " + process.env.TRAVIS_JOB_NUMBER;
 
 const eyes = new Eyes();
 eyes.setApiKey(process.env.APPLITOOLS_API_KEY);
