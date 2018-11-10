@@ -8,6 +8,7 @@ addons:
 notifications:
   email:
     recipients:
+      - angie@gapminder.org
       - abidrana7@gmail.com
     on_success: change
     on_failure: always

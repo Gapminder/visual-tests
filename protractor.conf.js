@@ -3,7 +3,7 @@
 const fs = require('fs');
 const URL_GOOGLE_SHEET = JSON.parse(fs.readFileSync("./e2e/helpers/list.json"));
 const SAUSE_MAX_INSTANCES = 5;
-const SAUSE_MAX_SESSIONS = 5;
+const SAUSE_MAX_SESSIONS = 1; //5
 const LOCAL_MAX_INSTANCES = 1;
 const LOCAL_MAX_SESSIONS = 2;
 const url = process.env.URL || URL_GOOGLE_SHEET['BASE URL'].toString() || 'https://www.gapminder.org/'
@@ -158,7 +158,9 @@ const platformConfigurations = [
   //   platformName: 'Android',
   //   appiumVersion: '1.8.1'
   // }
-].map(config => {
+];
+platformConfigurations['tunnel-identifier'] = `${process.env.TRAVIS_JOB_NUMBER}`;
+platformConfigurations.map(config => {
   config.name = `visual-tests ${config.platform || "" + config.platformName || "" + config.platformVersion || ""},${config.browserName},${config.version || "" + config.deviceName || ""}`;
   config.maxInstances = SAUSE_MAX_INSTANCES;
   if (!config.platformName) config.screenResolution = '1600x1200';
@@ -295,6 +297,7 @@ exports.config = {
     await browser.waitForAngularEnabled(false);
     if(!(SAUCE_USERNAME&&SAUCE_ACCESS_KEY)) await browser.driver.manage().window().setSize(screenSize.width, screenSize.height);
     const config = await browser.getProcessedConfig();
+    browser.name = config.capabilities.name;
     if (config.capabilities.device) {
       Object.assign(browser.params, ["mobile", "tablet", "desktop"].reduce((res, device) => {
         res[device] = device === config.capabilities.device;

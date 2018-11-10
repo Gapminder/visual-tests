@@ -4,7 +4,7 @@ const fs = require('fs');
 
 const eyes = new Eyes();
 eyes.setApiKey(process.env.APPLITOOLS_API_KEY);
-eyes.setBatch(process.env.TRAVIS_JOB_NUMBER);
+eyes.setBatch(`${process.env.TRAVIS_JOB_NUMBER + " — " + browser.name}`);
 
 var ALL_CHARTS = JSON.parse(fs.readFileSync("./e2e/helpers/list.json"));
 var ALL_CHARTS_KEYS = [];
