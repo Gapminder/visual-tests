@@ -161,7 +161,7 @@ const platformConfigurations = [
   //   appiumVersion: '1.8.1'
   // }
 ].map(config => {
-  config.name = `${process.env.TRAVIS_JOB_NUMBER + " — " || 'visual-tests'} ${config.platform || "" + config.platformName || "" + config.platformVersion || ""},${config.browserName},${config.version || "" + config.deviceName || ""}`;
+  config.name = `${process.env.TRAVIS_JOB_NUMBER + ' — visual-tests'} ${config.platform || "" + config.platformName || "" + config.platformVersion || ""},${config.browserName},${config.version || "" + config.deviceName || ""}`;
   config.maxInstances = SAUSE_MAX_INSTANCES;
   if (!config.platformName) config.screenResolution = '1600x1200';
   config.shardTestFiles = true;
