@@ -94,7 +94,8 @@ const platformConfigurations = [
     browserName: "chrome",
     platform: "Windows 10",
     version: "latest",
-    seleniumVersion: '3.12.0'
+    seleniumVersion: '3.12.0',
+    'tunnel-identifier': `${process.env.TRAVIS_JOB_NUMBER}`
   },
   // {
   //   browserName: "MicrosoftEdge",
@@ -106,7 +107,8 @@ const platformConfigurations = [
     browserName: "safari",
     platform: "macOS 10.12",
     version: "10.1",
-    seleniumVersion: '3.12.0'
+    seleniumVersion: '3.12.0',
+    'tunnel-identifier': `${process.env.TRAVIS_JOB_NUMBER}`
   },
   /*{
     browserName: "chrome",
@@ -158,9 +160,7 @@ const platformConfigurations = [
   //   platformName: 'Android',
   //   appiumVersion: '1.8.1'
   // }
-];
-platformConfigurations['tunnel-identifier'] = `${process.env.TRAVIS_JOB_NUMBER}`;
-platformConfigurations.map(config => {
+].map(config => {
   config.name = `visual-tests ${config.platform || "" + config.platformName || "" + config.platformVersion || ""},${config.browserName},${config.version || "" + config.deviceName || ""}`;
   config.maxInstances = SAUSE_MAX_INSTANCES;
   if (!config.platformName) config.screenResolution = '1600x1200';
