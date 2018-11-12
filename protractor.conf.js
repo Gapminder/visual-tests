@@ -90,13 +90,13 @@ const platformConfigurations = [
   //   version: "latest",
   //   seleniumVersion: '3.12.0'
   // },
-  {
+  /*{
     browserName: "chrome",
     platform: "Windows 10",
     version: "latest",
     seleniumVersion: '3.12.0',
     'tunnel-identifier': `${process.env.TRAVIS_JOB_NUMBER}`
-  },
+  },*/
   // {
   //   browserName: "MicrosoftEdge",
   //   platform: "Windows 10",
