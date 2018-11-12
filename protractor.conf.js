@@ -3,7 +3,7 @@
 const fs = require('fs');
 const URL_GOOGLE_SHEET = JSON.parse(fs.readFileSync("./e2e/helpers/list.json"));
 const SAUSE_MAX_INSTANCES = 5;
-const SAUSE_MAX_SESSIONS = 1; //5
+const SAUSE_MAX_SESSIONS = 5; //1
 const LOCAL_MAX_INSTANCES = 1;
 const LOCAL_MAX_SESSIONS = 2;
 const url = process.env.URL || URL_GOOGLE_SHEET['BASE URL'].toString() || 'https://www.gapminder.org/'
@@ -90,13 +90,13 @@ const platformConfigurations = [
   //   version: "latest",
   //   seleniumVersion: '3.12.0'
   // },
-  /*{
+  {
     browserName: "chrome",
     platform: "Windows 10",
     version: "latest",
     seleniumVersion: '3.12.0',
     'tunnel-identifier': `${process.env.TRAVIS_JOB_NUMBER}`
-  },*/
+  },
   // {
   //   browserName: "MicrosoftEdge",
   //   platform: "Windows 10",
