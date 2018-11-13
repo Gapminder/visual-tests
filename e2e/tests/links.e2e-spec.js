@@ -47,20 +47,19 @@ function suiteRunner(CHART_KEY) {
 
 }
 
-function testRunner(CHART_KEY, link, index ) {
+function testRunner(CHART_KEY, chartSelcted, index ) {
 
+  var testName = chartSelcted['testName'];
+  var link = chartSelcted['url'];
   index = index + 1;
-  it (`${CHART_KEY} > ${index}`, async () => {
 
-    console.log(`   --> ${index} > ${link}`);
+  it (`${CHART_KEY} > ${testName}`, async () => {
+
+    console.log(`   --> ${index} > ${testName} > ${link}`);
 
     eyes.open(browser, CHART_KEY, `${CHART_KEY} > ${index}`);
     helper.navigateToUrl(link);
-    eyes.checkWindow(`${index}`);
-
-    //link = link.substring(150, 30);
-    //console.log('link : ', link);
-
+    eyes.checkWindow(`${testName}`);
     eyes.close();
   });
 }

@@ -6,7 +6,7 @@ const SAUSE_MAX_INSTANCES = 5;
 const SAUSE_MAX_SESSIONS = 5; //1
 const LOCAL_MAX_INSTANCES = 1;
 const LOCAL_MAX_SESSIONS = 2;
-const url = process.env.URL || URL_GOOGLE_SHEET['BASE URL'].toString() || 'https://www.gapminder.org/'
+const url = process.env.URL || URL_GOOGLE_SHEET['BASE URL'][0]['url'] || 'https://www.gapminder.org/'
 const device = process.env.DEVICE || 'desktop'; // 'desktop' or 'tablet' or 'mobile'
 
 const testResultsDir = 'results';

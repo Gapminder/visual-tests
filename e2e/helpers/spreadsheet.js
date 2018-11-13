@@ -40,31 +40,40 @@ async function getCellData() {
 async function getRequiredData(sheet, cells, i){
 
   var suiteName = cells[i].value;
-  var colNum = cells[i].col + 1;
-  var minRow = cells[i].row + 1;
+  var minCol = cells[i].col + 1;
+  var maxCol = cells[i].col + 2;
+  var minRow = cells[i].row + 2;
 
   if (suiteName !== ''){
 
-    getChartRows(sheet, minRow, colNum, suiteName);
+    getChartRows(sheet, minRow, minCol, maxCol, suiteName);
   }
 }
 
-async function getChartRows(sheet, minRow, colNum, suiteName){
+async function getChartRows(sheet, minRow, minCol, maxCol, suiteName){
 
-  const chartRows = await promisify(sheet.getCells)({
+  const testNames = await promisify(sheet.getCells)({
     'min-row': minRow,
     //'max-row': 11,
-    'min-col': colNum,
-    'max-col': colNum,
+    'min-col': minCol,
+    'max-col': minCol,
     'return-empty': true
   });
 
-  for (j=0; j<chartRows.length; j++){
+  const urls = await promisify(sheet.getCells)({
+    'min-row': minRow,
+    //'max-row': 11,
+    'min-col': maxCol,
+    'max-col': maxCol,
+    'return-empty': true
+  });
 
-    if (chartRows[j].value == ''){
+  for (j=0; j<testNames.length; j++){
+
+    if (testNames[j].value == ''){
       break;
     }
-    await getLinks(chartRows, j);
+    await getLinks(testNames, urls, j);
   }
 
   suiteLinks[ suiteName ] = await getLinksArr;
@@ -78,9 +87,10 @@ async function getChartRows(sheet, minRow, colNum, suiteName){
   getLinksArr = [];
 }
 
-async function getLinks(chartRows, j){
+async function getLinks(testNames, urls, j){
 
-  await getLinksArr.push(chartRows[j].value);
+  await getLinksArr.push({"testName":testNames[j].value, "url":urls[j].value});
+  //await getLinksArr.push(testNames[j].value);
 }
 
 exports.allChartsLinks = allChartsLinks = async function(){
