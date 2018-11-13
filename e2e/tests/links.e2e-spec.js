@@ -57,7 +57,7 @@ function testRunner(CHART_KEY, chartSelcted, index ) {
 
     console.log(`   --> ${index} > ${testName} > ${link}`);
 
-    eyes.open(browser, CHART_KEY, `${CHART_KEY} > ${index}`);
+    eyes.open(browser, CHART_KEY, `${CHART_KEY} > ${testName}`);
     helper.navigateToUrl(link);
     eyes.checkWindow(`${testName}`);
     eyes.close();
