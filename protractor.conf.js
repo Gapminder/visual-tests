@@ -103,19 +103,19 @@ const platformConfigurations = [
   //   version: "17.17134",
   //   seleniumVersion: '3.12.0'
   // },
-  {
+  /*{
     browserName: "safari",
     platform: "macOS 10.12",
     version: "10.1",
     seleniumVersion: '3.12.0',
     'tunnel-identifier': `${process.env.TRAVIS_JOB_NUMBER}`
-  },
-  /*{
+  },*/
+  {
     browserName: "chrome",
     platform: "macOS 10.12",
     version: "latest",
     seleniumVersion: '3.12.0'
-  },*/
+  },
   // {
   //   device: 'mobile',
   //   browserName: 'Safari',
