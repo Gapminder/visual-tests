@@ -1,78 +1,120 @@
 {
-    "POPBYAGE CHART": [
-        {
-            "testName": "homepage",
-            "url": "#$chart-type=popbyage"
-        }
-    ],
-    "MOUNTAIN CHART": [
-        {
-            "testName": "homepage",
-            "url": "#$chart-type=mountain"
-        },
-        {
-            "testName": "ago, deu & alb",
-            "url": "#$state$marker$select@$geo=ago;&$geo=deu;&$geo=alb;;;;&chart-type=mountain"
-        }
-    ],
-    "LINE CHART": [
-        {
-            "testName": "homepage",
-            "url": "#$chart-type=linechart"
-        },
-        {
-            "testName": "geo",
-            "url": "#$state$entities$show$geo$/$in@=ago;;;;;&chart-type=linechart"
-        }
-    ],
-    "BUBBLE CHART": [
-        {
-            "testName": "homepage",
-            "url": "#$chart-type=bubbles"
-        },
-        {
-            "testName": "india & china",
-            "url": "#$state$marker$select@$geo=ind&trailStartTime=2018;&$geo=chn&trailStartTime=2018;;;;&chart-type=bubbles"
-        }
-    ],
-    "BASE URL": [
-        {
-            "testName": "live",
-            "url": "https://tools.gapminder.org/"
-        }
-    ],
-    "EMBEDDED CHARTS": [
-        {
-            "testName": "ddf--world_bank--world_development_indicators",
-            "url": "?embedded=true#$state$;&data$reader=ddf&path=https:////raw.githubusercontent.com//open-numbers//ddf--world_bank--world_development_indicators//develop"
-        },
-        {
-            "testName": "ddf--gapminder--legal_slavery",
-            "url": "?embedded=true#$state$;&data$reader=ddf&path=https:////raw.githubusercontent.com//open-numbers//ddf--gapminder--legal_slavery//master;&chart-type=linechart "
-        },
-        {
-            "testName": "legal slavery map",
-            "url": "?embedded=true#$state$time$value=2017&endOrigin=2017;&marker$color$data=data_csv&which=Legal%20status%20of%20slavery&use=indicator&palette$Legal=#e25c5c&Illegal=#b6ec93;&spaceRef:null;;;&data_csv$reader=csv&timeInColumns=true&path=https:////raw.githubusercontent.com//vizabi//vizabi-preview//master//src//data//csv//timeright--one-string-indicator--legal-slavery.csv;&chart-type=map"
-        },
-        {
-            "testName": "electricity_generation_total",
-            "url": "?embedded=true#$state$time$value=2016;&entities$show$;;&marker$axis_y$which=electricity_generation_total&scaleType=linear&spaceRef:null;;;&chart-type=linechart"
-        }
-    ],
-    "MAP CHART": [
-        {
-            "testName": "homepage",
-            "url": "#$chart-type=map"
-        }
-    ],
-    "BAR CHART": [
-        {
-            "testName": "homepage",
-            "url": "#$chart-type=barrank"
-        },
-        {
-            "testName": "alb",
-            "url": "#$state$marker$select@$geo=alb;&$geo=nam;;;;&chart-type=barrank"
-        }
-    ]
+    "tools-pages": {
+        "BASE URL": [
+            {
+                "testName": "live",
+                "url": "https://tools.gapminder.org/"
+            },
+            {
+                "testName": "dev",
+                "url": "http://tools-dev.gapminderdev.org/"
+            }
+        ],
+        "BUBBLE CHART": [
+            {
+                "testName": "home",
+                "url": "#$chart-type=bubbles"
+            },
+            {
+                "testName": "select india, china",
+                "url": "#$state$marker$select@$geo=ind&trailStartTime=2018;&$geo=chn&trailStartTime=2018;;;;&chart-type=bubbles"
+            }
+        ],
+        "MAP CHART": [
+            {
+                "testName": "home",
+                "url": "#$chart-type=map"
+            }
+        ],
+        "LINE CHART": [
+            {
+                "testName": "home",
+                "url": "#$chart-type=linechart"
+            },
+            {
+                "testName": "show angola",
+                "url": "#$state$entities$show$geo$/$in@=ago;;;;;&chart-type=linechart"
+            }
+        ],
+        "MOUNTAIN CHART": [
+            {
+                "testName": "home",
+                "url": "#$chart-type=mountain"
+            },
+            {
+                "testName": "select ago, deu, alb",
+                "url": "#$state$marker$select@$geo=ago;&$geo=deu;&$geo=alb;;;;&chart-type=mountain"
+            }
+        ],
+        "BAR CHART": [
+            {
+                "testName": "home",
+                "url": "#$chart-type=barrank"
+            },
+            {
+                "testName": "select albania, namibia",
+                "url": "#$state$marker$select@$geo=alb;&$geo=nam;;;;&chart-type=barrank"
+            }
+        ],
+        "POPBYAGE CHART": [
+            {
+                "testName": "home",
+                "url": "#$chart-type=popbyage"
+            }
+        ],
+        "EMBEDDED CHARTS": [
+            {
+                "testName": "WDI dataset alone via github DDF",
+                "url": "?embedded=true#$state$;&data$reader=ddf&path=https:////raw.githubusercontent.com//open-numbers//ddf--world_bank--world_development_indicators//develop"
+            },
+            {
+                "testName": "post: legal slavery line global via github ddf",
+                "url": "?embedded=true#$state$;&data$reader=ddf&path=https:////raw.githubusercontent.com//open-numbers//ddf--gapminder--legal_slavery//master;&chart-type=linechart "
+            },
+            {
+                "testName": "post: legal slavery map via github csv",
+                "url": "?embedded=true#$state$time$value=2017&endOrigin=2017;&marker$color$data=data_csv&which=Legal%20status%20of%20slavery&use=indicator&palette$Legal=#e25c5c&Illegal=#b6ec93;&spaceRef:null;;;&data_csv$reader=csv&timeInColumns=true&path=https:////raw.githubusercontent.com//vizabi//vizabi-preview//master//src//data//csv//timeright--one-string-indicator--legal-slavery.csv;&chart-type=map"
+            },
+            {
+                "testName": "post: BP energy indicators update",
+                "url": "?embedded=true#$state$time$value=2016;&entities$show$;;&marker$axis_y$which=electricity_generation_total&scaleType=linear&spaceRef:null;;;&chart-type=linechart"
+            }
+        ]
+    },
+    "Dollar Street": {
+        "BASE URL": [
+            {
+                "testName": "live",
+                "url": "https://tools.gapminder.org/"
+            },
+            {
+                "testName": "dev",
+                "url": "http://tools-dev.gapminderdev.org/"
+            }
+        ],
+        "BUBBLE CHART": [
+            {
+                "testName": "select india, china",
+                "url": "#$state$marker$select@$geo=ind&trailStartTime=2018;&$geo=chn&trailStartTime=2018;;;;&chart-type=bubbles"
+            }
+        ]
+    },
+    "Gapminder": {
+        "BASE URL": [
+            {
+                "testName": "live",
+                "url": "https://tools.gapminder.org/"
+            },
+            {
+                "testName": "dev",
+                "url": "http://tools-dev.gapminderdev.org/"
+            }
+        ],
+        "MAP CHART": [
+            {
+                "testName": "home",
+                "url": "#$chart-type=map"
+            }
+        ]
+    }
 }
