@@ -31,7 +31,7 @@ async function fetchUpdatedSheet() {
 
 async function getSheetData(index, sheet, sheetTitle){
 
-  console.log(`\n   --> SHEET INDEX: ${index} => TITLE: ${sheetTitle}`);
+  console.log(`   --> SHEET INDEX: ${index} => TITLE: ${sheetTitle}`);
   const slctdSheetCells = await promisify(sheet.getCells)({
 
     'min-row': 4,
@@ -150,7 +150,6 @@ async function checkIfSheetNameExistInJson(){
 
       for (i=0; i<sheets.length; i++) {
         index = keys.indexOf(sheets[i].title);
-        console.log(`==> index ${index}`);
         if (index > -1) {
           keys.splice(index, 1);
         }
