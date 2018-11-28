@@ -3,6 +3,7 @@ const helper = require("./../helpers/helper.js");
 const fs = require('fs');
 
 const eyes = new Eyes();
+eyes.setApiKey(process.env.APPLITOOLS_API_KEY);
 eyes.setBatch(`${browser.name}`);
 
 var ALL_SHEETS = JSON.parse(fs.readFileSync("./e2e/helpers/list.json"));
