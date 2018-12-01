@@ -122,8 +122,11 @@ async function getTestsData(sheet, valRow, testNameCol, urlsCol, suiteName){
 
   for (k=0; k<testNames.length; k++){
 
-    if (testNames[k].value == '' || urls[k].value == ''){
+    if ((testNames[k].value == '' || urls[k].value == '') && (testNames[k+1].value != '' || urls[k+1].value != '')){
       continue;
+    }
+    else if ((testNames[k].value == '' || urls[k].value == '') && (testNames[k+1].value == '' || urls[k+1].value == '')){
+      break;
     }
     else if (testNames[k].value == '' && urls[k].value == ''){
       break;

@@ -2,63 +2,167 @@
     "tools-pages": {
         "BASE URL": [
             {
-                "testName": "live",
+                "testName": "Live",
                 "url": "https://tools.gapminder.org/"
-            },
-            {
-                "testName": "dev",
-                "url": "http://tools-dev.gapminderdev.org/"
             }
         ],
         "BUBBLE CHART": [
             {
-                "testName": "home",
+                "testName": "Home",
                 "url": "#$chart-type=bubbles"
             },
             {
-                "testName": "select india, china",
+                "testName": "Color > Time",
+                "url": "#$state$marker$color$which=time&use=indicator&scaleType=time&spaceRef:null;;;&chart-type=bubbles"
+            },
+            {
+                "testName": "Color > Babies per women",
+                "url": "#$state$marker$color$which=children_per_woman_total_fertility&use=indicator&scaleType=linear&spaceRef:null;;;&chart-type=bubbles"
+            },
+            {
+                "testName": "Color > CO2 emissions",
+                "url": "#$state$marker$color$which=co2_emissions_tonnes_per_person&use=indicator&scaleType=genericLog&spaceRef:null;;;&chart-type=bubbles"
+            },
+            {
+                "testName": "Color > Child mortality",
+                "url": "#$state$marker$color$which=child_mortality_0_5_year_olds_dying_per_1000_born&use=indicator&scaleType=genericLog&spaceRef:null;;;&chart-type=bubbles"
+            },
+            {
+                "testName": "Color > Income",
+                "url": "#$state$marker$color$which=income_per_person_gdppercapita_ppp_inflation_adjusted&use=indicator&scaleType=log&spaceRef:null;;;&chart-type=bubbles"
+            },
+            {
+                "testName": "Color > Life expectancy",
+                "url": "#$state$marker$color$which=life_expectancy_years&use=indicator&scaleType=linear&spaceRef:null;;;&chart-type=bubbles"
+            },
+            {
+                "testName": "Color > Country properties > Country",
+                "url": "#$state$marker$color$which=country&spaceRef=entities;;;&chart-type=bubbles"
+            },
+            {
+                "testName": "Color > Country properties >  Select China, USA",
+                "url": "#$state$marker$select@$country=chn&trailStartTime=2018;&$country=usa&trailStartTime=2018;;&color$which=country&spaceRef=entities;;;&chart-type=bubbles"
+            },
+            {
+                "testName": "Color > Country properties > G77 and OECD Countries",
+                "url": "#$state$marker$color$data=data_wdi&which=g77_and_oecd_countries&spaceRef=entities;;;&chart-type=bubbles"
+            },
+            {
+                "testName": "Color > Country properties > G77 and OECD Countries > G77 - Select all in that group",
+                "url": "#$state$marker$select@$country=lbn;&$country=afg;&$country=are;&$country=arg;&$country=atg;&$country=bdi;&$country=ben;&$country=bfa;&$country=bgd;&$country=bhr;&$country=bhs;&$country=bih;&$country=blz;&$country=bol;&$country=bra;&$country=brb;&$country=brn;&$country=btn;&$country=bwa;&$country=caf;&$country=chl;&$country=chn;&$country=civ;&$country=cmr;&$country=cod;&$country=cog;&$country=col;&$country=com;&$country=cpv;&$country=cri;&$country=cub;&$country=dji;&$country=dma;&$country=dom;&$country=dza;&$country=ecu;&$country=egy;&$country=eri;&$country=eth;&$country=fji;&$country=fsm;&$country=gab;&$country=gha;&$country=gin;&$country=gmb;&$country=gnb;&$country=gnq;&$country=grd;&$country=gtm;&$country=guy;&$country=hnd;&$country=hti;&$country=idn;&$country=ind;&$country=irn;&$country=irq;&$country=jam;&$country=jor;&$country=ken;&$country=khm;&$country=kwt;&$country=lao;&$country=ago;&$country=lbr;&$country=lby;&$country=lca;&$country=lka;&$country=lso;&$country=mar;&$country=mdg;&$country=mdv;&$country=mhl;&$country=mli;&$country=mmr;&$country=mng;&$country=moz;&$country=mrt;&$country=mus;&$country=mwi;&$country=mys;&$country=nam;&$country=ner;&$country=nga;&$country=nic;&$country=npl;&$country=omn;&$country=pak;&$country=pan;&$country=per;&$country=phl;&$country=png;&$country=prk;&$country=pry;&$country=pse;&$country=qat;&$country=rwa;&$country=sau;&$country=sdn;&$country=sen;&$country=sgp;&$country=slb;&$country=sle;&$country=slv;&$country=som;&$country=stp;&$country=sur;&$country=swz;&$country=syc;&$country=syr;&$country=tcd;&$country=tgo;&$country=tha;&$country=tkm;&$country=tls;&$country=ton;&$country=tto;&$country=tun;&$country=tza;&$country=uga;&$country=ury;&$country=vct;&$country=ven;&$country=vnm;&$country=vut;&$country=wsm;&$country=yem;&$country=zaf;&$country=zmb;&$country=zwe;;&color$data=data_wdi&which=g77_and_oecd_countries&spaceRef=entities;;;&ui$chart$trails:false;;&chart-type=bubbles"
+            },
+            {
+                "testName": "Color > Country properties > G77 and OECD Countries > G77 - Select all in that group & Remove everything else",
+                "url": "#$state$entities$show$g77_and_oecd_countries$/$in@=g77;;;;&marker$select@$country=lbn;&$country=afg;&$country=are;&$country=arg;&$country=atg;&$country=bdi;&$country=ben;&$country=bfa;&$country=bgd;&$country=bhr;&$country=bhs;&$country=bih;&$country=blz;&$country=bol;&$country=bra;&$country=brb;&$country=brn;&$country=btn;&$country=bwa;&$country=caf;&$country=chl;&$country=chn;&$country=civ;&$country=cmr;&$country=cod;&$country=cog;&$country=col;&$country=com;&$country=cpv;&$country=cri;&$country=cub;&$country=dji;&$country=dma;&$country=dom;&$country=dza;&$country=ecu;&$country=egy;&$country=eri;&$country=eth;&$country=fji;&$country=fsm;&$country=gab;&$country=gha;&$country=gin;&$country=gmb;&$country=gnb;&$country=gnq;&$country=grd;&$country=gtm;&$country=guy;&$country=hnd;&$country=hti;&$country=idn;&$country=ind;&$country=irn;&$country=irq;&$country=jam;&$country=jor;&$country=ken;&$country=khm;&$country=kwt;&$country=lao;&$country=ago;&$country=lbr;&$country=lby;&$country=lca;&$country=lka;&$country=lso;&$country=mar;&$country=mdg;&$country=mdv;&$country=mhl;&$country=mli;&$country=mmr;&$country=mng;&$country=moz;&$country=mrt;&$country=mus;&$country=mwi;&$country=mys;&$country=nam;&$country=ner;&$country=nga;&$country=nic;&$country=npl;&$country=omn;&$country=pak;&$country=pan;&$country=per;&$country=phl;&$country=png;&$country=prk;&$country=pry;&$country=pse;&$country=qat;&$country=rwa;&$country=sau;&$country=sdn;&$country=sen;&$country=sgp;&$country=slb;&$country=sle;&$country=slv;&$country=som;&$country=stp;&$country=sur;&$country=swz;&$country=syc;&$country=syr;&$country=tcd;&$country=tgo;&$country=tha;&$country=tkm;&$country=tls;&$country=ton;&$country=tto;&$country=tun;&$country=tza;&$country=uga;&$country=ury;&$country=vct;&$country=ven;&$country=vnm;&$country=vut;&$country=wsm;&$country=yem;&$country=zaf;&$country=zmb;&$country=zwe;;&color$data=data_wdi&which=g77_and_oecd_countries&spaceRef=entities;;;&ui$chart$trails:false;;&chart-type=bubbles"
+            },
+            {
+                "testName": "Color > Country properties > G77 and OECD Countries > G77 - Remove everything else",
+                "url": "#$state$entities$show$g77_and_oecd_countries$/$in@=g77;;;;&marker$color$data=data_wdi&which=g77_and_oecd_countries&spaceRef=entities;;;&chart-type=bubbles"
+            },
+            {
+                "testName": "Color > Country properties > G77 and OECD Countries > OECD - Select all in that group",
+                "url": "#$state$marker$select@$country=aus;&$country=aut;&$country=bel;&$country=can;&$country=che;&$country=cze;&$country=deu;&$country=dnk;&$country=esp;&$country=fin;&$country=fra;&$country=gbr;&$country=grc;&$country=hun;&$country=irl;&$country=isl;&$country=ita;&$country=jpn;&$country=kor;&$country=lux;&$country=mex;&$country=nld;&$country=nor;&$country=nzl;&$country=pol;&$country=prt;&$country=svk;&$country=swe;&$country=tur;&$country=usa;;&color$data=data_wdi&which=g77_and_oecd_countries&spaceRef=entities;;;&chart-type=bubbles"
+            },
+            {
+                "testName": "Color > Country properties > G77 and OECD Countries > OECD - Select all in that group & Remove everything else",
+                "url": "#$state$entities$show$g77_and_oecd_countries$/$in@=oecd;;;;&marker$select@$country=aus&trailStartTime=2018;&$country=aut&trailStartTime=2018;&$country=bel&trailStartTime=2018;&$country=can&trailStartTime=2018;&$country=che&trailStartTime=2018;&$country=cze&trailStartTime=2018;&$country=deu&trailStartTime=2018;&$country=dnk&trailStartTime=2018;&$country=esp&trailStartTime=2018;&$country=fin&trailStartTime=2018;&$country=fra&trailStartTime=2018;&$country=gbr&trailStartTime=2018;&$country=grc&trailStartTime=2018;&$country=hun&trailStartTime=2018;&$country=irl&trailStartTime=2018;&$country=isl&trailStartTime=2018;&$country=ita&trailStartTime=2018;&$country=jpn&trailStartTime=2018;&$country=kor&trailStartTime=2018;&$country=lux&trailStartTime=2018;&$country=mex&trailStartTime=2018;&$country=nld&trailStartTime=2018;&$country=nor&trailStartTime=2018;&$country=nzl&trailStartTime=2018;&$country=pol&trailStartTime=2018;&$country=prt&trailStartTime=2018;&$country=svk&trailStartTime=2018;&$country=swe&trailStartTime=2018;&$country=tur&trailStartTime=2018;&$country=usa&trailStartTime=2018;;&color$data=data_wdi&which=g77_and_oecd_countries&spaceRef=entities;;;&chart-type=bubbles"
+            },
+            {
+                "testName": "Color > Country properties > G77 and OECD Countries > OECD - Remove everything else",
+                "url": "#$state$entities$show$g77_and_oecd_countries$/$in@=oecd;;;;&marker$color$data=data_wdi&which=g77_and_oecd_countries&spaceRef=entities;;;&chart-type=bubbles"
+            },
+            {
+                "testName": "Color > Country properties > G77 and OECD Countries > Others - Select all in that group",
+                "url": "#$state$marker$select@$country=alb;&$country=and;&$country=arm;&$country=aze;&$country=bgr;&$country=blr;&$country=cyp;&$country=est;&$country=geo;&$country=hrv;&$country=isr;&$country=kaz;&$country=kgz;&$country=kir;&$country=ltu;&$country=lva;&$country=mda;&$country=mkd;&$country=mlt;&$country=mne;&$country=rou;&$country=rus;&$country=srb;&$country=svn;&$country=tjk;&$country=ukr;&$country=uzb;;&color$data=data_wdi&which=g77_and_oecd_countries&spaceRef=entities;;;&chart-type=bubbles"
+            },
+            {
+                "testName": "Color > Country properties > G77 and OECD Countries > Others - Select all in that group & Remove everything else",
+                "url": "#$state$entities$show$g77_and_oecd_countries$/$in@=others;;;;&marker$select@$country=alb&trailStartTime=2018;&$country=and&trailStartTime=2018;&$country=arm&trailStartTime=2018;&$country=aze&trailStartTime=2018;&$country=bgr&trailStartTime=2018;&$country=blr&trailStartTime=2018;&$country=cyp&trailStartTime=2018;&$country=est&trailStartTime=2018;&$country=geo&trailStartTime=2018;&$country=hrv&trailStartTime=2018;&$country=kaz&trailStartTime=2018;&$country=kgz&trailStartTime=2018;&$country=kir&trailStartTime=2018;&$country=ltu&trailStartTime=2018;&$country=lva&trailStartTime=2018;&$country=mda&trailStartTime=2018;&$country=mkd&trailStartTime=2018;&$country=mlt&trailStartTime=2018;&$country=mne&trailStartTime=2018;&$country=rou&trailStartTime=2018;&$country=rus&trailStartTime=2018;&$country=srb&trailStartTime=2018;&$country=svn&trailStartTime=2018;&$country=tjk&trailStartTime=2018;&$country=ukr&trailStartTime=2018;&$country=uzb&trailStartTime=2018;;&color$data=data_wdi&which=g77_and_oecd_countries&spaceRef=entities;;;&chart-type=bubbles"
+            },
+            {
+                "testName": "Color > Country properties > G77 and OECD Countries > Others - Remove everything else",
+                "url": "#$state$entities$show$g77_and_oecd_countries$/$in@=others;;;;&marker$color$data=data_wdi&which=g77_and_oecd_countries&spaceRef=entities;;;&chart-type=bubbles"
+            },
+            {
+                "testName": "Color > Country properties > Income groups",
+                "url": "#$state$marker$color$data=data_wdi&which=income_groups&spaceRef=entities;;;&chart-type=bubbles"
+            },
+            {
+                "testName": "Color > Country properties > Landlocked",
+                "url": "#$state$marker$color$data=data_wdi&which=landlocked&spaceRef=entities;;;&chart-type=bubbles"
+            },
+            {
+                "testName": "Color > Country properties > Main Religions 2008",
+                "url": "#$state$marker$color$data=data_wdi&which=main_religion_2008&spaceRef=entities;;;&chart-type=bubbles"
+            },
+            {
+                "testName": "Color > Country properties > Unicode CLDR Region subtag",
+                "url": "#$state$marker$color$data=data_wdi&which=unicode_region_subtag&spaceRef=entities;;;&chart-type=bubbles"
+            },
+            {
+                "testName": "Color > Country properties > World Regions - Remove everything else",
+                "url": "#$state$entities$show$world_4region$/$in@=asia;;;;;&chart-type=bubbles"
+            },
+            {
+                "testName": "Color > Country properties > World Regions - Select all in that group",
+                "url": "#$state$marker$select@$country=lbn;&$country=afg;&$country=are;&$country=aus;&$country=bgd;&$country=bhr;&$country=brn;&$country=btn;&$country=chn;&$country=fji;&$country=fsm;&$country=idn;&$country=ind;&$country=irn;&$country=irq;&$country=isr;&$country=jor;&$country=jpn;&$country=kaz;&$country=kgz;&$country=khm;&$country=kir;&$country=kor;&$country=kwt;&$country=lao;&$country=lka;&$country=mdv;&$country=mhl;&$country=mmr;&$country=mng;&$country=mys;&$country=npl;&$country=nzl;&$country=omn;&$country=pak;&$country=phl;&$country=png;&$country=prk;&$country=pse;&$country=qat;&$country=sau;&$country=sgp;&$country=slb;&$country=syr;&$country=tha;&$country=tjk;&$country=tkm;&$country=tls;&$country=ton;&$country=uzb;&$country=vnm;&$country=vut;&$country=wsm;&$country=yem;;;;&ui$chart$trails:false;;&chart-type=bubbles"
+            },
+            {
+                "testName": "Color > Country properties > World Regions - Select india, china",
                 "url": "#$state$marker$select@$geo=ind&trailStartTime=2018;&$geo=chn&trailStartTime=2018;;;;&chart-type=bubbles"
+            },
+            {
+                "testName": "Color > Country properties > World Regions (6 Colors)",
+                "url": "#$state$marker$color$data=data_wdi&which=world_6region&spaceRef=entities;;;&chart-type=bubbles"
+            },
+            {
+                "testName": "Color > Country properties > World Regions (6 Colors) - Remove everything else",
+                "url": "#$state$entities$show$world_6region$/$in@=south_asia;;;;&marker$color$data=data_wdi&which=world_6region&spaceRef=entities;;;&chart-type=bubbles"
+            },
+            {
+                "testName": "Color > Country properties > World Regions (6 Colors) - Select all in that group",
+                "url": "#$state$marker$select@$country=afg;&$country=bgd;&$country=btn;&$country=ind;&$country=lka;&$country=mdv;&$country=npl;&$country=pak;;&color$data=data_wdi&which=world_6region&spaceRef=entities;;;&chart-type=bubbles"
             }
         ],
         "MAP CHART": [
             {
-                "testName": "home",
+                "testName": "Home",
                 "url": "#$chart-type=map"
             }
         ],
         "LINE CHART": [
             {
-                "testName": "home",
+                "testName": "Home",
                 "url": "#$chart-type=linechart"
             },
             {
-                "testName": "show angola",
+                "testName": "Show angola",
                 "url": "#$state$entities$show$geo$/$in@=ago;;;;;&chart-type=linechart"
             }
         ],
         "MOUNTAIN CHART": [
             {
-                "testName": "home",
+                "testName": "Home",
                 "url": "#$chart-type=mountain"
             },
             {
-                "testName": "select ago, deu, alb",
+                "testName": "Select ago, deu, alb",
                 "url": "#$state$marker$select@$geo=ago;&$geo=deu;&$geo=alb;;;;&chart-type=mountain"
             }
         ],
         "BAR CHART": [
             {
-                "testName": "home",
+                "testName": "Home",
                 "url": "#$chart-type=barrank"
             },
             {
-                "testName": "select albania, namibia",
+                "testName": "Select albania, namibia",
                 "url": "#$state$marker$select@$geo=alb;&$geo=nam;;;;&chart-type=barrank"
             }
         ],
         "POPBYAGE CHART": [
             {
-                "testName": "home",
+                "testName": "Home",
                 "url": "#$chart-type=popbyage"
             }
         ],
@@ -85,17 +189,13 @@
         "BASE URL": [
             {
                 "testName": "live",
-                "url": "https://tools.gapminder.org/"
-            },
-            {
-                "testName": "dev",
-                "url": "http://tools-dev.gapminderdev.org/"
+                "url": "https://www.gapminder.org/"
             }
         ],
-        "BUBBLE CHART": [
+        "DOLLAR STREET": [
             {
-                "testName": "select india, china",
-                "url": "#$state$marker$select@$geo=ind&trailStartTime=2018;&$geo=chn&trailStartTime=2018;;;;&chart-type=bubbles"
+                "testName": "home",
+                "url": "dollar-street/matrix"
             }
         ]
     },
@@ -103,17 +203,13 @@
         "BASE URL": [
             {
                 "testName": "live",
-                "url": "https://tools.gapminder.org/"
-            },
-            {
-                "testName": "dev",
-                "url": "http://tools-dev.gapminderdev.org/"
+                "url": "https://www.gapminder.org"
             }
         ],
-        "MAP CHART": [
+        "GAPMINDER": [
             {
                 "testName": "home",
-                "url": "#$chart-type=map"
+                "url": "/"
             }
         ]
     }
