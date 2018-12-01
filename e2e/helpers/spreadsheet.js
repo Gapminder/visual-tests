@@ -123,6 +123,9 @@ async function getTestsData(sheet, valRow, testNameCol, urlsCol, suiteName){
   for (k=0; k<testNames.length; k++){
 
     if (testNames[k].value == '' || urls[k].value == ''){
+      continue;
+    }
+    else if (testNames[k].value == '' && urls[k].value == ''){
       break;
     }
     await getLinks(testNames, urls, k);
