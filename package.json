@@ -5,11 +5,12 @@
   "main": "protractor.conf.js",
   "scripts": {
     "wd-update": "node ./node_modules/protractor/bin/webdriver-manager update",
+    "start": "node ./node_modules/protractor/bin/webdriver-manager update && webdriver-manager start",
     "test": "node ./e2e/helpers/spreadsheet.js && node ./node_modules/protractor/bin/protractor protractor.conf.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/abidrana7/visual-tests.git"
+    "url": "git+https://github.com/Gapminder/visual-tests.git"
   },
   "keywords": [
     "test",
@@ -19,9 +20,9 @@
   "author": "Abid Ali",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/abidrana7/visual-tests/issues"
+    "url": "https://github.com/Gapminder/visual-tests/issues"
   },
-  "homepage": "https://github.com/abidrana7/visual-tests#readme",
+  "homepage": "https://github.com/Gapminder/visual-tests#readme",
   "devDependencies": {
     "eyes.selenium": "0.0.83",
     "google-spreadsheet": "^2.0.6",
