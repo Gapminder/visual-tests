@@ -25,10 +25,10 @@ cache:
     - e2e/helpers/client_secret.json
     - e2e/helpers/list.json
 
-install:
-  - npm install
+#install:
+ # - npm install
 
-script:
+#script:
   # to download binaries
   #- npm run wd-update
 
