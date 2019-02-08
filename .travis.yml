@@ -21,10 +21,9 @@ notifications:
 
 cache:
   directories:
-    - $HOME/.npm
-    #- node_modules
-    - $HOME/e2e/helpers/client_secret.json
-    - $HOME/e2e/helpers/list.json
+    - node_modules
+    - client_secret.json
+    - list.json
 
 install:
   - npm install
