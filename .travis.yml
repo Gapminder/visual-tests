@@ -36,4 +36,4 @@ script:
   # - export APPLITOOLS_BATCH_ID=`${TRAVIS_PULL_REQUEST_SHA:=$TRAVIS_COMMIT}`
 
   # run unit tests
-  - npm test
+  #- npm test
