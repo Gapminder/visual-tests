@@ -1,12 +1,12 @@
 'use strict';
 
 const fs = require('fs');
-const URL_GOOGLE_SHEET = JSON.parse(fs.readFileSync("./e2e/helpers/list.json"));
+//const URL_GOOGLE_SHEET = JSON.parse(fs.readFileSync("./e2e/helpers/list.json"));
 const SAUSE_MAX_INSTANCES = 5;
-const SAUSE_MAX_SESSIONS = 5;
+const SAUSE_MAX_SESSIONS = 5; //1
 const LOCAL_MAX_INSTANCES = 1;
 const LOCAL_MAX_SESSIONS = 2;
-const url = process.env.URL || URL_GOOGLE_SHEET['BASE URL'].toString() || 'https://www.gapminder.org/'
+const url = process.env.URL || 'https://www.gapminder.org/'; //URL_GOOGLE_SHEET['BASE URL'][0]['url']
 const device = process.env.DEVICE || 'desktop'; // 'desktop' or 'tablet' or 'mobile'
 
 const testResultsDir = 'results';
@@ -94,7 +94,8 @@ const platformConfigurations = [
     browserName: "chrome",
     platform: "Windows 10",
     version: "latest",
-    seleniumVersion: '3.12.0'
+    seleniumVersion: '3.12.0',
+    'tunnel-identifier': `${process.env.TRAVIS_JOB_NUMBER}`
   },
   // {
   //   browserName: "MicrosoftEdge",
@@ -102,18 +103,20 @@ const platformConfigurations = [
   //   version: "17.17134",
   //   seleniumVersion: '3.12.0'
   // },
-  // {
-  //   browserName: "safari",
-  //   platform: "macOS 10.12",
-  //   version: "10.1",
-  //   seleniumVersion: '3.12.0'
-  // },
   /*{
+    browserName: "safari",
+    platform: "macOS 10.12",
+    version: "10.1",
+    seleniumVersion: '3.12.0',
+    'tunnel-identifier': `${process.env.TRAVIS_JOB_NUMBER}`
+  },*/
+  {
     browserName: "chrome",
     platform: "macOS 10.12",
     version: "latest",
-    seleniumVersion: '3.12.0'
-  },*/
+    seleniumVersion: '3.12.0',
+    'tunnel-identifier': `${process.env.TRAVIS_JOB_NUMBER}`
+  },
   // {
   //   device: 'mobile',
   //   browserName: 'Safari',
@@ -159,7 +162,7 @@ const platformConfigurations = [
   //   appiumVersion: '1.8.1'
   // }
 ].map(config => {
-  config.name = `visual-tests ${config.platform || "" + config.platformName || "" + config.platformVersion || ""},${config.browserName},${config.version || "" + config.deviceName || ""}`;
+  config.name = `${process.env.TRAVIS_JOB_NUMBER + ' — visual-tests'} ${config.platform || "" + config.platformName || "" + config.platformVersion || ""},${config.browserName},${config.version || "" + config.deviceName || ""}`;
   config.maxInstances = SAUSE_MAX_INSTANCES;
   if (!config.platformName) config.screenResolution = '1600x1200';
   config.shardTestFiles = true;
@@ -295,6 +298,7 @@ exports.config = {
     await browser.waitForAngularEnabled(false);
     if(!(SAUCE_USERNAME&&SAUCE_ACCESS_KEY)) await browser.driver.manage().window().setSize(screenSize.width, screenSize.height);
     const config = await browser.getProcessedConfig();
+    browser.name = config.capabilities.name;
     if (config.capabilities.device) {
       Object.assign(browser.params, ["mobile", "tablet", "desktop"].reduce((res, device) => {
         res[device] = device === config.capabilities.device;

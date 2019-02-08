@@ -8,15 +8,16 @@ addons:
 notifications:
   email:
     recipients:
+      - angie@gapminder.org
       - abidrana7@gmail.com
     on_success: change
     on_failure: always
 
-  #slack:
-    #rooms:
-      #- gapminder:siB4Z9ymsYR6qHnRPpgUoB2Q#vizabi-spam
-    #on_success: change
-    #on_failure: always
+  slack:
+    rooms:
+      - gapminder:siB4Z9ymsYR6qHnRPpgUoB2Q#vizabi-spam
+    on_success: change
+    on_failure: always
 
 cache:
   directories:
@@ -24,15 +25,15 @@ cache:
     - e2e/helpers/client_secret.json
     - e2e/helpers/list.json
 
-install:
-  - npm install
+#install:
+ # - npm install
 
-script:
+#script:
   # to download binaries
   #- npm run wd-update
 
   # applitools batch name
-  - export APPLITOOLS_BATCH_ID=`echo ${TRAVIS_PULL_REQUEST_SHA:=$TRAVIS_COMMIT}`
+  # - export APPLITOOLS_BATCH_ID=`${TRAVIS_PULL_REQUEST_SHA:=$TRAVIS_COMMIT}`
 
   # run unit tests
-  - npm test
+  #- npm test

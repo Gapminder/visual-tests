@@ -4,65 +4,97 @@ const fs = require('fs');
 
 const eyes = new Eyes();
 eyes.setApiKey(process.env.APPLITOOLS_API_KEY);
+eyes.setBatch(`${browser.name}`);
 
-console.log(` APPLITOOLS_API_KEY : ${process.env.APPLITOOLS_API_KEY}`);
+var ALL_SHEETS = JSON.parse(fs.readFileSync("./e2e/helpers/list.json"));
 
-var ALL_CHARTS = JSON.parse(fs.readFileSync("./e2e/helpers/list.json"));
-var ALL_CHARTS_KEYS = [];
+function getSheetKeys(){
 
-function completeTest(){
+  sheetKeys = Object.keys(ALL_SHEETS);
+  for (var i = 0; i < sheetKeys.length; i++) {
 
-  getChartsKey();
-  for (var i = 0; i < ALL_CHARTS_KEYS.length; i++) {
-
-    suiteRunner(ALL_CHARTS_KEYS[i]);
+    //console.log(`\n\n       ${i} SHEET IS :,${sheetKeys[i]}`);
+    getEnvForFirstSuite(sheetKeys[i]);
   }
 }
 
-function getChartsKey(){
+function getEnvForFirstSuite(SHEET_KEY) {
 
-  //console.log(`   --> CHARTS LOADED FROM SHEET ARE: `);
-  keys = Object.keys(ALL_CHARTS);
-  for (var i = 0; i < keys.length; i++) {
+  const chartKeys = Object.keys(ALL_SHEETS[`${SHEET_KEY}`]);
+  const baseURL = [];
 
-    if (keys[i] == 'BASE URL'){
+  for (var j = 0; j < chartKeys.length; j++) {
+
+    if (chartKeys[j] == 'BASE URL'){
+
+      const chartSelcted = Object.values(ALL_SHEETS[`${SHEET_KEY}`][`${chartKeys[j]}`]);
+      for (j = 0; j < chartSelcted.length; j++) {
+        baseURL.push(chartSelcted[j]);
+      }
+      break;
+    }
+  }
+
+  for (var i = 0; i < baseURL.length; i++) {
+
+    const ENV = baseURL[i]['testName'];
+    const URL = baseURL[i]['url'];
+
+    describe(`${ENV} > ${SHEET_KEY}`, () => {
+
+      firstSuiteRunner(SHEET_KEY, ENV, URL);
+    });
+  }
+}
+
+function firstSuiteRunner(SHEET_KEY, ENV, URL) {
+
+  const CHART_KEY = Object.keys(ALL_SHEETS[`${SHEET_KEY}`]);
+  for (var j = 0; j < CHART_KEY.length; j++) {
+
+    if (CHART_KEY[j] == 'BASE URL'){
       continue;
     }
-    //console.log(`       ${i} CHART IS :,${keys[i]}`);
-    ALL_CHARTS_KEYS.push(keys[i]);
+    secSuiteRunner(SHEET_KEY, ENV, URL, CHART_KEY[j], j);
   }
 }
 
-function suiteRunner(CHART_KEY) {
+function secSuiteRunner(SHEET_KEY, ENV, URL, CHART_KEY, CHART_INDEX) {
 
-  const chartSelcted = ALL_CHARTS[`${CHART_KEY}`];
+  //console.log(`\n       ${CHART_INDEX} CHART IS :,${CHART_KEY}`);
+  const chartSelcted = Object.values(ALL_SHEETS[`${SHEET_KEY}`][`${CHART_KEY}`]);
+  describe(`${ENV} > ${SHEET_KEY} > ${CHART_KEY}`, () => {
 
-  describe(`${CHART_KEY}`, () => {
-
+    //console.log(`${ENV} > ${SHEET_KEY} > ${CHART_KEY}`);
     for (j = 0; j < chartSelcted.length; j++) {
 
-      testRunner(CHART_KEY, chartSelcted[j], j);
+      testRunner(SHEET_KEY, CHART_KEY, ENV, URL, chartSelcted[j], j);
     }
   });
-
 }
 
-function testRunner(CHART_KEY, link, index ) {
+function testRunner(SHEET_KEY, CHART_KEY, ENV, URL, chartSelcted, index) {
 
+  var testName = chartSelcted['testName'];
+  var link = chartSelcted['url'];
   index = index + 1;
-  it (`${CHART_KEY} > ${index}`, async () => {
 
-    console.log(`   --> ${index} > ${link}`);
+  //console.log(`       ${ENV} > ${SHEET_KEY} > ${CHART_KEY} > ${testName}`);
 
-    eyes.open(browser, CHART_KEY, `${CHART_KEY} > ${index}`);
-    helper.navigateToUrl(link);
-    eyes.checkWindow(`${index}`);
+  it (`${ENV} > ${SHEET_KEY} > ${CHART_KEY} > ${testName}`, async () => {
 
-    //link = link.substring(150, 30);
-    //console.log('link : ', link);
+    console.log(`> ${index} > ${testName} > ${URL+link}`);
+    eyes.open(browser, `${ENV} > ${SHEET_KEY}`, `${ENV} > ${SHEET_KEY} > ${CHART_KEY} > ${testName}`);
+    browser.get(`${URL+link}`).then(() => {
+      browser.sleep(3000);
+    });
 
+    if (SHEET_KEY.includes('tools' || 'TOOLS')){
+      helper.navigateToUrl();
+    }
+    eyes.checkWindow(`${testName}`);
     eyes.close();
   });
 }
 
-completeTest();
+getSheetKeys();

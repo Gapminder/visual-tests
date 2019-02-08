@@ -3,28 +3,38 @@ var { promisify } = require('util');
 var creds = require('./client_secret.json');
 var fs = require('fs');
 const SPREADSHEET_ID = '14HrBvsbbaFTwcf-CDRwKUNGxGxD3v-QyyIH-2xe-66E';
+var jsonObjs = './e2e/helpers/list.json';
 
-const suiteLinks = {};
+var suiteLinks = {};
+var allSheetsLinks = {};
 var getLinksArr = [];
 
-async function getIndexSheet(sheetIndex) {
+async function getSheets() {
 
   const doc = new GoogleSpreadsheet(SPREADSHEET_ID)
   await promisify(doc.useServiceAccountAuth)(creds)
   const info = await promisify(doc.getInfo)()
   //console.log(`Loaded doc: ` + info.title + ` by ` + info.author.email)
 
-  const sheet = info.worksheets[sheetIndex];
-
-  return sheet;
+  const sheets = info.worksheets;
+  return sheets;
 }
 
-async function getCellData() {
+async function fetchUpdatedSheet() {
 
-  const sheet = await getIndexSheet(0);
-  const cells = await promisify(sheet.getCells)({
+  const sheets = await getSheets();
+  for (i=0; i<sheets.length; i++){
 
-    'min-row': 6,
+    await getSheetData(i, sheets[i], sheets[i].title);
+  }
+}
+
+async function getSheetData(index, sheet, sheetTitle){
+
+  console.log(`   --> SHEET INDEX: ${index} => TITLE: ${sheetTitle}`);
+  const slctdSheetCells = await promisify(sheet.getCells)({
+
+    'min-row': 4,
     'max-row': 800,
     'min-col': 2,
     'max-col': 2,
@@ -32,100 +42,138 @@ async function getCellData() {
 
   });
 
-  for (i=0; i<cells.length; i++){
-    await getRequiredData(sheet, cells, i);
+  for (j=0; j<slctdSheetCells.length; j++){
+
+    await getSuiteNames(sheet, slctdSheetCells, j);
   }
-}
 
-async function getRequiredData(sheet, cells, i){
+  /*allSheetsLinks[ sheetTitle ] = await [suiteLinks];
+        suiteLinks = {};*/
 
-  var suiteName = cells[i].value;
-  var colNum = cells[i].col + 1;
-  var minRow = cells[i].row + 1;
+  await fs.readFile(jsonObjs, 'utf8', function (err, data) {
+    if (err) throw err;
+    obj = JSON.parse(data);
 
-  if (suiteName !== ''){
+    if(obj == {}){
 
-    getChartRows(sheet, minRow, colNum, suiteName);
-  }
-}
-
-async function getChartRows(sheet, minRow, colNum, suiteName){
-
-  const chartRows = await promisify(sheet.getCells)({
-    'min-row': minRow,
-    //'max-row': 11,
-    'min-col': colNum,
-    'max-col': colNum,
-    'return-empty': true
-  });
-
-  for (j=0; j<chartRows.length; j++){
-
-    if (chartRows[j].value == ''){
-      break;
+      obj[ sheetTitle ] = suiteLinks;
+      suiteLinks = {};
+      writeToJsonFile(obj);
     }
-    await getLinks(chartRows, j);
-  }
+    else {
 
-  suiteLinks[ suiteName ] = await getLinksArr;
+      if(obj.hasOwnProperty(sheetTitle)){
 
-  fs.writeFile("./e2e/helpers/list.json", JSON.stringify(suiteLinks, null, 4), function (err) {
+        delete obj[ sheetTitle ];
+        obj[ sheetTitle ] = suiteLinks;
+        suiteLinks = {};
+        writeToJsonFile(obj);
+      }
+      else {
+
+        obj[ sheetTitle ] = suiteLinks;
+        suiteLinks = {};
+        writeToJsonFile(obj);
+      }
+    }
+  });
+}
+
+async function writeToJsonFile(toWrite){
+
+  await fs.writeFile(jsonObjs, JSON.stringify(toWrite, null, 4), function (err) {
     if (err) {
       return console.log(err);
     }
     //console.log("The file was saved!");
   });
+}
+
+async function getSuiteNames(sheet, slctdSheetCells, j){
+
+  var suiteName = slctdSheetCells[j].value;
+  var testNameCol = slctdSheetCells[j].col + 1;
+  var urlsCol = slctdSheetCells[j].col + 2;
+  var valRow = slctdSheetCells[j].row + 2;
+
+  if (suiteName !== ''){
+
+    await getTestsData(sheet, valRow, testNameCol, urlsCol, suiteName);
+  }
+}
+
+async function getTestsData(sheet, valRow, testNameCol, urlsCol, suiteName){
+
+  const testNames = await promisify(sheet.getCells)({
+    'min-row': valRow,
+    //'max-row': 11,
+    'min-col': testNameCol,
+    'max-col': testNameCol,
+    'return-empty': true
+  });
+
+  const urls = await promisify(sheet.getCells)({
+    'min-row': valRow,
+    //'max-row': 11,
+    'min-col': urlsCol,
+    'max-col': urlsCol,
+    'return-empty': true
+  });
+
+  for (k=0; k<testNames.length; k++){
+
+    if ((testNames[k].value == '' || urls[k].value == '') && (testNames[k+1].value != '' || urls[k+1].value != '')){
+      continue;
+    }
+    else if ((testNames[k].value == '' || urls[k].value == '') && (testNames[k+1].value == '' || urls[k+1].value == '')){
+      break;
+    }
+    else if (testNames[k].value == '' && urls[k].value == ''){
+      break;
+    }
+    await getLinks(testNames, urls, k);
+  }
+
+  suiteLinks[ suiteName ] = await getLinksArr;
   getLinksArr = [];
 }
 
-async function getLinks(chartRows, j){
+async function getLinks(testNames, urls, j){
 
-  await getLinksArr.push(chartRows[j].value);
+  await getLinksArr.push({"testName":testNames[j].value, "url":urls[j].value});
 }
 
-exports.allChartsLinks = allChartsLinks = async function(){
+async function checkIfSheetNameExistInJson(){
 
-  /*var links = await getCellData().then(function(){
-    var listLinks = JSON.parse(fs.readFileSync("./e2e/helpers/list.json"));
-    return listLinks;
+  const sheets = await getSheets();
+  await fs.readFile(jsonObjs, 'utf8', function (err, data) {
+    if (err) throw err;
+
+    obj = JSON.parse(data);
+    keys = Object.keys(obj);
+
+    if (keys.length != sheets.length){
+
+      for (i=0; i<sheets.length; i++) {
+        index = keys.indexOf(sheets[i].title);
+        if (index > -1) {
+          keys.splice(index, 1);
+        }
+      }
+
+      for (i=0; i<keys.length; i++){
+
+        delete obj[ keys[i] ];
+      }
+      writeToJsonFile(obj);
+    }
   });
-  return links;*/
-
-  const sheet = await getIndexSheet(0);
-  const cells = await promisify(sheet.getCells)({
-
-    'min-row': 5,
-    'max-row': 5,
-    'min-col': 3,
-    'max-col': 3,
-    'return-empty': false
-
-  });
-  var refreshVal = cells[0].value;
-  var afterRefreshVal = cells[0];
-  console.log(`   --> REFRESH SHEET IS :,${refreshVal}`);
-
-  if (refreshVal == 'TRUE'){
-    console.log(`       REFRESHING... `);
-
-    var links = await getCellData().then(function(){
-
-      console.log(`       REFRESHING IS COMPLETE!`);
-      var listLinks = JSON.parse(fs.readFileSync("./e2e/helpers/list.json"));
-      return listLinks;
-    });
-
-    afterRefreshVal.value = 'FALSE';
-    await afterRefreshVal.save();
-    console.log(`   --> SET REFRESH SHEET's FLAG BACK TO :,${afterRefreshVal.value}`);
-
-    return links;
-  }
-  /*else {
-
-    var listLinks = JSON.parse(fs.readFileSync("./e2e/helpers/list.json"));
-    return listLinks;
-  }*/
 }
 
-allChartsLinks();
+async function sheets(){
+
+  await fetchUpdatedSheet();
+  await checkIfSheetNameExistInJson();
+}
+
+sheets();
