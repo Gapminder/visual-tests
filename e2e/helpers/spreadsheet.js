@@ -1,9 +1,9 @@
 var GoogleSpreadsheet = require('google-spreadsheet');
 var { promisify } = require('util');
-var creds = require('./client_secret.json');
+var creds = require('./client/client_secret.json');
 var fs = require('fs');
 const SPREADSHEET_ID = '14HrBvsbbaFTwcf-CDRwKUNGxGxD3v-QyyIH-2xe-66E';
-var jsonObjs = './e2e/helpers/list.json';
+var jsonObjs = './e2e/testData.json';
 
 var suiteLinks = {};
 var allSheetsLinks = {};

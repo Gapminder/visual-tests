@@ -25,8 +25,8 @@ install:
 cache:
   directories:
     - node_modules
-    - e2e/helpers/client_secret.json
-    - e2e/helpers/list.json
+    - e2e/helpers/client/*
+    - e2e/*.json
 
 script:
   # to download binaries

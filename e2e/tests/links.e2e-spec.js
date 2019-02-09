@@ -6,7 +6,7 @@ const eyes = new Eyes();
 eyes.setApiKey(process.env.APPLITOOLS_API_KEY);
 eyes.setBatch(`${browser.name}`);
 
-var ALL_SHEETS = JSON.parse(fs.readFileSync("./e2e/helpers/list.json"));
+var ALL_SHEETS = JSON.parse(fs.readFileSync("./e2e/testData.json"));
 
 function getSheetKeys(){
 
