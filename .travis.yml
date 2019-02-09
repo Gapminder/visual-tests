@@ -32,4 +32,5 @@ script:
   # to download binaries
   #- npm run wd-update
 
+  # run unit tests
   - npm test
