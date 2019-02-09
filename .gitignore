@@ -34,7 +34,7 @@ build/Release
 
 # Dependency directories
 node_modules/
-#e2e/helpers/client/client_secret.json
+e2e/helpers/client/*
 results/testResults.txt
 jspm_packages/
 
