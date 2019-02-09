@@ -89,7 +89,7 @@ function testRunner(SHEET_KEY, CHART_KEY, ENV, URL, chartSelcted, index) {
       browser.sleep(3000);
     });
 
-    if (SHEET_KEY.includes('tools' || 'TOOLS')){
+    if (SHEET_KEY.includes('tools') || SHEET_KEY.includes('TOOLS')){
       helper.navigateToUrl();
     }
     eyes.checkWindow(`${testName}`);
