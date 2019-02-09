@@ -2,8 +2,34 @@ language: node_js
 node_js:
   - '8.5.0'
 
+addons:
+  sauce_connect: true
+
+notifications:
+  email:
+    recipients:
+      - angie@gapminder.org
+      - abidrana7@gmail.com
+    on_success: change
+    on_failure: always
+
+  slack:
+    rooms:
+      - gapminder:siB4Z9ymsYR6qHnRPpgUoB2Q#vizabi-spam
+    on_success: change
+    on_failure: always
+
+install:
+  - npm install
+
 cache:
   directories:
     - node_modules
     - e2e/helpers/client_secret.json
     - e2e/helpers/list.json
+
+script:
+  # to download binaries
+  #- npm run wd-update
+
+  - npm test
