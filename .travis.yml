@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - '9.5.0'
+  - '8.5.0'
 
 addons:
   sauce_connect: true
@@ -19,21 +19,18 @@ notifications:
     on_success: change
     on_failure: always
 
+install:
+  - npm install
+
 cache:
   directories:
     - node_modules
-    - e2e/helpers/client_secret.json
-    - e2e/helpers/list.json
+    - e2e/helpers/client/client_secret.json
+    - e2e/*.json
 
-#install:
- # - npm install
-
-#script:
+script:
   # to download binaries
   #- npm run wd-update
 
-  # applitools batch name
-  # - export APPLITOOLS_BATCH_ID=`${TRAVIS_PULL_REQUEST_SHA:=$TRAVIS_COMMIT}`
-
   # run unit tests
-  #- npm test
+  - npm test

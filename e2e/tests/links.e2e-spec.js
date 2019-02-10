@@ -6,7 +6,7 @@ const eyes = new Eyes();
 eyes.setApiKey(process.env.APPLITOOLS_API_KEY);
 eyes.setBatch(`${browser.name}`);
 
-var ALL_SHEETS = JSON.parse(fs.readFileSync("./e2e/helpers/list.json"));
+var ALL_SHEETS = JSON.parse(fs.readFileSync("./e2e/testData.json"));
 
 function getSheetKeys(){
 
@@ -89,7 +89,7 @@ function testRunner(SHEET_KEY, CHART_KEY, ENV, URL, chartSelcted, index) {
       browser.sleep(3000);
     });
 
-    if (SHEET_KEY.includes('tools' || 'TOOLS')){
+    if (SHEET_KEY.includes('tools') || SHEET_KEY.includes('TOOLS')){
       helper.navigateToUrl();
     }
     eyes.checkWindow(`${testName}`);

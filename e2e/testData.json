@@ -28,12 +28,24 @@
                 "url": "#$state$marker$color$which=child_mortality_0_5_year_olds_dying_per_1000_born&use=indicator&scaleType=genericLog&spaceRef:null;;;&chart-type=bubbles"
             },
             {
+                "testName": "Color > Export unit value index (2000 = 100)",
+                "url": "#$state$marker$color$data=data_wdi&which=tx_uvi_mrch_xd_wd&use=indicator&scaleType=linear&spaceRef:null;;;&chart-type=bubbles"
+            },
+            {
+                "testName": "Color > Import unit value index (2000 = 100)",
+                "url": "#$state$marker$color$data=data_wdi&which=tm_uvi_mrch_xd_wd&use=indicator&scaleType=linear&spaceRef:null;;;&chart-type=bubbles"
+            },
+            {
                 "testName": "Color > Income",
                 "url": "#$state$marker$color$which=income_per_person_gdppercapita_ppp_inflation_adjusted&use=indicator&scaleType=log&spaceRef:null;;;&chart-type=bubbles"
             },
             {
                 "testName": "Color > Life expectancy",
                 "url": "#$state$marker$color$which=life_expectancy_years&use=indicator&scaleType=linear&spaceRef:null;;;&chart-type=bubbles"
+            },
+            {
+                "testName": "Color > Single color",
+                "url": "#$state$marker$color$which=_default&use=constant&spaceRef:null;;;&chart-type=bubbles"
             },
             {
                 "testName": "Color > Country properties > Country",
@@ -122,6 +134,10 @@
             {
                 "testName": "Color > Country properties > World Regions (6 Colors) - Select all in that group",
                 "url": "#$state$marker$select@$country=afg;&$country=bgd;&$country=btn;&$country=ind;&$country=lka;&$country=mdv;&$country=npl;&$country=pak;;&color$data=data_wdi&which=world_6region&spaceRef=entities;;;&chart-type=bubbles"
+            },
+            {
+                "testName": "Color > Country properties > World Regions (6 Colors) - Select all in that group",
+                "url": "#$state$marker$select@$country=afg;&$country=bgd;&$country=btn;&$country=ind;&$country=lka;&$country=mdv;&$country=npl;&$country=pak;;&color$data=data_wdi&which=world_6region&spaceRef=entities;;;&chart-type=bubbles"
             }
         ],
         "MAP CHART": [
@@ -188,13 +204,13 @@
     "Dollar Street": {
         "BASE URL": [
             {
-                "testName": "live",
+                "testName": "Live",
                 "url": "https://www.gapminder.org/"
             }
         ],
         "DOLLAR STREET": [
             {
-                "testName": "home",
+                "testName": "Home",
                 "url": "dollar-street/matrix"
             }
         ]
@@ -202,13 +218,13 @@
     "Gapminder": {
         "BASE URL": [
             {
-                "testName": "live",
-                "url": "https://www.gapminder.org"
+                "testName": "Live",
+                "url": "https://www.gapminder.org/"
             }
         ],
         "GAPMINDER": [
             {
-                "testName": "home",
+                "testName": "Home",
                 "url": "/"
             }
         ]
