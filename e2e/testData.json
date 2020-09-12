@@ -134,10 +134,6 @@
             {
                 "testName": "Color > Country properties > World Regions (6 Colors) - Select all in that group",
                 "url": "#$state$marker$select@$country=afg;&$country=bgd;&$country=btn;&$country=ind;&$country=lka;&$country=mdv;&$country=npl;&$country=pak;;&color$data=data_wdi&which=world_6region&spaceRef=entities;;;&chart-type=bubbles"
-            },
-            {
-                "testName": "Color > Country properties > World Regions (6 Colors) - Select all in that group",
-                "url": "#$state$marker$select@$country=afg;&$country=bgd;&$country=btn;&$country=ind;&$country=lka;&$country=mdv;&$country=npl;&$country=pak;;&color$data=data_wdi&which=world_6region&spaceRef=entities;;;&chart-type=bubbles"
             }
         ],
         "MAP CHART": [

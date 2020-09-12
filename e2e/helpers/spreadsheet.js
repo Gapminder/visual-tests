@@ -1,9 +1,11 @@
-var GoogleSpreadsheet = require('google-spreadsheet');
-var { promisify } = require('util');
-var creds = require('./client/client_secret.json');
-var fs = require('fs');
-const SPREADSHEET_ID = '14HrBvsbbaFTwcf-CDRwKUNGxGxD3v-QyyIH-2xe-66E';
-var jsonObjs = './e2e/testData.json';
+const GoogleSpreadsheet = require('google-spreadsheet');
+const { promisify } = require('util');
+const fs = require('fs');
+const jsonObjs = './e2e/testData.json';
+const creds = {
+  client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+  private_key: process.env.GOOGLE_PRIVATE_KEY.replace(new RegExp('\\\\n', '\g'), '\n')
+};
 
 var suiteLinks = {};
 var allSheetsLinks = {};
@@ -11,7 +13,7 @@ var getLinksArr = [];
 
 async function getSheets() {
 
-  const doc = new GoogleSpreadsheet(SPREADSHEET_ID)
+  const doc = new GoogleSpreadsheet(process.env.SPREADSHEET_ID);
   await promisify(doc.useServiceAccountAuth)(creds)
   const info = await promisify(doc.getInfo)()
   //console.log(`Loaded doc: ` + info.title + ` by ` + info.author.email)
