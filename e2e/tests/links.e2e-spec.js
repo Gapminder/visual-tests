@@ -1,6 +1,7 @@
 const Eyes = require("eyes.selenium").Eyes;
 const helper = require("./../helpers/helper.js");
 const fs = require('fs');
+const { browser } = require("protractor");
 
 const eyes = new Eyes();
 eyes.setApiKey(process.env.APPLITOOLS_API_KEY);
@@ -85,13 +86,15 @@ function testRunner(SHEET_KEY, CHART_KEY, ENV, URL, chartSelcted, index) {
 
     console.log(`> ${index} > ${testName} > ${URL+link}`);
     eyes.open(browser, `${ENV} > ${SHEET_KEY}`, `${ENV} > ${SHEET_KEY} > ${CHART_KEY} > ${testName}`);
-    browser.get(`${URL+link}`).then(() => {
+    await browser.get(`${URL+link}`).then(() => {
       browser.sleep(3000);
     });
 
-    if (SHEET_KEY.includes('tools') || SHEET_KEY.includes('TOOLS')){
-      helper.navigateToUrl();
+    if (!(CHART_KEY.includes('EMBEDDED') || SHEET_KEY.includes('Dollar Street') || SHEET_KEY.includes('Gapminder'))){
+      await helper.visibilityOf('mainChart');
+      await helper.visibilityOf('buttonPlay');
     }
+
     eyes.checkWindow(`${testName}`);
     eyes.close();
   });

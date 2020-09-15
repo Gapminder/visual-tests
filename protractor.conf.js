@@ -239,7 +239,7 @@ exports.config = {
   // mouseMove action is not implemented in safari
 
   //seleniumAddress: 'http://localhost:4444/wd/hub',
-  directConnect: !(SAUCE_USERNAME&&SAUCE_ACCESS_KEY), // use directConnect only for local run
+  directConnect: !(SAUCE_USERNAME && SAUCE_ACCESS_KEY), // use directConnect only for local run
 
   params: {
     desktop: screenSize.desktop,
@@ -261,42 +261,12 @@ exports.config = {
     isVerbose: false,
     includeStackTrace: false,
     defaultTimeoutInterval: 300000,
-    print: function() {}
-  },
-
-  // this will be run after all the tests will be finished
-  afterLaunch: function() {
-    const fileParse = fs.readFileSync(testResultsFile, 'utf-8');
-    const testResults = JSON.parse(fileParse);
-
-    // print consolidated report to the console
-    for (const testResult of testResults) {
-      console.log(`\n${testResults.indexOf(testResult) + 1}) ${testResult.fullName} - ${testResult.name}`);
-      testResult.failedExpectations.forEach(exp => {
-        console.log('  - [31m' + exp.message + '[39m');
-      });
-    }
-  },
-
-  // will be run before any test starts
-  beforeLaunch: function() {
-    // create directory for testResults if not exist
-    if (!fs.existsSync(testResultsDir)) {
-      fs.mkdirSync(testResultsDir);
-    }
-
-    // clear older tests results
-    const files = fs.readdirSync(testResultsDir);
-    for (const file of files) {
-      fs.unlinkSync(`${testResultsDir}/${file}`);
-    }
-    // fill the file with default values
-    fs.writeFileSync(testResultsFile, JSON.stringify([]), 'utf-8');
+    print: function () { }
   },
 
   onPrepare: async () => {
     await browser.waitForAngularEnabled(false);
-    if(!(SAUCE_USERNAME&&SAUCE_ACCESS_KEY)) await browser.driver.manage().window().setSize(screenSize.width, screenSize.height);
+    if (!(SAUCE_USERNAME && SAUCE_ACCESS_KEY)) await browser.driver.manage().window().setSize(screenSize.width, screenSize.height);
     const config = await browser.getProcessedConfig();
     browser.name = config.capabilities.name;
     if (config.capabilities.device) {
@@ -318,24 +288,9 @@ exports.config = {
     );
 
     jasmine.getEnv().addReporter({
-      specDone: function(result) {
+      specDone: function (result) {
         if (result.status === 'failed') {
           // take screenshot on fail
-          browser.takeScreenshot().then(function(screenShot) {
-
-            const existingResults = fs.readFileSync(testResultsFile, 'utf-8');
-            const appendedRes = JSON.parse(existingResults);
-            appendedRes.push(Object.assign({}, result, { name: config.capabilities.name }));
-
-            // write consolidated result to file
-            fs.writeFileSync(testResultsFile, JSON.stringify(appendedRes), 'utf-8');
-
-            // Save screenshot
-            fs.writeFile(`${testResultsDir}/${result.fullName} - ${config.capabilities.name}.png`, screenShot, 'base64', function(err) {
-              if (err) throw err;
-              console.log('File saved.');
-            });
-          });
         }
       }
     });
