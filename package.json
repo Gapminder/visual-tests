@@ -6,7 +6,7 @@
   "scripts": {
     "wd-update": "node ./node_modules/protractor/bin/webdriver-manager update",
     "start": "node ./node_modules/protractor/bin/webdriver-manager update && webdriver-manager start",
-    "test": "node ./e2e/helpers/spreadsheet.js && node ./node_modules/protractor/bin/protractor protractor.conf.js"
+    "test": "node ./e2e/helpers/spreadsheet.js && percy exec -- protractor protractor.conf.js"
   },
   "repository": {
     "type": "git",
@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/Gapminder/visual-tests#readme",
   "devDependencies": {
+    "@percy/protractor": "^1.1.0",
     "eyes.selenium": "0.0.83",
     "google-spreadsheet": "^2.0.6",
     "jasmine-spec-reporter": "^4.2.1",

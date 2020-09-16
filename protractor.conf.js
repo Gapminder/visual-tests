@@ -212,11 +212,12 @@ const SAUCE_ACCESS_KEY = process.env.SAUCE_ACCESS_KEY;
 exports.config = {
   sauceUser: `${SAUCE_USERNAME}`,
   sauceKey: `${SAUCE_ACCESS_KEY}`,
-  //SAUCE_USERNAME: SAUCE_USERNAME,
-  //SAUCE_ACCESS_KEY: SAUCE_ACCESS_KEY,
 
   specs: ['./e2e/**/*.e2e-spec.js'],
-  exclude: ['./e2e/**/applitools.e2e-spec.js'],
+  exclude:
+    ['./e2e/**/applitools.e2e-spec.js',
+      './e2e/**/pix-diff.e2e-spec.js'],
+
   capabilities: SAUCE_USERNAME && SAUCE_ACCESS_KEY ? {} : capabilityForLocalRun,
   multiCapabilities: SAUCE_USERNAME && SAUCE_ACCESS_KEY ? platformConfigurations : {},
   maxSessions: SAUCE_USERNAME && SAUCE_ACCESS_KEY ? SAUSE_MAX_SESSIONS : LOCAL_MAX_SESSIONS,
