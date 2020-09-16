@@ -216,7 +216,7 @@ exports.config = {
   //SAUCE_ACCESS_KEY: SAUCE_ACCESS_KEY,
 
   specs: ['./e2e/**/*.e2e-spec.js'],
-  //exclude: ['./e2e/redirects-spec.js'],
+  exclude: ['./e2e/**/applitools.e2e-spec.js'],
   capabilities: SAUCE_USERNAME && SAUCE_ACCESS_KEY ? {} : capabilityForLocalRun,
   multiCapabilities: SAUCE_USERNAME && SAUCE_ACCESS_KEY ? platformConfigurations : {},
   maxSessions: SAUCE_USERNAME && SAUCE_ACCESS_KEY ? SAUSE_MAX_SESSIONS : LOCAL_MAX_SESSIONS,
@@ -275,7 +275,15 @@ exports.config = {
         return res;
       }, {}));
     }
-    //require('ts-node').register({ project: 'e2e/tsconfig.json' });
+
+    const PixDiff = require('pix-diff');
+    browser.pixDiff = new PixDiff(
+      {
+        baseline: true,
+        basePath: 'pixDiff/baseline/',
+        diffPath: 'pixDiff/'
+      }
+    );
 
     let SpecReporter = require('jasmine-spec-reporter').SpecReporter;
 
