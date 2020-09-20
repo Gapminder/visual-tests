@@ -24,12 +24,12 @@
   },
   "homepage": "https://github.com/Gapminder/visual-tests#readme",
   "devDependencies": {
+    "protractor": "^7.0.0",
     "@percy/protractor": "^1.1.0",
     "eyes.selenium": "0.0.83",
     "google-spreadsheet": "^2.0.6",
     "jasmine-spec-reporter": "^4.2.1",
     "pix-diff": "^2.0.1",
-    "protractor": "^7.0.0",
     "typescript": "^3.1.3"
   }
 }
