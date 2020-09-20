@@ -84,10 +84,12 @@ function testRunner(SHEET_KEY, CHART_KEY, ENV, URL, chartSelcted, index) {
     console.log(`> ${index} > ${testName} > ${URL + link}`);
     await browser.get(`${URL + link}`);
 
+    /*
     if (!(CHART_KEY.match(/(EMBEDDED|Dollar|Gapminder)/gi))) {
       await helper.visibilityOf('mainChart');
       await helper.visibilityOf('buttonPlay');
     }
+    */
 
     await browser.sleep(4000);
     await percySnapshot(`${CHART_KEY}__${index}`);
