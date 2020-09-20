@@ -1,9 +1,10 @@
 const { percySnapshot } = require('@percy/protractor')
 const helper = require("../helpers/helper.js");
 const fs = require('fs');
-const { browser, Browser } = require("protractor");
+const { browser } = require("protractor");
 
-var ALL_SHEETS = JSON.parse(fs.readFileSync("./e2e/testData.json"));
+const ALL_SHEETS = JSON.parse(fs.readFileSync("./e2e/testData.json"));
+const percyToken = process.env.PERCY_TOKEN;
 
 function getSheetKeys() {
 
