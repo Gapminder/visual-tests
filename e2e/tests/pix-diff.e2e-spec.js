@@ -1,93 +1,77 @@
-const Eyes = require("eyes.selenium").Eyes;
+const PixDiff = require('pix-diff');
 const helper = require("../helpers/helper.js");
 const fs = require('fs');
 const { browser } = require("protractor");
 
-const eyes = new Eyes();
-eyes.setApiKey(process.env.APPLITOOLS_API_KEY);
-eyes.setBatch(`${browser.name}`);
-
-const PixDiff = require('pix-diff');
-
-var ALL_SHEETS = JSON.parse(fs.readFileSync("./e2e/testData.json"));
+const ALL_SHEETS = JSON.parse(fs.readFileSync("./e2e/testData.json"));
+const SHEET_KEYS = Object.keys(ALL_SHEETS);
 
 function getSheetKeys() {
-
-  sheetKeys = Object.keys(ALL_SHEETS);
-  for (var i = 0; i < sheetKeys.length; i++) {
-
-    //console.log(`\n\n       ${i} SHEET IS :,${sheetKeys[i]}`);
-    getEnvForFirstSuite(sheetKeys[i]);
+  for (let i = 0; i < SHEET_KEYS.length; i++) {
+    getEnvForSheets(SHEET_KEYS[i]);
   }
 }
 
-function getEnvForFirstSuite(SHEET_KEY) {
+function getEnvForSheets(SHEET_KEY) {
 
-  const chartKeys = Object.keys(ALL_SHEETS[`${SHEET_KEY}`]);
-  const baseURL = [];
+  var chartKeys = Object.keys(ALL_SHEETS[`${SHEET_KEY}`]);
+  var baseURL = [];
 
-  for (var j = 0; j < chartKeys.length; j++) {
+  for (let i = 0; i < chartKeys.length; i++) {
 
-    if (chartKeys[j] == 'BASE URL') {
+    if (chartKeys[i].match(/BASE URL/gi)) {
 
-      const chartSelcted = Object.values(ALL_SHEETS[`${SHEET_KEY}`][`${chartKeys[j]}`]);
-      for (j = 0; j < chartSelcted.length; j++) {
-        baseURL.push(chartSelcted[j]);
+      const envSelcted = Object.values(ALL_SHEETS[`${SHEET_KEY}`][`${chartKeys[i]}`]);
+      for (let j = 0; j < envSelcted.length; j++) {
+        baseURL.push(envSelcted[j]);
       }
       break;
     }
   }
 
-  for (var i = 0; i < baseURL.length; i++) {
+  for (i = 0; i < baseURL.length; i++) {
 
-    const ENV = baseURL[i]['testName'];
-    const URL = baseURL[i]['url'];
+    var ENV = baseURL[i]['testName'];
+    var URL = baseURL[i]['url'];
 
     describe(`${ENV} > ${SHEET_KEY}`, () => {
-
-      firstSuiteRunner(SHEET_KEY, ENV, URL);
+      firstSuiteRunner(ENV, SHEET_KEY, URL);
     });
   }
 }
 
-function firstSuiteRunner(SHEET_KEY, ENV, URL) {
+function firstSuiteRunner(ENV, SHEET_KEY, URL) {
 
-  const CHART_KEY = Object.keys(ALL_SHEETS[`${SHEET_KEY}`]);
-  for (var j = 0; j < CHART_KEY.length; j++) {
+  var chartKeys = Object.keys(ALL_SHEETS[`${SHEET_KEY}`]);
+  for (let j = 0; j < chartKeys.length; j++) {
 
-    if (CHART_KEY[j] == 'BASE URL') {
+    if (chartKeys[j].match(/BASE URL/gi)) {
       continue;
     }
-    secSuiteRunner(SHEET_KEY, ENV, URL, CHART_KEY[j], j);
+    secSuiteRunner(ENV, SHEET_KEY, URL, chartKeys[j]);
   }
 }
 
-function secSuiteRunner(SHEET_KEY, ENV, URL, CHART_KEY, CHART_INDEX) {
+function secSuiteRunner(ENV, SHEET_KEY, URL, CHART_KEY) {
 
-  //console.log(`\n       ${CHART_INDEX} CHART IS :,${CHART_KEY}`);
-  const chartSelcted = Object.values(ALL_SHEETS[`${SHEET_KEY}`][`${CHART_KEY}`]);
+  var chartSelcted = Object.values(ALL_SHEETS[`${SHEET_KEY}`][`${CHART_KEY}`]);
   describe(`${ENV} > ${SHEET_KEY} > ${CHART_KEY}`, () => {
 
-    //console.log(`${ENV} > ${SHEET_KEY} > ${CHART_KEY}`);
-    for (j = 0; j < chartSelcted.length; j++) {
-
-      testRunner(SHEET_KEY, CHART_KEY, ENV, URL, chartSelcted[j], j);
+    for (let j = 0; j < chartSelcted.length; j++) {
+      testRunner(ENV, SHEET_KEY, CHART_KEY, URL, chartSelcted[j], j+1);
     }
   });
 }
 
-function testRunner(SHEET_KEY, CHART_KEY, ENV, URL, chartSelcted, index) {
+function testRunner(ENV, SHEET_KEY, CHART_KEY, URL, CHART_SELECTED, INDEX) {
 
-  var testName = chartSelcted['testName'];
-  var link = chartSelcted['url'];
-  index = index + 1;
-  CHART_KEY = CHART_KEY.toLowerCase();
+  var testName = CHART_SELECTED['testName'];
+  var link = CHART_SELECTED['url'];
+  var suiteName = `${ENV} > ${SHEET_KEY} > ${CHART_KEY}`.toLowerCase();
 
-  //console.log(`       ${ENV} > ${SHEET_KEY} > ${CHART_KEY} > ${testName}`);
+  it(`${suiteName} > ${testName}`, async () => {
 
-  it(`${ENV} > ${SHEET_KEY} > ${CHART_KEY} > ${testName}`, async () => {
-
-    console.log(`> ${index} > ${testName} > ${URL + link}`);
+    console.log(`> ${INDEX} > ${testName} > ${URL + link}`);
     await browser.get(`${URL + link}`);
 
     if (!(CHART_KEY.match(/(EMBEDDED|Dollar|Gapminder)/gi))) {
@@ -96,7 +80,8 @@ function testRunner(SHEET_KEY, CHART_KEY, ENV, URL, chartSelcted, index) {
     }
 
     await browser.sleep(4000);
-    await browser.pixDiff.checkScreen(`${CHART_KEY}__${index}`).then(result => {
+    suiteName = suiteName.replace('>', '_');
+    await browser.pixDiff.checkScreen(`${suiteName.replace('>', '_')}_${INDEX}`).then(result => {
       expect(result.code).toEqual(PixDiff.RESULT_IDENTICAL);
     });
   });

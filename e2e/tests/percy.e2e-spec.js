@@ -7,7 +7,6 @@ const ALL_SHEETS = JSON.parse(fs.readFileSync("./e2e/testData.json"));
 const SHEET_KEYS = Object.keys(ALL_SHEETS);
 
 function getSheetKeys() {
-
   for (let i = 0; i < SHEET_KEYS.length; i++) {
     getEnvForSheets(SHEET_KEYS[i]);
   }
@@ -59,8 +58,7 @@ function secSuiteRunner(ENV, SHEET_KEY, URL, CHART_KEY) {
   describe(`${ENV} > ${SHEET_KEY} > ${CHART_KEY}`, () => {
 
     for (let j = 0; j < chartSelcted.length; j++) {
-
-      testRunner(ENV, SHEET_KEY, CHART_KEY, URL, chartSelcted[j], j);
+      testRunner(ENV, SHEET_KEY, CHART_KEY, URL, chartSelcted[j], j+1);
     }
   });
 }
@@ -69,11 +67,7 @@ function testRunner(ENV, SHEET_KEY, CHART_KEY, URL, CHART_SELECTED, INDEX) {
 
   var testName = CHART_SELECTED['testName'];
   var link = CHART_SELECTED['url'];
-  INDEX = INDEX + 1;
   var suiteName = `${ENV} > ${SHEET_KEY} > ${CHART_KEY}`.toLowerCase();
-  //CHART_KEY = CHART_KEY.toLowerCase();
-
-  //console.log(`       ${ENV} > ${SHEET_KEY} > ${CHART_KEY} > ${testName}`);
 
   it(`${suiteName} > ${testName}`, async () => {
 

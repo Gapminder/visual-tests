@@ -202,7 +202,7 @@ const capabilityForLocalRun = {
   shardTestFiles: true,
   maxInstances: LOCAL_MAX_INSTANCES,
   chromeOptions: {
-    //binary: "C:/Program Files/Google/Chrome/Application/chrome.exe",
+    binary: "C:/Program Files/Google/Chrome/Application/chrome.exe",
     args: ['no-sandbox']//, 'headless']
   }
 };
@@ -215,9 +215,14 @@ exports.config = {
   sauceKey: `${SAUCE_ACCESS_KEY}`,
 
   specs: ['./e2e/**/*.e2e-spec.js'],
-  exclude:
-    ['./e2e/**/applitools.e2e-spec.js',
-      './e2e/**/pix-diff.e2e-spec.js'],
+  suites: {
+    pix_diff: './e2e/**/pix-diff.e2e-spec.js',
+    percy: './e2e/**/percy.e2e-spec.js',
+    applitools: './e2e/**/applitools.e2e-spec.js'
+  },
+  //exclude:
+    //['./e2e/**/percy.e2e-spec.js',
+    //  './e2e/**/pix-diff.e2e-spec.js'],
 
   capabilities: SAUCE_USERNAME && SAUCE_ACCESS_KEY ? {} : capabilityForLocalRun,
   multiCapabilities: SAUCE_USERNAME && SAUCE_ACCESS_KEY ? platformConfigurations : {},
