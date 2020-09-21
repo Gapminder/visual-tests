@@ -80,7 +80,7 @@ function testRunner(ENV, SHEET_KEY, CHART_KEY, URL, CHART_SELECTED, INDEX) {
     }
 
     await browser.sleep(4000);
-    await percySnapshot(`${suiteName} > ${INDEX}`);
+    await percySnapshot(`${browser.name} > ${suiteName} > ${INDEX}`);
   });
 }
 
