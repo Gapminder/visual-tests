@@ -35,7 +35,7 @@ build/Release
 # Dependency directories
 node_modules/
 e2e/helpers/client/*
-pixDiff/*
+#pixDiff/*
 results/testResults.txt
 jspm_packages/
 
