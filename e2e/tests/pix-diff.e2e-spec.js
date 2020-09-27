@@ -69,7 +69,7 @@ function testRunner(ENV, SHEET_KEY, CHART_KEY, URL, CHART_SELECTED, INDEX) {
   var link = CHART_SELECTED['url'];
   var suiteName = `${ENV} > ${SHEET_KEY} > ${CHART_KEY}`.toLowerCase();
 
-  it(`${suiteName} > ${testName}`, async () => {
+  it(`${INDEX} > ${suiteName} > ${testName}`, async () => {
 
     console.log(`> ${INDEX} > ${testName} > ${URL + link}`);
     await browser.get(`${URL + link}`);
