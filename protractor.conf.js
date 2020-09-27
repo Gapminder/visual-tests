@@ -218,7 +218,8 @@ exports.config = {
   suites: {
     pix_diff: './e2e/**/pix-diff.e2e-spec.js',
     percy: './e2e/**/percy.e2e-spec.js',
-    applitools: './e2e/**/applitools.e2e-spec.js'
+    applitools: './e2e/**/applitools.e2e-spec.js',
+    sample: './e2e/**/sample.e2e-spec.js',
   },
   //exclude:
     //['./e2e/**/percy.e2e-spec.js',
