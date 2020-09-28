@@ -1,6 +1,7 @@
 'use strict';
 
 const fs = require('fs');
+const sheetData = require("./e2e/helpers/spreadsheet.js");
 //const URL_GOOGLE_SHEET = JSON.parse(fs.readFileSync("./e2e/helpers/list.json"));
 const SAUSE_MAX_INSTANCES = 5;
 const SAUSE_MAX_SESSIONS = 5; //1
@@ -217,9 +218,9 @@ exports.config = {
   specs: ['./e2e/**/*.e2e-spec.js'],
   suites: {
     pix_diff: './e2e/**/pix-diff.e2e-spec.js',
-    percy: './e2e/**/percy.e2e-spec.js',
+    smoke: './e2e/**/smoke.e2e-spec.js',
     applitools: './e2e/**/applitools.e2e-spec.js',
-    sample: './e2e/**/sample.e2e-spec.js',
+    sample: './e2e/**/sample.e2e-spec.js'
   },
   //exclude:
     //['./e2e/**/percy.e2e-spec.js',
@@ -277,6 +278,10 @@ exports.config = {
     if (!(SAUCE_USERNAME && SAUCE_ACCESS_KEY)) await browser.driver.manage().window().setSize(screenSize.width, screenSize.height);
     const config = await browser.getProcessedConfig();
     browser.name = config.capabilities.name;
+    browser.suite = config.suite;
+
+    await sheetData.sheets();
+
     if (config.capabilities.device) {
       Object.assign(browser.params, ["mobile", "tablet", "desktop"].reduce((res, device) => {
         res[device] = device === config.capabilities.device;
