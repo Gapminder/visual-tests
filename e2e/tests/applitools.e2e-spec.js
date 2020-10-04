@@ -62,22 +62,26 @@ function secSuiteRunner(ENV, SHEET_KEY, URL, CHART_KEY) {
   describe(`${ENV} > ${SHEET_KEY} > ${CHART_KEY}`, () => {
 
     for (let j = 0; j < chartSelcted.length; j++) {
-      testRunner(ENV, SHEET_KEY, CHART_KEY, URL, chartSelcted[j], j + 1);
+      testRunner(ENV, SHEET_KEY, URL, CHART_KEY, chartSelcted[j], j + 1);
     }
   });
 }
 
-function testRunner(ENV, SHEET_KEY, CHART_KEY, URL, CHART_SELECTED, INDEX) {
+function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
 
   var testName = CHART_SELECTED['testName'];
   var link = CHART_SELECTED['url'];
   var suiteName = `${ENV} > ${SHEET_KEY} > ${CHART_KEY}`.toLowerCase();
 
-  it(`${INDEX} > ${suiteName} > ${testName}`, async () => {
+  testName = `> ${INDEX} > ${suiteName} > ${testName}`;
+  URL = `${URL + link}`;
 
-    console.log(`> ${INDEX} > ${testName} > ${URL + link}`);
-    eyes.open(browser, `${ENV} > ${SHEET_KEY}`, `${suiteName} > ${testName}`);
-    await browser.get(`${URL + link}`);
+  it(testName, async () => {
+
+    eyes.open(browser, `${ENV} > ${SHEET_KEY}`, testName);
+
+    console.log(`${testName} > ${URL}`);
+    await browser.get(URL);
 
     if (!(CHART_KEY.match(/(EMBEDDED|Dollar|Gapminder)/gi))) {
       await helper.visibilityOf('mainChart');
