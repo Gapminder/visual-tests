@@ -34,13 +34,11 @@ function getEnvForSheets(SHEET_KEY) {
     var ENV = baseURL[i]['testName'];
     var URL = baseURL[i]['url'];
 
-    describe(`${ENV} > ${SHEET_KEY}`, () => {
-      firstSuiteRunner(ENV, SHEET_KEY, URL);
-    });
+    getSuiteData(ENV, SHEET_KEY, URL);
   }
 }
 
-function firstSuiteRunner(ENV, SHEET_KEY, URL) {
+function getSuiteData(ENV, SHEET_KEY, URL) {
 
   var chartKeys = Object.keys(ALL_SHEETS[`${SHEET_KEY}`]);
   for (let j = 0; j < chartKeys.length; j++) {
@@ -48,22 +46,22 @@ function firstSuiteRunner(ENV, SHEET_KEY, URL) {
     if (chartKeys[j].match(/BASE URL/gi)) {
       continue;
     }
-    secSuiteRunner(ENV, SHEET_KEY, URL, chartKeys[j]);
+    suiteRunner(ENV, SHEET_KEY, URL, chartKeys[j]);
   }
 }
 
-function secSuiteRunner(ENV, SHEET_KEY, URL, CHART_KEY) {
+function suiteRunner(ENV, SHEET_KEY, URL, CHART_KEY) {
 
   var chartSelcted = Object.values(ALL_SHEETS[`${SHEET_KEY}`][`${CHART_KEY}`]);
   describe(`${ENV} > ${SHEET_KEY} > ${CHART_KEY}`, () => {
 
     for (let j = 0; j < chartSelcted.length; j++) {
-      testRunner(ENV, SHEET_KEY, CHART_KEY, URL, chartSelcted[j], j + 1);
+      testRunner(ENV, SHEET_KEY, URL, CHART_KEY, chartSelcted[j], j + 1);
     }
   });
 }
 
-function testRunner(ENV, SHEET_KEY, CHART_KEY, URL, CHART_SELECTED, INDEX) {
+function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
 
   var testName = CHART_SELECTED['testName'];
   var link = CHART_SELECTED['url'];
