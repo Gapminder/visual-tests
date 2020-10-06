@@ -58,7 +58,7 @@ function secSuiteRunner(ENV, SHEET_KEY, URL, CHART_KEY) {
   describe(`${ENV} > ${SHEET_KEY} > ${CHART_KEY}`, () => {
 
     for (let j = 0; j < chartSelcted.length; j++) {
-      testRunner(ENV, SHEET_KEY, CHART_KEY, URL, chartSelcted[j], j+1);
+      testRunner(ENV, SHEET_KEY, CHART_KEY, URL, chartSelcted[j], j + 1);
     }
   });
 }
@@ -85,7 +85,13 @@ function testRunner(ENV, SHEET_KEY, CHART_KEY, URL, CHART_SELECTED, INDEX) {
     await browser.sleep(4000);
     suiteName = suiteName.replace('>', '_');
     await browser.pixDiff.checkScreen(`${suiteName.replace('>', '_')}_${INDEX}`).then(result => {
-      expect(result.code).toEqual(PixDiff.RESULT_IDENTICAL);
+      
+      if (result.code != 5) {
+        expect('Copy failed URL: ').toContain(URL);
+
+      } else {
+        expect(result.code).toEqual(PixDiff.RESULT_IDENTICAL);
+      }
     });
   });
 }
