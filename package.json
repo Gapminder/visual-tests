@@ -6,7 +6,10 @@
   "scripts": {
     "wd-update": "node ./node_modules/protractor/bin/webdriver-manager update",
     "start": "node ./node_modules/protractor/bin/webdriver-manager update && webdriver-manager start",
-    "test": "node ./e2e/helpers/spreadsheet.js && node ./node_modules/protractor/bin/protractor protractor.conf.js"
+    "applitools": "node ./node_modules/protractor/bin/protractor protractor.conf.js --suite=applitools",
+    "smoke": "percy exec -- protractor protractor.conf.js --suite=smoke",
+    "sample": "percy exec -- protractor protractor.conf.js --suite=sample",
+    "test": "node ./node_modules/protractor/bin/protractor protractor.conf.js --suite=pix_diff"
   },
   "repository": {
     "type": "git",
@@ -17,17 +20,19 @@
     "visual",
     "image-comparison"
   ],
-  "author": "Abid Ali",
+  "author": "Abid",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Gapminder/visual-tests/issues"
   },
   "homepage": "https://github.com/Gapminder/visual-tests#readme",
   "devDependencies": {
+    "protractor": "^7.0.0",
+    "@percy/protractor": "^1.1.0",
     "eyes.selenium": "0.0.83",
     "google-spreadsheet": "^2.0.6",
     "jasmine-spec-reporter": "^4.2.1",
-    "protractor": "^5.4.1",
+    "pix-diff": "^2.0.1",
     "typescript": "^3.1.3"
   }
 }

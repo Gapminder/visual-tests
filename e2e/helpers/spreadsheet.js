@@ -24,14 +24,23 @@ async function getSheets() {
 
 async function fetchUpdatedSheet() {
 
-  const sheets = await getSheets();
-  for (i=0; i<sheets.length; i++){
+  let suite = browser.suite;
+  let title = "";
 
-    await getSheetData(i, sheets[i], sheets[i].title);
+  const sheets = await getSheets();
+  for (i = 0; i < sheets.length; i++) {
+    title = sheets[i].title;
+
+    if (suite.match(/(smoke)/gi) && title.match(/(smoke)/gi)) {
+      await getSheetData(i, sheets[i], title);
+
+    } else if (!(suite.match(/(smoke)/gi) || title.match(/(smoke)/gi))) {
+      await getSheetData(i, sheets[i], title);
+    }
   }
 }
 
-async function getSheetData(index, sheet, sheetTitle){
+async function getSheetData(index, sheet, sheetTitle) {
 
   console.log(`   --> SHEET INDEX: ${index} => TITLE: ${sheetTitle}`);
   const slctdSheetCells = await promisify(sheet.getCells)({
@@ -44,8 +53,7 @@ async function getSheetData(index, sheet, sheetTitle){
 
   });
 
-  for (j=0; j<slctdSheetCells.length; j++){
-
+  for (j = 0; j < slctdSheetCells.length; j++) {
     await getSuiteNames(sheet, slctdSheetCells, j);
   }
 
@@ -56,24 +64,24 @@ async function getSheetData(index, sheet, sheetTitle){
     if (err) throw err;
     obj = JSON.parse(data);
 
-    if(obj == {}){
+    if (obj == {}) {
 
-      obj[ sheetTitle ] = suiteLinks;
+      obj[sheetTitle] = suiteLinks;
       suiteLinks = {};
       writeToJsonFile(obj);
     }
     else {
 
-      if(obj.hasOwnProperty(sheetTitle)){
+      if (obj.hasOwnProperty(sheetTitle)) {
 
-        delete obj[ sheetTitle ];
-        obj[ sheetTitle ] = suiteLinks;
+        delete obj[sheetTitle];
+        obj[sheetTitle] = suiteLinks;
         suiteLinks = {};
         writeToJsonFile(obj);
       }
       else {
 
-        obj[ sheetTitle ] = suiteLinks;
+        obj[sheetTitle] = suiteLinks;
         suiteLinks = {};
         writeToJsonFile(obj);
       }
@@ -81,7 +89,7 @@ async function getSheetData(index, sheet, sheetTitle){
   });
 }
 
-async function writeToJsonFile(toWrite){
+async function writeToJsonFile(toWrite) {
 
   await fs.writeFile(jsonObjs, JSON.stringify(toWrite, null, 4), function (err) {
     if (err) {
@@ -91,20 +99,20 @@ async function writeToJsonFile(toWrite){
   });
 }
 
-async function getSuiteNames(sheet, slctdSheetCells, j){
+async function getSuiteNames(sheet, slctdSheetCells, j) {
 
   var suiteName = slctdSheetCells[j].value;
   var testNameCol = slctdSheetCells[j].col + 1;
   var urlsCol = slctdSheetCells[j].col + 2;
   var valRow = slctdSheetCells[j].row + 2;
 
-  if (suiteName !== ''){
+  if (suiteName !== '') {
 
     await getTestsData(sheet, valRow, testNameCol, urlsCol, suiteName);
   }
 }
 
-async function getTestsData(sheet, valRow, testNameCol, urlsCol, suiteName){
+async function getTestsData(sheet, valRow, testNameCol, urlsCol, suiteName) {
 
   const testNames = await promisify(sheet.getCells)({
     'min-row': valRow,
@@ -122,30 +130,30 @@ async function getTestsData(sheet, valRow, testNameCol, urlsCol, suiteName){
     'return-empty': true
   });
 
-  for (k=0; k<testNames.length; k++){
+  for (k = 0; k < testNames.length; k++) {
 
-    if ((testNames[k].value == '' || urls[k].value == '') && (testNames[k+1].value != '' || urls[k+1].value != '')){
+    if ((testNames[k].value == '' || urls[k].value == '') && (testNames[k + 1].value != '' || urls[k + 1].value != '')) {
       continue;
     }
-    else if ((testNames[k].value == '' || urls[k].value == '') && (testNames[k+1].value == '' || urls[k+1].value == '')){
+    else if ((testNames[k].value == '' || urls[k].value == '') && (testNames[k + 1].value == '' || urls[k + 1].value == '')) {
       break;
     }
-    else if (testNames[k].value == '' && urls[k].value == ''){
+    else if (testNames[k].value == '' && urls[k].value == '') {
       break;
     }
     await getLinks(testNames, urls, k);
   }
 
-  suiteLinks[ suiteName ] = await getLinksArr;
+  suiteLinks[suiteName] = await getLinksArr;
   getLinksArr = [];
 }
 
-async function getLinks(testNames, urls, j){
+async function getLinks(testNames, urls, j) {
 
-  await getLinksArr.push({"testName":testNames[j].value, "url":urls[j].value});
+  await getLinksArr.push({ "testName": testNames[j].value, "url": urls[j].value });
 }
 
-async function checkIfSheetNameExistInJson(){
+async function checkIfSheetNameExistInJson() {
 
   const sheets = await getSheets();
   await fs.readFile(jsonObjs, 'utf8', function (err, data) {
@@ -154,28 +162,40 @@ async function checkIfSheetNameExistInJson(){
     obj = JSON.parse(data);
     keys = Object.keys(obj);
 
-    if (keys.length != sheets.length){
+    if (keys.length != sheets.length) {
 
-      for (i=0; i<sheets.length; i++) {
+      for (i = 0; i < sheets.length; i++) {
         index = keys.indexOf(sheets[i].title);
         if (index > -1) {
           keys.splice(index, 1);
         }
       }
 
-      for (i=0; i<keys.length; i++){
+      for (i = 0; i < keys.length; i++) {
 
-        delete obj[ keys[i] ];
+        delete obj[keys[i]];
       }
       writeToJsonFile(obj);
     }
   });
 }
 
-async function sheets(){
+async function deleteAllSheetsFromJson() {
 
+  const sheets = await getSheets();
+  await fs.readFile(jsonObjs, 'utf8', function (err, data) {
+    if (err) throw err;
+
+    obj = JSON.parse(data);
+    for (var i = 0; i < sheets.length; i++) {
+      delete obj[sheets[i].title];
+    }
+    writeToJsonFile(obj);
+  });
+}
+
+exports.sheets = async () => {
+  await deleteAllSheetsFromJson();
   await fetchUpdatedSheet();
   await checkIfSheetNameExistInJson();
 }
-
-sheets();
