@@ -8,3 +8,9 @@ function webUI(ele) { return global.locators[ele]; }
 exports.visibilityOf = async (pageObject) => {
   await browser.wait(EC.visibilityOf(webUI(pageObject)), MAX_TIMEOUT, pageObject + ' not visible');
 }
+
+exports.screenSize = async () => {
+  return browserSize = await browser.manage().window().getSize().then(function (size) {
+    return size;
+  });
+}
