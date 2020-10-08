@@ -6,6 +6,11 @@ const { browser } = require("protractor");
 const ALL_SHEETS = JSON.parse(fs.readFileSync("./e2e/testData.json"));
 const SHEET_KEYS = Object.keys(ALL_SHEETS);
 
+let browserWidth;
+let browserHeight;
+let innerWidth;
+let innerHeight;
+
 function getSheetKeys() {
   for (let i = 0; i < SHEET_KEYS.length; i++) {
     getEnvForSheets(SHEET_KEYS[i]);
@@ -72,17 +77,40 @@ function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
 
   it(testName, async () => {
 
-    console.log(`${testName} > ${URL}`);
     await browser.get(URL);
-
     if (!(CHART_KEY.match(/(EMBEDDED|Dollar|Gapminder)/gi))) {
       await helper.visibilityOf('mainChart');
       await helper.visibilityOf('buttonPlay');
     }
 
     await browser.sleep(4000);
-    await percySnapshot(`${browser.name} > ${suiteName} > ${INDEX}`, { widths: [1920, 1080] });
+    console.log(`\n${testName} > ${URL}`);
+    await percySnapshot(`${browser.name} > ${suiteName} > ${INDEX}`, {
+      "widths": [innerWidth],
+      "minHeight": innerHeight
+    });
   });
 }
 
-getSheetKeys();
+async function getSizeInfo() {
+  const browserSize = await helper.screenSize();
+  const visualView = await helper.viewPort();
+  
+  browserWidth = browserSize.width;
+  browserHeight = browserSize.height;
+  innerWidth = visualView.width;
+  innerHeight = visualView.height;
+
+  console.log(`\n   --> Session: ${browser.name}`);
+  console.log(`       browserWidth: ${browserWidth}`);
+  console.log(`       browserHeight: ${browserHeight}`);
+  console.log(`       innerWidth: ${innerWidth}`);
+  console.log(`       innerHeight: ${innerHeight}`);
+}
+
+function startTest() {
+  getSizeInfo();
+  getSheetKeys();
+}
+
+startTest();

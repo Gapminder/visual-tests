@@ -10,7 +10,33 @@ exports.visibilityOf = async (pageObject) => {
 }
 
 exports.screenSize = async () => {
-  return browserSize = await browser.manage().window().getSize().then(function (size) {
+  return browserSize = browser.manage().window().getSize().then((size) => {
     return size;
+  });
+}
+
+/*
+exports.screenSize = async (width, height) => {
+  browser.manage().window().setSize(width, height);
+}
+*/
+
+exports.padding = () => {
+  const JS_GET_PADDING = "return {"
+    + "width: window.outerWidth - window.innerWidth,"
+    + "height: window.outerHeight - window.innerHeight };";
+
+  return padding = browser.executeScript(JS_GET_PADDING).then((pad) => {
+    return pad;
+  });
+}
+
+exports.viewPort = () => {
+  const JS_GET_VIEWPORT = "return {"
+    + "width: window.innerWidth,"
+    + "height: window.innerHeight };";
+
+  return viewPort = browser.executeScript(JS_GET_VIEWPORT).then((visualPort) => {
+    return visualPort;
   });
 }

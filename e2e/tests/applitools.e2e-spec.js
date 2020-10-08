@@ -78,15 +78,14 @@ function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
 
     eyes.open(browser, `${ENV} > ${SHEET_KEY}`, testName);
 
-    console.log(`${testName} > ${URL}`);
     await browser.get(URL);
-
     if (!(CHART_KEY.match(/(EMBEDDED|Dollar|Gapminder)/gi))) {
       await helper.visibilityOf('mainChart');
       await helper.visibilityOf('buttonPlay');
     }
 
     await browser.sleep(4000);
+    console.log(`\n${testName} > ${URL}`);
     eyes.checkWindow(`${suiteName} > ${INDEX}`);
     eyes.close();
   });

@@ -72,15 +72,14 @@ function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
 
   it(testName, async () => {
 
-    console.log(`${testName} > ${URL}`);
     await browser.get(URL);
-
     if (!(CHART_KEY.match(/(EMBEDDED|Dollar|Gapminder)/gi))) {
       await helper.visibilityOf('mainChart');
       await helper.visibilityOf('buttonPlay');
     }
 
     await browser.sleep(4000);
+    console.log(`\n${testName} > ${URL}`);
     suiteName = suiteName.replace('>', '_');
     await browser.pixDiff.checkScreen(`${suiteName.replace('>', '_')}_${INDEX}`).then(result => {
       
