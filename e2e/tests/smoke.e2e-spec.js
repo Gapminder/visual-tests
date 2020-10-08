@@ -89,7 +89,7 @@ function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
     var snapshot = `${suiteName} > ${INDEX}`;
     snapshot = browser.name != undefined ? `${browser.name} > ${snapshot}` : snapshot;
 
-    await percySnapshot(`${browser.name} > ${suiteName} > ${INDEX}`, {
+    await percySnapshot(snapshot, {
       "widths": [innerWidth],
       "minHeight": innerHeight
     });
