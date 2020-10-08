@@ -86,7 +86,9 @@ function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
 
     await browser.sleep(4000);
     console.log(`\n${testName} > ${URL}`);
-    eyes.checkWindow(`${suiteName} > ${INDEX}`);
+
+    var snapshot = `${suiteName} > ${INDEX}`;
+    eyes.checkWindow(snapshot);
     eyes.close();
   });
 }
