@@ -111,6 +111,7 @@ const platformConfigurations = [
     seleniumVersion: '3.12.0',
     'tunnel-identifier': `${process.env.TRAVIS_JOB_NUMBER}`
   },*/
+  /*
   {
     browserName: "chrome",
     platform: "macOS 10.12",
@@ -118,6 +119,7 @@ const platformConfigurations = [
     seleniumVersion: '3.12.0',
     'tunnel-identifier': `${process.env.TRAVIS_JOB_NUMBER}`
   },
+  */
   // {
   //   device: 'mobile',
   //   browserName: 'Safari',
@@ -163,7 +165,7 @@ const platformConfigurations = [
   //   appiumVersion: '1.8.1'
   // }
 ].map(config => {
-  config.name = `${process.env.TRAVIS_JOB_NUMBER + ' — visual-tests'} ${config.platform || "" + config.platformName || "" + config.platformVersion || ""},${config.browserName},${config.version || "" + config.deviceName || ""}`;
+  config.name = `${process.env.TRAVIS_REPO_SLUG + ' — ' +  process.env.TRAVIS_JOB_NUMBER + ' — visual-tests'} ${config.platform || "" + config.platformName || "" + config.platformVersion || ""},${config.browserName},${config.version || "" + config.deviceName || ""}`;
   config.maxInstances = SAUSE_MAX_INSTANCES;
   if (!config.platformName) config.screenResolution = '1600x1200';
   config.shardTestFiles = true;
