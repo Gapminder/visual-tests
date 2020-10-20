@@ -3,6 +3,11 @@ const helper = require("../helpers/helper.js");
 const fs = require('fs');
 const { browser } = require("protractor");
 
+let browserWidth;
+let browserHeight;
+let innerWidth;
+let innerHeight;
+
 describe(`Sample suite`, () => {
 
   it(`Sample test`, async () => {
@@ -10,18 +15,24 @@ describe(`Sample suite`, () => {
     let link = "#$state$marker$color$which=time&use=indicator&scaleType=time&spaceRef:null;;;&chart-type=bubbles";
     await browser.get(`${"https://tools.gapminder.org/" + link}`);
 
-    var browserSize = await helper.screenSize();
+    const browserSize = await helper.screenSize();
+    const visualView = await helper.viewPort();
+    
+    browserWidth = browserSize.width;
+    browserHeight = browserSize.height;
+    innerWidth = visualView.width;
+    innerHeight = visualView.height;
 
-    console.log("width :" + browserSize.width);
-    console.log("height :" + browserSize.height);
+    console.log(`\n   --> Session: ${browser.name}`);
+    console.log(`       browserWidth: ${browserWidth}`);
+    console.log(`       browserHeight: ${browserHeight}`);
+    console.log(`       innerWidth: ${innerWidth}`);
+    console.log(`       innerHeight: ${innerHeight}`);
 
-    //expect(browserSize.width).toEqual(1366);
-    //expect(browserSize.height).toEqual(768);
-
-    await browser.sleep(4000);
+    await browser.sleep(6000);
     await percySnapshot(`Sample snapshot with perccy options`, {
-      "widths": [browserSize.width],
-      "minHeight": browserSize.height
+      "widths": [visualView.width],
+      "minHeight": visualView.height
       //"enableJavaScript": true
     });
   });

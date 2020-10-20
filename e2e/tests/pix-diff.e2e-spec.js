@@ -72,17 +72,20 @@ function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
 
   it(testName, async () => {
 
-    console.log(`${testName} > ${URL}`);
     await browser.get(URL);
-
     if (!(CHART_KEY.match(/(EMBEDDED|Dollar|Gapminder)/gi))) {
       await helper.visibilityOf('mainChart');
       await helper.visibilityOf('buttonPlay');
     }
 
     await browser.sleep(4000);
-    suiteName = suiteName.replace('>', '_');
-    await browser.pixDiff.checkScreen(`${suiteName.replace('>', '_')}_${INDEX}`).then(result => {
+    console.log(`\n${testName} > ${URL}`);
+
+    var snapshot = `${suiteName} > ${INDEX}`;
+    //snapshot = browser.name != undefined ? `${browser.name} > ${snapshot}` : snapshot;
+
+    snapshot = snapshot.replace(/>/g, '_');
+    await browser.pixDiff.checkScreen(`${snapshot}`).then(result => {
       
       if (result.code != 5) {
         expect('Copy failed URL: ').toContain(URL);
