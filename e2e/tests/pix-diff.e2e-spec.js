@@ -82,7 +82,7 @@ function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
     console.log(`\n${testName} > ${URL}`);
 
     var snapshot = `${suiteName} > ${INDEX}`;
-    snapshot = browser.name != undefined ? `${browser.name} > ${snapshot}` : snapshot;
+    //snapshot = browser.name != undefined ? `${browser.name} > ${snapshot}` : snapshot;
 
     snapshot = snapshot.replace(/>/g, '_');
     await browser.pixDiff.checkScreen(`${snapshot}`).then(result => {
