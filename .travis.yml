@@ -2,10 +2,6 @@ language: node_js
 node_js:
   - '12.18.4'
 
-env:
-  global:
-    secure: eBoybCOUeZyQ2FAMJ3l9VOaUIKpQYVqw+hQMBFYXpq4lzUbL8LfmWf1mqmaUxQnnrlvIKRKqm+G5h919plLl45H30EetSxWj42v0mrvjN68rp9E9g9z193QIfw8pf+0p7I035IYx0d8dVO6pGWRms392oN9O4HrTcsIBMN/MdCjjkPYavDLH2ahnpCU15dMGjJGy+Db6H6yenmKdsE3xM9yFDjqqZ/65v3/hJaznV1Dop9fQlhkqN/fP/2vLvuJolBSOziTWtRhvTmwY1mnsUwc6HvMfQlqwrki6dSlQ7Ysow11aVAviO3W/VjVztvcLJfyE1497T5DFcj5kv/Qx++4hAMiHBZCHFP9oO6QKNQlN+NfOvkE/6a8vF/83BI6C49F9AM/oKbLA2qpnHphq29KpldpTLqVtjjFZH5ceKCC0RACKNxvUJixcYZ1Nk36kR1SdiJbHEyk5S8899TNAube17NTx/tWruuhzhmcn68Hc+W0ByCFnU3i/Qax6ajYRSmN/mH/nLu2pu9K/R3/s4pd8Tw6WBBYb/RSEm9GB20My50itGGxOK494esoRrN4mL90MTwhi78WqZJAAOeNCq04bWBtevp4KcIqsx4Ci8aM6/x2xfbnyBQHWPN3EkUbaKMnUkgt29++lQP18HaNVC4O7uaYTCvmg15l0afPrYOQ=
-
 #addons:
   #sauce_connect: true
 
