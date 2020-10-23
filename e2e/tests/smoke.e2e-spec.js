@@ -105,7 +105,7 @@ async function getSizeInfo() {
   innerWidth = visualView.width;
   innerHeight = visualView.height;
 
-  console.log(`\n   --> Session: ${browser.name}`);
+  if (browser.name != null) console.log(`\n   --> Session: ${browser.name}`);
   console.log(`       browserWidth: ${browserWidth}`);
   console.log(`       browserHeight: ${browserHeight}`);
   console.log(`       innerWidth: ${innerWidth}`);
