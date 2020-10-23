@@ -31,11 +31,15 @@ async function fetchUpdatedSheet() {
   for (i = 0; i < sheets.length; i++) {
     title = sheets[i].title;
 
-    if (suite.match(/(smoke)/gi) && title.match(/(smoke)/gi)) {
+    if (suite.match(/(pix_diff)/gi) && !title.match(/(smoke)/gi)) {
       await getSheetData(i, sheets[i], title);
 
-    } else if (!(suite.match(/(smoke)/gi) || title.match(/(smoke)/gi))) {
+    } else if (suite == 'smoke' && title.match(/(smoke)/gi)) {
       await getSheetData(i, sheets[i], title);
+
+    } else if (suite == title) {
+      await getSheetData(i, sheets[i], title);
+      break;
     }
   }
 }

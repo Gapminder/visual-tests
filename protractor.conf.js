@@ -222,8 +222,11 @@ exports.config = {
   specs: ['./e2e/**/*.e2e-spec.js'],
   suites: {
     pix_diff: './e2e/**/pix-diff.e2e-spec.js',
-    smoke: './e2e/**/smoke.e2e-spec.js',
     applitools: './e2e/**/applitools.e2e-spec.js',
+    smoke: './e2e/**/smoke.e2e-spec.js',
+    'smoke:tools-page': './e2e/**/smoke.e2e-spec.js',
+    'smoke:gapminder': './e2e/**/smoke.e2e-spec.js',
+    'smoke:dollar-street': './e2e/**/smoke.e2e-spec.js',
     sample: './e2e/**/sample.e2e-spec.js'
   },
   //exclude:

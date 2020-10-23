@@ -6,10 +6,14 @@
   "scripts": {
     "wd-update": "node ./node_modules/protractor/bin/webdriver-manager update",
     "start": "node ./node_modules/protractor/bin/webdriver-manager update && webdriver-manager start",
+    "testData": "node ./e2e/helpers/spreadsheet.js",
+    "test": "node ./node_modules/protractor/bin/protractor protractor.conf.js --suite=pix_diff",
     "applitools": "node ./node_modules/protractor/bin/protractor protractor.conf.js --suite=applitools",
     "smoke": "percy exec -- protractor protractor.conf.js --suite=smoke",
-    "sample": "percy exec -- protractor protractor.conf.js --suite=sample",
-    "test": "node ./node_modules/protractor/bin/protractor protractor.conf.js --suite=pix_diff"
+    "smoke:tools-page": "percy exec -- protractor protractor.conf.js --suite=smoke:tools-page",
+    "smoke:dollar-street": "percy exec -- protractor protractor.conf.js --suite=smoke:dollar-street",
+    "smoke:gapminder": "node ./e2e/helpers/spreadsheet.js && percy exec -- protractor protractor.conf.js --suite=smoke:gapminder",
+    "sample": "percy exec -- protractor protractor.conf.js --suite=sample"
   },
   "repository": {
     "type": "git",
