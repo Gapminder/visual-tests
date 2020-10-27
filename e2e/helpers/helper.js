@@ -9,7 +9,7 @@ exports.visibilityOf = async (pageObject) => {
   await browser.wait(EC.visibilityOf(webUI(pageObject)), MAX_TIMEOUT, pageObject + ' not visible');
 }
 
-exports.screenSize = async () => {
+exports.screenSize = screenSize = async () => {
   return browserSize = browser.manage().window().getSize().then((size) => {
     return size;
   });
@@ -31,7 +31,7 @@ exports.padding = () => {
   });
 }
 
-exports.viewPort = () => {
+exports.viewPort = viewPort = () => {
   const JS_GET_VIEWPORT = "return {"
     + "width: window.innerWidth,"
     + "height: window.innerHeight };";
@@ -39,4 +39,20 @@ exports.viewPort = () => {
   return viewPort = browser.executeScript(JS_GET_VIEWPORT).then((visualPort) => {
     return visualPort;
   });
+}
+
+exports.getSizeInfo = async () => {
+  const browserSize = await screenSize();
+  const visualView = await viewPort();
+
+  browserWidth = browserSize.width;
+  browserHeight = browserSize.height;
+  innerWidth = visualView.width;
+  innerHeight = visualView.height;
+
+  if (browser.name != null) console.log(`\n   --> Session: ${browser.name}`);
+  console.log(`       browserWidth: ${browserWidth}`);
+  console.log(`       browserHeight: ${browserHeight}`);
+  console.log(`       innerWidth: ${innerWidth}`);
+  console.log(`       innerHeight: ${innerHeight}`);
 }

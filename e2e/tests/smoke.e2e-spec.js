@@ -96,24 +96,8 @@ function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
   });
 }
 
-async function getSizeInfo() {
-  const browserSize = await helper.screenSize();
-  const visualView = await helper.viewPort();
-  
-  browserWidth = browserSize.width;
-  browserHeight = browserSize.height;
-  innerWidth = visualView.width;
-  innerHeight = visualView.height;
-
-  if (browser.name != null) console.log(`\n   --> Session: ${browser.name}`);
-  console.log(`       browserWidth: ${browserWidth}`);
-  console.log(`       browserHeight: ${browserHeight}`);
-  console.log(`       innerWidth: ${innerWidth}`);
-  console.log(`       innerHeight: ${innerHeight}`);
-}
-
 function startTest() {
-  getSizeInfo();
+  helper.getSizeInfo();
   getSheetKeys();
 }
 
