@@ -68,14 +68,14 @@ function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
   var suiteName = `${ENV} > ${SHEET_KEY} > ${CHART_KEY}`.toLowerCase();
 
   testName = `> ${INDEX} > ${suiteName} > ${testName}`;
-  URL = `${URL + link}`;
+  URL = link == '/' ? URL : `${URL + link}`;
 
   it(testName, async () => {
 
     await browser.get(URL);
     if (!(CHART_KEY.match(/(EMBEDDED|Dollar|Gapminder)/gi))) {
-      await helper.visibilityOf('mainChart');
-      await helper.visibilityOf('buttonPlay');
+      await helper.visibilityOf('main_chart');
+      await helper.visibilityOf('button_play');
     }
 
     await browser.sleep(4000);

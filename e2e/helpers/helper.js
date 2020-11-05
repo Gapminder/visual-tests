@@ -3,7 +3,7 @@ global.locators = require("./../pageObjects/locators.js");
 
 const MAX_TIMEOUT = 90000;
 const EC = protractor.ExpectedConditions;
-function webUI(ele) { return global.locators[ele]; }
+function webUI(ele) { return global.locators[ele.trim()]; }
 
 exports.visibilityOf = visibilityOf = async (element) => {
   await browser.wait(EC.visibilityOf(webUI(element)), MAX_TIMEOUT, element + ' is not visible');
@@ -16,6 +16,10 @@ exports.clickable = clickable = async (element) => {
 exports.click = async (element) => {
   await clickable(element)
   await webUI(element).click();
+}
+
+exports.refresh = async () => {
+  await browser.refresh();
 }
 
 exports.element = (testName) => {

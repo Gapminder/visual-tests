@@ -8,13 +8,18 @@ gotDom.pageObjects((dom) => {
 
   locators['selected'] = {
 
-    buttonPlay: commonCharts.buttonPlay,
-    sideBar: commonCharts.sideBar,
-    mainChart: commonCharts.mainChart,
+    gapminder_logo: commonCharts.gapminder_logo,
+    chart_switcher: commonCharts.chart_switcher,
+    button_play: commonCharts.button_play,
+    side_bar: commonCharts.side_bar,
+    main_chart: commonCharts.main_chart,
     present: commonCharts.present,
-    color: commonCharts.color
+    color: commonCharts.color,
+    size: commonCharts.size,
 
-    //present: bubbleChart.present
+    axis_y: bubbleChart.axis_y,
+    axis_x: bubbleChart.axis_x,
+    data_doubts: bubbleChart.data_doubts
   };
 });
 
