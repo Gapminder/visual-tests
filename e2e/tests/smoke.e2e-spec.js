@@ -83,6 +83,8 @@ function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
       await helper.visibilityOf('buttonPlay');
     }
 
+    if ((testName.match(/click/gi))) await helper.click(helper.element(testName));
+
     await browser.sleep(4000);
     console.log(`\n${testName} > ${URL}`);
 

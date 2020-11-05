@@ -1,19 +1,20 @@
-/*
-
-*/
-
 const locators = {};
 
-const got_dom = require('./pageObjects.js');
-got_dom.page_objects(function(dom){
+const gotDom = require('./pageObjects.js');
+gotDom.pageObjects((dom) => {
 
   const commonCharts = dom.commonCharts;
+  const bubbleChart = dom.bubbleChart;
 
   locators['selected'] = {
 
-    buttonPlay : commonCharts.buttonPlay,
-    sideBar : commonCharts.sideBar,
-    mainChart : commonCharts.mainChart
+    buttonPlay: commonCharts.buttonPlay,
+    sideBar: commonCharts.sideBar,
+    mainChart: commonCharts.mainChart,
+    present: commonCharts.present,
+    color: commonCharts.color
+
+    //present: bubbleChart.present
   };
 });
 
