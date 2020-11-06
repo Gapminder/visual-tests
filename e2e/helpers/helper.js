@@ -18,6 +18,11 @@ exports.click = async (element) => {
   await webUI(element).click();
 }
 
+exports.hover = async (element) => {
+  await visibilityOf(element)
+  await browser.actions().mouseMove(webUI(element)).perform();
+}
+
 exports.refresh = async () => {
   await browser.refresh();
 }

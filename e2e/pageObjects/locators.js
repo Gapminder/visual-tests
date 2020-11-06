@@ -3,23 +3,30 @@ const locators = {};
 const gotDom = require('./pageObjects.js');
 gotDom.pageObjects((dom) => {
 
-  const commonCharts = dom.commonCharts;
-  const bubbleChart = dom.bubbleChart;
+  const cc = dom.commonCharts;
+  const bc = dom.bubbleChart;
 
   locators['selected'] = {
 
-    gapminder_logo: commonCharts.gapminder_logo,
-    chart_switcher: commonCharts.chart_switcher,
-    button_play: commonCharts.button_play,
-    side_bar: commonCharts.side_bar,
-    main_chart: commonCharts.main_chart,
-    present: commonCharts.present,
-    color: commonCharts.color,
-    size: commonCharts.size,
+    gapminder_logo: cc.gapminder_logo,
+    chart_switcher: cc.chart_switcher,
+    facts: cc.facts,
+    teach: cc.teach,
+    about: cc.about,
+    how_to_use: cc.how_to_use,
+    button_link: cc.button_link,
+    button_download: cc.button_download,
+    button_code: cc.button_code,
+    button_play: cc.button_play,
+    side_bar: cc.side_bar,
+    main_chart: cc.main_chart,
+    present: cc.present,
+    color: cc.color,
+    size: cc.size,
 
-    axis_y: bubbleChart.axis_y,
-    axis_x: bubbleChart.axis_x,
-    data_doubts: bubbleChart.data_doubts
+    axis_y: bc.axis_y,
+    axis_x: bc.axis_x,
+    data_doubts: bc.data_doubts
   };
 });
 

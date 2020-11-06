@@ -84,8 +84,10 @@ function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
     }
     await browser.sleep(1000);
 
-    if ((testName.match(/click/gi))) await helper.click(helper.element(testName));
+    var element = await helper.element(testName);
+    if ((testName.match(/click/gi))) await helper.click(element);
     if ((testName.match(/refresh/gi))) await helper.refresh();
+    if ((testName.match(/hover/gi))) await helper.hover(element);
 
     await browser.sleep(3000);
     console.log(`\n${testName} > ${URL}`);
