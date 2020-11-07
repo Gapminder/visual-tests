@@ -31,6 +31,19 @@ exports.element = (testName) => {
   return testName.split(":").pop();
 }
 
+exports.scrollByElement = async (element) => {
+
+  var getY = await webUI(element).getLocation().then((axis) => {
+    console.log("axis.y : " + axis.y);
+    return axis.y;
+  });
+  await browser.executeScript("window.scrollTo(0, " + (getY + 800) + ")").then(() => {
+    this.click(element);
+  });
+}
+
+
+
 exports.screenSize = screenSize = async () => {
   return browserSize = browser.manage().window().getSize().then((size) => {
     return size;
