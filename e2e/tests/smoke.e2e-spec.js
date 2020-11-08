@@ -6,8 +6,6 @@ const { browser } = require("protractor");
 const ALL_SHEETS = JSON.parse(fs.readFileSync("./e2e/testData.json"));
 const SHEET_KEYS = Object.keys(ALL_SHEETS);
 
-let browserWidth;
-let browserHeight;
 let innerWidth;
 let innerHeight;
 
@@ -70,9 +68,9 @@ function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
 
   var testName = CHART_SELECTED['testName'];
   var link = CHART_SELECTED['url'];
-  var suiteName = `${ENV} > ${SHEET_KEY} > ${CHART_KEY}`.toLowerCase();
+  var suiteName = `${ENV} > ${SHEET_KEY} > ${CHART_KEY}`;
 
-  testName = `> ${INDEX} > ${suiteName} > ${testName}`;
+  testName = `> ${INDEX} > ${suiteName} > ${testName}`.toLowerCase();
   URL = link == '/' ? URL : `${URL + link}`;
 
   it(testName, async () => {
@@ -102,8 +100,15 @@ function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
   });
 }
 
+async function visualView() {
+  await helper.getSizeInfo();
+  const visualView = await helper.viewPort();
+  innerWidth = visualView.width;
+  innerHeight = visualView.height;
+}
+
 function startTest() {
-  helper.getSizeInfo();
+  visualView();
   getSheetKeys();
 }
 
