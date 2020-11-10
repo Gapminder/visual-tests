@@ -14,7 +14,7 @@ var other_tools_item = $$('.other-tools-item');
 
 var dom = [
   {
-    'commonCharts': {
+    'common_charts': {
       '_comment': 'Locators belong to GENERAL CATEGORY',
 
       gapminder_logo: element(by.xpath("//*[@class='flow-container']/a//img")),
@@ -26,9 +26,11 @@ var dom = [
       button_link: $('.link.button'),
       button_download: $('.download.button'),
       button_code: $('.button.code'),
+      app_language_switcher: $('.lang-current'),
       button_play: $('.vzb-ts-btn-play'),
       side_bar: $('.vzb-tool-sidebar'),
       main_chart: $('.vzb-tool'),
+      data_doubts: $('.vzb-data-warning.vzb-noexport'),
       side_bar_collapse: element(by.xpath("//*[@class='vzb-tool-buttonlist']//*[@data-btn='sidebarcollapse']")),
       more_options: element(by.xpath("//*[@class='vzb-tool-buttonlist']//*[@data-btn='moreoptions']")),
       present: element(by.xpath("//*[@class='vzb-tool-buttonlist']//*[@data-btn='presentation']")),
@@ -44,15 +46,42 @@ var dom = [
 
     },
 
-    'bubbleChart': {
+    'bubble_chart': {
       '_comment': 'Locators belong to BUBBLE CHART',
 
       axis_y: $('.vzb-bc-axis-y-title'),
       axis_y_info: $('.vzb-bc-axis-y-info.vzb-noexport'),
       axis_x: $('.vzb-bc-axis-x-title'),
       axis_x_info: $('.vzb-bc-axis-x-info.vzb-noexport'),
-      data_doubts: $('.vzb-data-warning.vzb-noexport'),
       hundredpercent: element.all(by.xpath("//*[@class='vzb-dialog-zoom-buttonlist']//*[@data-btn='hundredpercent']")).get(0),
-    }
+    },
+
+    'line_chart': {
+      '_comment': 'Locators belong to LINE CHART',
+
+      line_axis_y: $('.vzb-lc-axis-y-title'),
+      line_axis_y_info: $('.vzb-lc-axis-y-info'),
+    },
+
+    'mountain_chart': {
+      '_comment': 'Locators belong to MOUNTAIN CHART',
+
+      mountain_axis_y: $('.vzb-mc-axis-y-title'),
+      mountain_axis_y_info: $('.vzb-mc-axis-info.vzb-noexport'),
+    },
+    
+    'barrank_chart': {
+      '_comment': 'Locators belong to BAR CHART',
+
+      barrank_axis_y: $('.vzb-br-title'),
+      barrank_axis_y_info: $('.vzb-br-axis-info.vzb-noexport'),
+    },
+
+    'maps_chart': {
+      '_comment': 'Locators belong to MAPS CHART',
+
+      maps_axis_y: $('.vzb-bmc-axis-y-title'),
+      maps_axis_y_info: $('.vzb-bmc-axis-y-info.vzb-noexport'),
+    },
   }
 ]

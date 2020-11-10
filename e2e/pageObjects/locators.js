@@ -3,8 +3,12 @@ const locators = {};
 const gotDom = require('./pageObjects.js');
 gotDom.pageObjects((dom) => {
 
-  const cc = dom.commonCharts;
-  const bc = dom.bubbleChart;
+  const cc = dom.common_charts;
+  const bc = dom.bubble_chart;
+  const lc = dom.line_chart;
+  const mc = dom.mountain_chart;
+  const br = dom.barrank_chart;
+  const mp = dom.maps_chart;
 
   locators['selected'] = {
 
@@ -17,9 +21,11 @@ gotDom.pageObjects((dom) => {
     button_link: cc.button_link,
     button_download: cc.button_download,
     button_code: cc.button_code,
+    app_language_switcher: cc.app_language_switcher,
     button_play: cc.button_play,
     side_bar: cc.side_bar,
     main_chart: cc.main_chart,
+    data_doubts: cc.data_doubts,
     side_bar_collapse: cc.side_bar_collapse,
     more_options: cc.more_options,
     present: cc.present,
@@ -33,17 +39,33 @@ gotDom.pageObjects((dom) => {
     other_tools_ages: cc.other_tools_ages,
     other_tools_dollar_street: cc.other_tools_dollar_street,
 
+    // Bubble Chart
     axis_y: bc.axis_y,
     axis_y_info: bc.axis_y_info,
     axis_x: bc.axis_x,
     axis_x_info: bc.axis_x_info,
-    data_doubts: bc.data_doubts,
-    hundredpercent: bc.hundredpercent
+    hundredpercent: bc.hundredpercent,
+
+    // Line Chart
+    line_axis_y: lc.line_axis_y,
+    line_axis_y_info: lc.line_axis_y_info,
+
+    // Mountain Chart
+    mountain_axis_y: mc.mountain_axis_y,
+    mountain_axis_y_info: mc.mountain_axis_y_info,
+
+    // Barrank Chart
+    barrank_axis_y: br.barrank_axis_y,
+    barrank_axis_y_info: br.barrank_axis_y_info,
+
+    // Maps Chart
+    maps_axis_y: mp.maps_axis_y,
+    maps_axis_y_info: mp.maps_axis_y_info
   };
 });
 
 current_env = 'selected';
 
-const current_locators = locators[ current_env ];
+const current_locators = locators[current_env];
 current_locators["current_env"] = current_env;
 module.exports = current_locators;
