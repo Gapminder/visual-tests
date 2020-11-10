@@ -65,17 +65,17 @@ function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
 
   var testName = CHART_SELECTED['testName'];
   var link = CHART_SELECTED['url'];
-  var suiteName = `${ENV} > ${SHEET_KEY} > ${CHART_KEY}`.toLowerCase();
+  var suiteName = `${ENV} > ${SHEET_KEY} > ${CHART_KEY}`;
 
-  testName = `> ${INDEX} > ${suiteName} > ${testName}`;
-  URL = `${URL + link}`;
+  testName = `> ${INDEX} > ${suiteName} > ${testName}`.toLowerCase();
+  URL = link == '/' ? URL : `${URL + link}`;
 
   it(testName, async () => {
 
     await browser.get(URL);
     if (!(CHART_KEY.match(/(EMBEDDED|Dollar|Gapminder)/gi))) {
-      await helper.visibilityOf('mainChart');
-      await helper.visibilityOf('buttonPlay');
+      await helper.visibilityOf('main_chart');
+      await helper.visibilityOf('button_play');
     }
 
     await browser.sleep(4000);
@@ -97,4 +97,9 @@ function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
   });
 }
 
-getSheetKeys();
+function startTest() {
+  helper.getSizeInfo();
+  getSheetKeys();
+}
+
+startTest();

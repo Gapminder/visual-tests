@@ -6,8 +6,6 @@ const { browser } = require("protractor");
 const ALL_SHEETS = JSON.parse(fs.readFileSync("./e2e/testData.json"));
 const SHEET_KEYS = Object.keys(ALL_SHEETS);
 
-let browserWidth;
-let browserHeight;
 let innerWidth;
 let innerHeight;
 
@@ -70,20 +68,26 @@ function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
 
   var testName = CHART_SELECTED['testName'];
   var link = CHART_SELECTED['url'];
-  var suiteName = `${ENV} > ${SHEET_KEY} > ${CHART_KEY}`.toLowerCase();
+  var suiteName = `${ENV} > ${SHEET_KEY} > ${CHART_KEY}`;
 
-  testName = `> ${INDEX} > ${suiteName} > ${testName}`;
-  URL = `${URL + link}`;
+  testName = `> ${INDEX} > ${suiteName} > ${testName}`.toLowerCase();
+  URL = link == '/' ? URL : `${URL + link}`;
 
   it(testName, async () => {
 
     await browser.get(URL);
     if (!(CHART_KEY.match(/(EMBEDDED|Dollar|Gapminder)/gi))) {
-      await helper.visibilityOf('mainChart');
-      await helper.visibilityOf('buttonPlay');
+      await helper.visibilityOf('main_chart');
+      await helper.visibilityOf('button_play');
     }
+    await browser.sleep(1000);
 
-    await browser.sleep(4000);
+    var element = await helper.element(testName);
+    if ((testName.match(/click/gi))) await helper.click(element);
+    if ((testName.match(/refresh/gi))) await helper.refresh();
+    if ((testName.match(/hover/gi))) await helper.hover(element);
+
+    await browser.sleep(3000);
     console.log(`\n${testName} > ${URL}`);
 
     var snapshot = `${suiteName} > ${INDEX}`;
@@ -96,24 +100,15 @@ function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
   });
 }
 
-async function getSizeInfo() {
-  const browserSize = await helper.screenSize();
+async function visualView() {
+  await helper.getSizeInfo();
   const visualView = await helper.viewPort();
-  
-  browserWidth = browserSize.width;
-  browserHeight = browserSize.height;
   innerWidth = visualView.width;
   innerHeight = visualView.height;
-
-  console.log(`\n   --> Session: ${browser.name}`);
-  console.log(`       browserWidth: ${browserWidth}`);
-  console.log(`       browserHeight: ${browserHeight}`);
-  console.log(`       innerWidth: ${innerWidth}`);
-  console.log(`       innerHeight: ${innerHeight}`);
 }
 
 function startTest() {
-  getSizeInfo();
+  visualView();
   getSheetKeys();
 }
 

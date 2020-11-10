@@ -1,15 +1,50 @@
 const { browser } = require("protractor");
 global.locators = require("./../pageObjects/locators.js");
 
-const MAX_TIMEOUT = 120000;
+const MAX_TIMEOUT = 90000;
 const EC = protractor.ExpectedConditions;
-function webUI(ele) { return global.locators[ele]; }
+function webUI(ele) { return global.locators[ele.trim()]; }
 
-exports.visibilityOf = async (pageObject) => {
-  await browser.wait(EC.visibilityOf(webUI(pageObject)), MAX_TIMEOUT, pageObject + ' not visible');
+exports.visibilityOf = visibilityOf = async (element) => {
+  await browser.wait(EC.visibilityOf(webUI(element)), MAX_TIMEOUT, element + ' is not visible');
 }
 
-exports.screenSize = async () => {
+exports.clickable = clickable = async (element) => {
+  await browser.wait(EC.elementToBeClickable(webUI(element)), MAX_TIMEOUT, element + ' is not clickable');
+}
+
+exports.click = async (element) => {
+  await clickable(element)
+  await webUI(element).click();
+}
+
+exports.hover = async (element) => {
+  await visibilityOf(element)
+  await browser.actions().mouseMove(webUI(element)).perform();
+}
+
+exports.refresh = async () => {
+  await browser.refresh();
+}
+
+exports.element = (testName) => {
+  return testName.split(":").pop();
+}
+
+exports.scrollByElement = async (element) => {
+
+  var getY = await webUI(element).getLocation().then((axis) => {
+    console.log("axis.y : " + axis.y);
+    return axis.y;
+  });
+  await browser.executeScript("window.scrollTo(0, " + (getY + 800) + ")").then(() => {
+    this.click(element);
+  });
+}
+
+
+
+exports.screenSize = screenSize = async () => {
   return browserSize = browser.manage().window().getSize().then((size) => {
     return size;
   });
@@ -31,7 +66,7 @@ exports.padding = () => {
   });
 }
 
-exports.viewPort = () => {
+exports.viewPort = viewPort = () => {
   const JS_GET_VIEWPORT = "return {"
     + "width: window.innerWidth,"
     + "height: window.innerHeight };";
@@ -39,4 +74,20 @@ exports.viewPort = () => {
   return viewPort = browser.executeScript(JS_GET_VIEWPORT).then((visualPort) => {
     return visualPort;
   });
+}
+
+exports.getSizeInfo = async () => {
+  const browserSize = await screenSize();
+  const visualView = await viewPort();
+
+  browserWidth = browserSize.width;
+  browserHeight = browserSize.height;
+  innerWidth = visualView.width;
+  innerHeight = visualView.height;
+
+  if (browser.name != null) console.log(`\n   --> Session: ${browser.name}`);
+  console.log(`       browserWidth: ${browserWidth}`);
+  console.log(`       browserHeight: ${browserHeight}`);
+  console.log(`       innerWidth: ${innerWidth}`);
+  console.log(`       innerHeight: ${innerHeight}`);
 }

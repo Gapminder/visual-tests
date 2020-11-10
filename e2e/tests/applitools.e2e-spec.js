@@ -72,7 +72,7 @@ function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
   var suiteName = `${ENV} > ${SHEET_KEY} > ${CHART_KEY}`.toLowerCase();
 
   testName = `> ${INDEX} > ${suiteName} > ${testName}`;
-  URL = `${URL + link}`;
+  URL = link == '/' ? URL : `${URL + link}`;
 
   it(testName, async () => {
 

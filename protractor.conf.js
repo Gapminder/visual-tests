@@ -13,6 +13,10 @@ const device = process.env.DEVICE || 'desktop'; // 'desktop' or 'tablet' or 'mob
 const testResultsDir = 'results';
 const testResultsFile = `./${testResultsDir}/testResults.txt`;
 
+const jobNunber = process.env.TRAVIS_JOB_NUMBER;
+let repoSlug = process.env.TRAVIS_REPO_SLUG;
+repoSlug = repoSlug != null ? (repoSlug.split("/")[1]) + ' — ' +  jobNunber + ' — ' : 'Local — ';
+
 let screenSize = {
   desktop: true,
   tablet: false,
@@ -96,7 +100,7 @@ const platformConfigurations = [
     platform: "Windows 10",
     version: "latest",
     seleniumVersion: '3.12.0',
-    'tunnel-identifier': `${process.env.TRAVIS_JOB_NUMBER}`
+    //'tunnel-identifier': `${jobNunber}` // Use for sauce_connect: true as addons in .travis.yml
   },
   // {
   //   browserName: "MicrosoftEdge",
@@ -108,8 +112,7 @@ const platformConfigurations = [
     browserName: "safari",
     platform: "macOS 10.12",
     version: "10.1",
-    seleniumVersion: '3.12.0',
-    'tunnel-identifier': `${process.env.TRAVIS_JOB_NUMBER}`
+    seleniumVersion: '3.12.0'
   },*/
   /*
   {
@@ -117,7 +120,6 @@ const platformConfigurations = [
     platform: "macOS 10.12",
     version: "latest",
     seleniumVersion: '3.12.0',
-    'tunnel-identifier': `${process.env.TRAVIS_JOB_NUMBER}`
   },
   */
   // {
@@ -165,7 +167,7 @@ const platformConfigurations = [
   //   appiumVersion: '1.8.1'
   // }
 ].map(config => {
-  config.name = `${process.env.TRAVIS_REPO_SLUG + ' — ' +  process.env.TRAVIS_JOB_NUMBER + ' — '} ${config.platform || "" + config.platformName || "" + config.platformVersion || ""},${config.browserName},${config.version || "" + config.deviceName || ""}`;
+  config.name = `${repoSlug} ${config.platform || "" + config.platformName || "" + config.platformVersion || ""},${config.browserName},${config.version || "" + config.deviceName || ""}`;
   config.maxInstances = SAUSE_MAX_INSTANCES;
   if (!config.platformName) config.screenResolution = '1600x1200';
   config.shardTestFiles = true;
@@ -220,8 +222,11 @@ exports.config = {
   specs: ['./e2e/**/*.e2e-spec.js'],
   suites: {
     pix_diff: './e2e/**/pix-diff.e2e-spec.js',
-    smoke: './e2e/**/smoke.e2e-spec.js',
     applitools: './e2e/**/applitools.e2e-spec.js',
+    smoke: './e2e/**/smoke.e2e-spec.js',
+    'smoke:tools-page': './e2e/**/smoke.e2e-spec.js',
+    'smoke:gapminder': './e2e/**/smoke.e2e-spec.js',
+    'smoke:dollar-street': './e2e/**/smoke.e2e-spec.js',
     sample: './e2e/**/sample.e2e-spec.js'
   },
   //exclude:
