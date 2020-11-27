@@ -1,16 +1,21 @@
 const { percySnapshot } = require('@percy/protractor');
 const helper = require("../helpers/helper.js");
-const fs = require('fs');
 const { browser } = require("protractor");
-
-const ALL_SHEETS = JSON.parse(fs.readFileSync("./e2e/testData.json"));
-const SHEET_KEYS = Object.keys(ALL_SHEETS);
 
 let innerWidth;
 let innerHeight;
-let singleChart;
+
+let ALL_SHEETS = helper.ALL_SHEETS;
+let SHEET_KEYS = helper.SHEET_KEYS;
 
 function getSheetKeys() {
+  const singleSheet = helper.exclusiveTests();
+  if (Object.keys(singleSheet).length > 0) {
+    ALL_SHEETS = singleSheet;
+    SHEET_KEYS = Object.keys(singleSheet);
+  }
+
+  console.log("SHEET_KEYS : " + JSON.stringify(SHEET_KEYS));
   for (const sheetKey of SHEET_KEYS) {
     getEnvForSheets(sheetKey);
   }
@@ -19,10 +24,10 @@ function getSheetKeys() {
 function getEnvForSheets(SHEET_KEY) {
   var baseURL = [];
 
-  for (const chartKey of Object.keys(ALL_SHEETS[`${SHEET_KEY}`])) {
+  for (const chartKey of Object.keys(ALL_SHEETS[SHEET_KEY])) {
     if (chartKey.match(/BASE URL/gi)) {
 
-      for (const env of Object.values(ALL_SHEETS[`${SHEET_KEY}`][`${chartKey}`])) {
+      for (const env of Object.values(ALL_SHEETS[SHEET_KEY][chartKey])) {
         baseURL.push(env);
       }
       break;
@@ -35,22 +40,8 @@ function getEnvForSheets(SHEET_KEY) {
 }
 
 function getSuiteData(SHEET_KEY, ENV, URL) {
-  var chartKeys = Object.keys(ALL_SHEETS[`${SHEET_KEY}`]);
+  var chartKeys = Object.keys(ALL_SHEETS[SHEET_KEY]);
 
-  for (const chartKey of chartKeys) {
-    if (chartKey.match(/BASE URL/gi)) continue;
-
-    var chartSelcted = Object.values(ALL_SHEETS[`${SHEET_KEY}`][`${chartKey}`]);
-    for (const item of chartSelcted) {
-      if (item.testName.match(/exclusive_test/gi)) {
-        singleChart = {};
-        singleChart[chartKey] = chartSelcted.filter(function (el) { return el.testName == item.testName; });
-        break;
-      }
-    }
-  }
-
-  if (singleChart != null) chartKeys = Object.keys(singleChart);
   for (const chartKey of chartKeys) {
     if (chartKey.match(/BASE URL/gi)) continue;
     suiteRunner(ENV, SHEET_KEY, URL, chartKey);
@@ -58,8 +49,7 @@ function getSuiteData(SHEET_KEY, ENV, URL) {
 }
 
 function suiteRunner(ENV, SHEET_KEY, URL, CHART_KEY) {
-  var chartSelcted = Object.values(ALL_SHEETS[`${SHEET_KEY}`][`${CHART_KEY}`]);
-  if (singleChart != null) chartSelcted = Object.values(singleChart[CHART_KEY]);
+  var chartSelcted = Object.values(ALL_SHEETS[SHEET_KEY][CHART_KEY]);
 
   describe(`${ENV} > ${SHEET_KEY} > ${CHART_KEY}`, () => {
     for (let j = 0; j < chartSelcted.length; j++) {

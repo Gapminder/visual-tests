@@ -1,4 +1,7 @@
 const { browser } = require("protractor");
+const fs = require('fs')
+const ALL_SHEETS = JSON.parse(fs.readFileSync("./e2e/testData.json"));
+const SHEET_KEYS = Object.keys(ALL_SHEETS);
 global.locators = require("./../pageObjects/locators.js");
 
 const MAX_TIMEOUT = 90000;
@@ -90,4 +93,47 @@ exports.getSizeInfo = async () => {
   console.log(`       browserHeight: ${browserHeight}`);
   console.log(`       innerWidth: ${innerWidth}`);
   console.log(`       innerHeight: ${innerHeight}`);
+}
+
+exports.ALL_SHEETS = ALL_SHEETS;
+exports.SHEET_KEYS = SHEET_KEYS;
+
+exports.exclusiveTests = () => {
+  let exclusiveTests = {};
+  let multipleSheets = {};
+  let singleChart = {};
+  let singleSheet = {};
+  let singleSheetSelected;
+
+  for (const sheetKey of SHEET_KEYS) {
+    var chartKeys = Object.keys(ALL_SHEETS[sheetKey]);
+
+    for (const chartKey of chartKeys) {
+      if (chartKey.match(/BASE URL/gi)) continue;
+
+      var chartSelcted = Object.values(ALL_SHEETS[sheetKey][chartKey]);
+      for (const item of chartSelcted) {
+        if (item.testName.match(/exclusive_test/gi)) {
+          singleSheetSelected = sheetKey;
+          exclusiveTests[chartKey] = chartSelcted.filter(function (el) { return el.testName == item.testName; });
+          break;
+        }
+      }
+    }
+
+    if (singleSheetSelected != null) {
+      for (const chartKey of chartKeys) {
+        if (chartKey.match(/BASE URL/gi)) singleChart[chartKey] = Object.values(ALL_SHEETS[singleSheetSelected][chartKey]);
+      }
+      Object.assign(singleChart, singleChart, exclusiveTests);
+    }
+    if (singleSheetSelected != null) singleSheet[singleSheetSelected] = singleChart;
+
+    Object.assign(multipleSheets, multipleSheets, singleSheet);
+    exclusiveTests = {};
+    singleChart = {};
+    singleSheet = {};
+    singleSheetSelected = null;
+  }
+  return multipleSheets;
 }

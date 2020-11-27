@@ -1,60 +1,54 @@
 const PixDiff = require('pix-diff');
 const helper = require("../helpers/helper.js");
-const fs = require('fs');
 const { browser } = require("protractor");
 
-const ALL_SHEETS = JSON.parse(fs.readFileSync("./e2e/testData.json"));
-const SHEET_KEYS = Object.keys(ALL_SHEETS);
+let ALL_SHEETS = helper.ALL_SHEETS;
+let SHEET_KEYS = helper.SHEET_KEYS;
 
 function getSheetKeys() {
-  for (let i = 0; i < SHEET_KEYS.length; i++) {
-    getEnvForSheets(SHEET_KEYS[i]);
+  const singleSheet = helper.exclusiveTests();
+  if (Object.keys(singleSheet).length > 0) {
+    ALL_SHEETS = singleSheet;
+    SHEET_KEYS = Object.keys(singleSheet);
+  }
+
+  console.log("SHEET_KEYS : " + JSON.stringify(SHEET_KEYS));
+  for (const sheetKey of SHEET_KEYS) {
+    getEnvForSheets(sheetKey);
   }
 }
 
 function getEnvForSheets(SHEET_KEY) {
-
-  var chartKeys = Object.keys(ALL_SHEETS[`${SHEET_KEY}`]);
   var baseURL = [];
 
-  for (let i = 0; i < chartKeys.length; i++) {
+  for (const chartKey of Object.keys(ALL_SHEETS[SHEET_KEY])) {
+    if (chartKey.match(/BASE URL/gi)) {
 
-    if (chartKeys[i].match(/BASE URL/gi)) {
-
-      const envSelcted = Object.values(ALL_SHEETS[`${SHEET_KEY}`][`${chartKeys[i]}`]);
-      for (let j = 0; j < envSelcted.length; j++) {
-        baseURL.push(envSelcted[j]);
+      for (const env of Object.values(ALL_SHEETS[SHEET_KEY][chartKey])) {
+        baseURL.push(env);
       }
       break;
     }
   }
 
-  for (i = 0; i < baseURL.length; i++) {
-
-    var ENV = baseURL[i]['testName'];
-    var URL = baseURL[i]['url'];
-
-    getSuiteData(ENV, SHEET_KEY, URL);
+  for (const item of baseURL) {
+    getSuiteData(SHEET_KEY, item.testName, item.url);
   }
 }
 
-function getSuiteData(ENV, SHEET_KEY, URL) {
-
-  var chartKeys = Object.keys(ALL_SHEETS[`${SHEET_KEY}`]);
-  for (let j = 0; j < chartKeys.length; j++) {
-
-    if (chartKeys[j].match(/BASE URL/gi)) {
-      continue;
-    }
-    suiteRunner(ENV, SHEET_KEY, URL, chartKeys[j]);
+function getSuiteData(SHEET_KEY, ENV, URL) {
+  var chartKeys = Object.keys(ALL_SHEETS[SHEET_KEY]);
+  
+  for (const chartKey of chartKeys) {
+    if (chartKey.match(/BASE URL/gi)) continue;
+    suiteRunner(ENV, SHEET_KEY, URL, chartKey);
   }
 }
 
 function suiteRunner(ENV, SHEET_KEY, URL, CHART_KEY) {
+  var chartSelcted = Object.values(ALL_SHEETS[SHEET_KEY][CHART_KEY]);
 
-  var chartSelcted = Object.values(ALL_SHEETS[`${SHEET_KEY}`][`${CHART_KEY}`]);
   describe(`${ENV} > ${SHEET_KEY} > ${CHART_KEY}`, () => {
-
     for (let j = 0; j < chartSelcted.length; j++) {
       testRunner(ENV, SHEET_KEY, URL, CHART_KEY, chartSelcted[j], j + 1);
     }
@@ -83,10 +77,8 @@ function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
 
     var snapshot = `${suiteName} > ${INDEX}`;
     //snapshot = browser.name != undefined ? `${browser.name} > ${snapshot}` : snapshot;
-
     snapshot = snapshot.replace(/>/g, '_');
     await browser.pixDiff.checkScreen(`${snapshot}`).then(result => {
-      
       if (result.code != 5) {
         expect('Copy failed URL: ').toContain(URL);
 
