@@ -110,15 +110,16 @@ exports.exclusiveTests = () => {
 
     for (const chartKey of chartKeys) {
       if (chartKey.match(/BASE URL/gi)) continue;
+      var choosenTests = [];
 
       var chartSelcted = Object.values(ALL_SHEETS[sheetKey][chartKey]);
       for (const item of chartSelcted) {
-        if (item.testName.match(/exclusive_test/gi)) {
+        if (item.testName.match(/(exclusive_test|exclusive)/gi)) {
           singleSheetSelected = sheetKey;
-          exclusiveTests[chartKey] = chartSelcted.filter(function (el) { return el.testName == item.testName; });
-          break;
+          choosenTests.push(item);
         }
       }
+      if (choosenTests.length > 0) exclusiveTests[chartKey] = choosenTests;
     }
 
     if (singleSheetSelected != null) {
