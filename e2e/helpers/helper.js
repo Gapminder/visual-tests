@@ -8,6 +8,8 @@ const MAX_TIMEOUT = 90000;
 const EC = protractor.ExpectedConditions;
 function webUI(ele) { return global.locators[ele.trim()]; }
 
+exports.ALL_SHEETS = ALL_SHEETS;
+
 exports.visibilityOf = visibilityOf = async (element) => {
   await browser.wait(EC.visibilityOf(webUI(element)), MAX_TIMEOUT, element + ' is not visible');
 }
@@ -95,26 +97,58 @@ exports.getSizeInfo = async () => {
   console.log(`       innerHeight: ${innerHeight}`);
 }
 
-exports.ALL_SHEETS = ALL_SHEETS;
-exports.SHEET_KEYS = SHEET_KEYS;
+exports.isEmptyObj = isEmptyObj = (obj) => {
+  return Object.keys(obj).length === 0;
+}
 
-exports.exclusiveTests = () => {
-  let exclusiveTests = {};
+exports.onlyTest = () => {
+  return exclusiveTests("only");
+}
+
+exports.skipTest = () => {
+  return exclusiveTests("skip");
+}
+
+exports.removedSkipTest = (skipTest) => {
+  for (const sheetKey of Object.keys(skipTest)) {
+    
+    for (const chartKey of Object.keys(skipTest[sheetKey])) {  
+      if (chartKey.match(/BASE URL/gi)) continue;
+      var choosenTests = [];
+
+      var chartSelcted = Object.values(ALL_SHEETS[sheetKey][chartKey]);
+      for (const item of chartSelcted) {
+        if (!item.testName.match(/(skip|skiped)/gi)) {
+          choosenTests.push(item);
+        }
+      }
+      delete ALL_SHEETS[sheetKey][chartKey];
+      if (choosenTests.length != 0) ALL_SHEETS[sheetKey][chartKey] = choosenTests;
+    }
+  }
+  return ALL_SHEETS;
+}
+
+exports.exclusiveTests = exclusiveTests = (exclusiveType) => {
   let multipleSheets = {};
-  let singleChart = {};
-  let singleSheet = {};
-  let singleSheetSelected;
+
+  if (exclusiveType === "only") exclusiveType = /(exclusive_test|exclusive|only)/gi;
+  if (exclusiveType === "skip") exclusiveType = /(skip|skiped)/gi;
 
   for (const sheetKey of SHEET_KEYS) {
-    var chartKeys = Object.keys(ALL_SHEETS[sheetKey]);
+    let exclusiveTests = {};
+    let singleChart = {};
+    let singleSheet = {};
+    let singleSheetSelected = null;
 
+    var chartKeys = Object.keys(ALL_SHEETS[sheetKey]);
     for (const chartKey of chartKeys) {
       if (chartKey.match(/BASE URL/gi)) continue;
       var choosenTests = [];
 
       var chartSelcted = Object.values(ALL_SHEETS[sheetKey][chartKey]);
       for (const item of chartSelcted) {
-        if (item.testName.match(/(exclusive_test|exclusive)/gi)) {
+        if (item.testName.match(exclusiveType)) {
           singleSheetSelected = sheetKey;
           choosenTests.push(item);
         }
@@ -129,12 +163,7 @@ exports.exclusiveTests = () => {
       Object.assign(singleChart, singleChart, exclusiveTests);
     }
     if (singleSheetSelected != null) singleSheet[singleSheetSelected] = singleChart;
-
     Object.assign(multipleSheets, multipleSheets, singleSheet);
-    exclusiveTests = {};
-    singleChart = {};
-    singleSheet = {};
-    singleSheetSelected = null;
   }
   return multipleSheets;
 }

@@ -6,16 +6,17 @@ let innerWidth;
 let innerHeight;
 
 let ALL_SHEETS = helper.ALL_SHEETS;
-let SHEET_KEYS = helper.SHEET_KEYS;
+let SHEET_KEYS;
 
 function getSheetKeys() {
-  const singleSheet = helper.exclusiveTests();
-  if (Object.keys(singleSheet).length > 0) {
-    ALL_SHEETS = singleSheet;
-    SHEET_KEYS = Object.keys(singleSheet);
-  }
+  var onlyTest = helper.onlyTest();
+  var skipTest = helper.skipTest();
 
-  console.log("SHEET_KEYS : " + JSON.stringify(SHEET_KEYS));
+  if (!(helper.isEmptyObj(onlyTest) && helper.isEmptyObj(skipTest))) ALL_SHEETS = onlyTest;
+  if (helper.isEmptyObj(onlyTest) && !helper.isEmptyObj(skipTest)) ALL_SHEETS = helper.removedSkipTest(skipTest);
+
+  SHEET_KEYS = Object.keys(ALL_SHEETS);
+  console.log("SHEET_KEYS: " + JSON.stringify(SHEET_KEYS));
   for (const sheetKey of SHEET_KEYS) {
     getEnvForSheets(sheetKey);
   }
