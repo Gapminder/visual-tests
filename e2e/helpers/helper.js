@@ -111,8 +111,8 @@ exports.skipTest = () => {
 
 exports.removedSkipTest = (skipTest) => {
   for (const sheetKey of Object.keys(skipTest)) {
-    
-    for (const chartKey of Object.keys(skipTest[sheetKey])) {  
+
+    for (const chartKey of Object.keys(skipTest[sheetKey])) {
       if (chartKey.match(/BASE URL/gi)) continue;
       var choosenTests = [];
 
@@ -166,4 +166,17 @@ exports.exclusiveTests = exclusiveTests = (exclusiveType) => {
     Object.assign(multipleSheets, multipleSheets, singleSheet);
   }
   return multipleSheets;
+}
+
+exports.totalTests = (sheetKey) => {
+  console.log(`\n   --> ACTIVE SHEET: ${sheetKey}`);
+  var totalTests = 0;
+
+  for (const chartKey of Object.keys(ALL_SHEETS[sheetKey])) {
+    if (chartKey.match(/BASE URL/gi)) continue;
+    var chartSelcted = Object.values(ALL_SHEETS[sheetKey][chartKey]);
+    console.log(`       SUITE: ${chartKey} -> Tests: ${chartSelcted.length}`);
+    totalTests = totalTests + chartSelcted.length;
+  }
+  console.log(`       SHEET: ${sheetKey} => Total Tests: ${totalTests}`);
 }
