@@ -1,7 +1,7 @@
 const { browser } = require("protractor");
 const fs = require('fs')
-const ALL_SHEETS = JSON.parse(fs.readFileSync("./e2e/testData.json"));
-const SHEET_KEYS = Object.keys(ALL_SHEETS);
+let ALL_SHEETS = JSON.parse(fs.readFileSync("./e2e/testData.json"));
+let SHEET_KEYS = Object.keys(ALL_SHEETS);
 global.locators = require("./../pageObjects/locators.js");
 
 const MAX_TIMEOUT = 90000;
@@ -168,15 +168,21 @@ exports.exclusiveTests = exclusiveTests = (exclusiveType) => {
   return multipleSheets;
 }
 
-exports.totalTests = (sheetKey) => {
-  console.log(`\n   --> ACTIVE SHEET: ${sheetKey}`);
-  var totalTests = 0;
+exports.totalTests = (allSheets) => {
+  ALL_SHEETS = allSheets;
+  SHEET_KEYS = Object.keys(ALL_SHEETS);
 
-  for (const chartKey of Object.keys(ALL_SHEETS[sheetKey])) {
-    if (chartKey.match(/BASE URL/gi)) continue;
-    var chartSelcted = Object.values(ALL_SHEETS[sheetKey][chartKey]);
-    console.log(`       SUITE: ${chartKey} -> Tests: ${chartSelcted.length}`);
-    totalTests = totalTests + chartSelcted.length;
+  for (const sheetKey of SHEET_KEYS) {
+
+    console.log(`\n   --> SHEET: ${sheetKey}`);
+    var totalTests = 0;
+
+    for (const chartKey of Object.keys(ALL_SHEETS[sheetKey])) {
+      if (chartKey.match(/BASE URL/gi)) continue;
+      var chartSelcted = Object.values(ALL_SHEETS[sheetKey][chartKey]);
+      console.log(`       ${chartKey} -> Tests: ${chartSelcted.length}`);
+      totalTests = totalTests + chartSelcted.length;
+    }
+    console.log(`       ${sheetKey} => Total Tests: ${totalTests}`);
   }
-  console.log(`       SHEET: ${sheetKey} => Total Tests: ${totalTests}`);
 }

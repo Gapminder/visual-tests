@@ -14,8 +14,8 @@ function getSheetKeys() {
 
   SHEET_KEYS = Object.keys(ALL_SHEETS);
   console.log("\n   --> SHEETS GOT FOR TEST EXECUTION ARE: " + JSON.stringify(SHEET_KEYS));
+  helper.totalTests(ALL_SHEETS);
   for (const sheetKey of SHEET_KEYS) {
-    helper.totalTests(sheetKey);
     getEnvForSheets(sheetKey);
   }
 }
