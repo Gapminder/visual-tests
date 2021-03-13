@@ -63,7 +63,7 @@ function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
   var link = CHART_SELECTED['url'];
   var suiteName = `${ENV} > ${SHEET_KEY} > ${CHART_KEY}`;
 
-  testName = `> ${INDEX} > ${suiteName} > ${testName}`.toLowerCase();
+  testName = `> ${INDEX} > ${suiteName} > ${testName}`;
   URL = link == '/' ? URL : `${URL + link}`;
 
   it(testName, async () => {
@@ -77,7 +77,7 @@ function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
     await browser.sleep(4000);
     console.log(`\n${testName} > ${URL}`);
 
-    var snapshot = `${suiteName} > ${INDEX}`;
+    var snapshot = `${suiteName} > ${INDEX}`.toLowerCase();
     //snapshot = browser.name != undefined ? `${browser.name} > ${snapshot}` : snapshot;
     snapshot = snapshot.replace(/>/g, '_');
     await browser.pixDiff.checkScreen(`${snapshot}`).then(result => {

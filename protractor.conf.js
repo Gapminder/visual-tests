@@ -1,7 +1,9 @@
 'use strict';
 
 const fs = require('fs');
+const q = require('q');
 const sheetData = require("./e2e/helpers/spreadsheet.js");
+const drive = require("./e2e/helpers/drive.js");
 //const URL_GOOGLE_SHEET = JSON.parse(fs.readFileSync("./e2e/helpers/list.json"));
 const SAUSE_MAX_INSTANCES = 5;
 const SAUSE_MAX_SESSIONS = 5; //1
@@ -13,9 +15,14 @@ const device = process.env.DEVICE || 'desktop'; // 'desktop' or 'tablet' or 'mob
 const testResultsDir = 'results';
 const testResultsFile = `./${testResultsDir}/testResults.txt`;
 
+const baselineDrive = "1SN8i48Kq2spCpgDcSNRkkIS_niQvkmTB";
+const baselineDir = './pixDiff/baseline/';
+const diffDrive = "1EquaYz-FZqUmekhDKCGWA3vU2cAGcvyW";
+const diffDir = './pixDiff/diff/';
+
 const jobNunber = process.env.TRAVIS_JOB_NUMBER;
 let repoSlug = process.env.TRAVIS_REPO_SLUG;
-repoSlug = repoSlug != null ? (repoSlug.split("/")[1]) + ' — ' +  jobNunber + ' — ' : 'Local — ';
+repoSlug = repoSlug != null ? (repoSlug.split("/")[1]) + ' — ' + jobNunber + ' — ' : 'Local — ';
 
 let screenSize = {
   desktop: true,
@@ -230,8 +237,8 @@ exports.config = {
     sample: './e2e/**/sample.e2e-spec.js'
   },
   //exclude:
-    //['./e2e/**/percy.e2e-spec.js',
-    //  './e2e/**/pix-diff.e2e-spec.js'],
+  //['./e2e/**/percy.e2e-spec.js',
+  //  './e2e/**/pix-diff.e2e-spec.js'],
 
   capabilities: SAUCE_USERNAME && SAUCE_ACCESS_KEY ? {} : capabilityForLocalRun,
   multiCapabilities: SAUCE_USERNAME && SAUCE_ACCESS_KEY ? platformConfigurations : {},
@@ -280,6 +287,20 @@ exports.config = {
     print: function () { }
   },
 
+  beforeLaunch: async () => {
+    await drive.deleteFiles(diffDrive);
+    await drive.deleteDir(diffDir);
+    await drive.deleteDir(baselineDir);
+    await drive.downloadFiles(baselineDir, baselineDrive);
+  },
+
+  afterLaunch: (exitCode) => {
+    return q.fcall(async () => {
+      await drive.uploadMissingFiles(baselineDir, baselineDrive);
+      await drive.uploadFiles(diffDir, diffDrive);
+    }).delay(120000);
+  },
+
   onPrepare: async () => {
     await browser.waitForAngularEnabled(false);
     if (!(SAUCE_USERNAME && SAUCE_ACCESS_KEY)) await browser.driver.manage().window().setSize(screenSize.width, screenSize.height);
@@ -306,7 +327,6 @@ exports.config = {
     );
 
     let SpecReporter = require('jasmine-spec-reporter').SpecReporter;
-
     jasmine.getEnv().addReporter(
       new SpecReporter({
         spec: {
