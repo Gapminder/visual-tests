@@ -62,7 +62,7 @@ exports.downloadFiles = async (dir, driveID) => {
   var lists = await listFiles(driveID);
   for (const list of lists) {
     var { data } = await drive.files.get({ fileId: list.id, alt: "media" }, { responseType: "arraybuffer" });
-    await fs.writeFile(dir + list.name, Buffer.from(data), (err) => { });
+    await fs.writeFile(dir + '/' + list.name, Buffer.from(data), (err) => { });
   }
 }
 
@@ -84,7 +84,7 @@ exports.deleteFiles = async (driveID) => {
 async function upload(file, dir, driveID) {
   await drive.files.create({
     resource: { name: file, parents: [driveID] },
-    media: { mimeType: 'image/png', body: fs.createReadStream(dir + file) },
+    media: { mimeType: 'image/png', body: fs.createReadStream(dir + '/' + file) },
     fields: 'id'
   });
 }

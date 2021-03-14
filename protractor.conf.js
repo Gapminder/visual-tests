@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const q = require('q');
+const path = require('path');
 const sheetData = require("./e2e/helpers/spreadsheet.js");
 const drive = require("./e2e/helpers/drive.js");
 //const URL_GOOGLE_SHEET = JSON.parse(fs.readFileSync("./e2e/helpers/list.json"));
@@ -16,9 +17,9 @@ const testResultsDir = 'results';
 const testResultsFile = `./${testResultsDir}/testResults.txt`;
 
 const baselineDrive = "1SN8i48Kq2spCpgDcSNRkkIS_niQvkmTB";
-const baselineDir = './pixDiff/baseline/';
+const baselineDir = path.resolve(__dirname, 'pixDiff/baseline');
 const diffDrive = "1EquaYz-FZqUmekhDKCGWA3vU2cAGcvyW";
-const diffDir = './pixDiff/diff/';
+const diffDir = path.resolve(__dirname, 'pixDiff/diff');
 
 const jobNunber = process.env.TRAVIS_JOB_NUMBER;
 let repoSlug = process.env.TRAVIS_REPO_SLUG;
