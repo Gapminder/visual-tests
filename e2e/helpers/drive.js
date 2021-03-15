@@ -12,7 +12,14 @@ const jwtClient = new google.auth.JWT(
 const drive = google.drive({ version: 'v3', auth: jwtClient });
 let filesCount;
 
+const baselineDrive = "1SN8i48Kq2spCpgDcSNRkkIS_niQvkmTB";
+const baselineDir = './pixDiff/baseline/';
+const diffDrive = "1EquaYz-FZqUmekhDKCGWA3vU2cAGcvyW";
+const diffDir = './pixDiff/diff/';
+
 exports.deleteDir = (dir) => {
+  dir = selectDir(dir);
+
   readdir(dir, async (files) => {
     for (const file of files) {
       fs.unlink(path.join(dir, file), err => {
@@ -23,6 +30,9 @@ exports.deleteDir = (dir) => {
 }
 
 exports.uploadFiles = uploadFiles = async (dir, driveID) => {
+  dir = selectDir(dir);
+  driveID = selectDrive(driveID);
+
   await readdir(dir, async (files) => {
     for (const file of files) {
       await upload(file, dir, driveID);
@@ -32,6 +42,9 @@ exports.uploadFiles = uploadFiles = async (dir, driveID) => {
 }
 
 exports.uploadMissingFiles = async (dir, driveID) => {
+  dir = selectDir(dir);
+  driveID = selectDrive(driveID);
+
   var lists = await listFiles(driveID);
   if (lists.length > 0) {
 
@@ -59,10 +72,13 @@ exports.uploadMissingFiles = async (dir, driveID) => {
 }
 
 exports.downloadFiles = async (dir, driveID) => {
+  dir = selectDir(dir);
+  driveID = selectDrive(driveID);
+
   var lists = await listFiles(driveID);
   for (const list of lists) {
     var { data } = await drive.files.get({ fileId: list.id, alt: "media" }, { responseType: "arraybuffer" });
-    await fs.writeFile(dir + '/' + list.name, Buffer.from(data), (err) => { });
+    await fs.writeFile(dir + list.name, Buffer.from(data), (err) => { });
   }
 }
 
@@ -74,6 +90,8 @@ exports.listFiles = listFiles = async (driveID) => {
 }
 
 exports.deleteFiles = async (driveID) => {
+  driveID = selectDrive(driveID);
+
   var lists = await listFiles(driveID);
   for (const list of lists) {
     await drive.files.delete({ fileId: list.id });
@@ -84,7 +102,7 @@ exports.deleteFiles = async (driveID) => {
 async function upload(file, dir, driveID) {
   await drive.files.create({
     resource: { name: file, parents: [driveID] },
-    media: { mimeType: 'image/png', body: fs.createReadStream(dir + '/' + file) },
+    media: { mimeType: 'image/png', body: fs.createReadStream(dir + file) },
     fields: 'id'
   });
 }
@@ -102,4 +120,18 @@ function sleep() {
   filesCount = null;
   //console.log('Files upload/delete to/from Google-Drive will takes approx. ' + ms + 'ms');
   return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function selectDir(dir) {
+  if (dir == 'diffDir') dir = diffDir;
+  else if (dir == 'baselineDir') dir = baselineDir;
+
+  return dir;
+}
+
+function selectDrive(driveID) {
+  if (driveID == 'diffDrive') driveID = diffDrive;
+  else if (driveID == 'baselineDrive') driveID = baselineDrive;
+
+  return driveID;
 }

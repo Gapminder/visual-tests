@@ -16,11 +16,6 @@ const device = process.env.DEVICE || 'desktop'; // 'desktop' or 'tablet' or 'mob
 const testResultsDir = 'results';
 const testResultsFile = `./${testResultsDir}/testResults.txt`;
 
-const baselineDrive = "1SN8i48Kq2spCpgDcSNRkkIS_niQvkmTB";
-const baselineDir = './../../pixDiff/baseline/';
-const diffDrive = "1EquaYz-FZqUmekhDKCGWA3vU2cAGcvyW";
-const diffDir = './../../pixDiff/diff/';
-
 const jobNunber = process.env.TRAVIS_JOB_NUMBER;
 let repoSlug = process.env.TRAVIS_REPO_SLUG;
 repoSlug = repoSlug != null ? (repoSlug.split("/")[1]) + ' — ' + jobNunber + ' — ' : 'Local — ';
@@ -289,16 +284,16 @@ exports.config = {
   },
 
   beforeLaunch: async () => {
-    await drive.deleteFiles(diffDrive);
-    await drive.deleteDir(diffDir);
-    await drive.deleteDir(baselineDir);
-    await drive.downloadFiles(baselineDir, baselineDrive);
+    await drive.deleteFiles('diffDrive');
+    await drive.deleteDir('diffDir');
+    await drive.deleteDir('baselineDir');
+    await drive.downloadFiles('baselineDir', 'baselineDrive');
   },
 
   afterLaunch: (exitCode) => {
     return q.fcall(async () => {
-      await drive.uploadMissingFiles(baselineDir, baselineDrive);
-      await drive.uploadFiles(diffDir, diffDrive);
+      await drive.uploadMissingFiles('baselineDir', 'baselineDrive');
+      await drive.uploadFiles('diffDir', 'diffDrive');
     }).delay(120000);
   },
 
