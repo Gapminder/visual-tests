@@ -17,9 +17,9 @@ const testResultsDir = 'results';
 const testResultsFile = `./${testResultsDir}/testResults.txt`;
 
 const baselineDrive = "1SN8i48Kq2spCpgDcSNRkkIS_niQvkmTB";
-const baselineDir = path.join(__dirname, '/pixDiff/baseline');
+const baselineDir = './../../pixDiff/baseline/';
 const diffDrive = "1EquaYz-FZqUmekhDKCGWA3vU2cAGcvyW";
-const diffDir = path.join(__dirname, '/pixDiff/diff');
+const diffDir = './../../pixDiff/diff/';
 
 const jobNunber = process.env.TRAVIS_JOB_NUMBER;
 let repoSlug = process.env.TRAVIS_REPO_SLUG;
