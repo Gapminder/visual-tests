@@ -22,12 +22,12 @@ notifications:
 install:
   - npm install
 
-postinstall:
+before_script: 
   - npm rebuild node-sass
 
 cache:
   directories:
-    #- node_modules
+    - node_modules
     #- "./e2e/testData.json"
     #- "./pixDiff/baseline/"
 
