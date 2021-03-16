@@ -32,8 +32,5 @@ script:
   # to download binaries
   #- npm run wd-update
 
-  # to overcome 'no such file or directory, scandir travis ci'
-  - npm install node-sass
-
   # run tests
   - npm test
