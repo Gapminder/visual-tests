@@ -9,7 +9,7 @@ notifications:
   email:
     recipients:
       - angie@gapminder.org
-      - abidrana7@gmail.com
+
     on_success: change
     on_failure: always
 
@@ -31,6 +31,9 @@ cache:
 script:
   # to download binaries
   #- npm run wd-update
+
+  # to overcome 'no such file or directory, scandir travis ci'
+  - npm rebuild node-sass
 
   # run tests
   - npm test
