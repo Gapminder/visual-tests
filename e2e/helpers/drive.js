@@ -13,9 +13,9 @@ const drive = google.drive({ version: 'v3', auth: jwtClient });
 let filesCount;
 
 const baselineDrive = "1SN8i48Kq2spCpgDcSNRkkIS_niQvkmTB";
-const baselineDir = './pixDiff/baseline/';
+const baselineDir = path.join(__dirname, './../../pixDiff/baseline/');
 const diffDrive = "1EquaYz-FZqUmekhDKCGWA3vU2cAGcvyW";
-const diffDir = './pixDiff/diff/';
+const diffDir = path.join(__dirname, './../../pixDiff/diff/');
 
 exports.deleteDir = (dir) => {
   dir = selectDir(dir);
