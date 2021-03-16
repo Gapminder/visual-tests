@@ -9,7 +9,7 @@ notifications:
   email:
     recipients:
       - angie@gapminder.org
-      - abidrana7@gmail.com
+
     on_success: change
     on_failure: always
 
@@ -25,7 +25,7 @@ install:
 cache:
   directories:
     - node_modules
-    - "./e2e/testData.json"
+    #- "./e2e/testData.json"
     - "./pixDiff/baseline/"
 
 script:
@@ -33,4 +33,8 @@ script:
   #- npm run wd-update
 
   # run tests
+  - npm install node-sass
+  - npm install node-sass@latest
+  - npm rebuild node-sass --force
+  - npm install node-sass --force
   - npm test

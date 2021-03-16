@@ -2,7 +2,6 @@
 
 const fs = require('fs');
 const q = require('q');
-const path = require('path');
 const sheetData = require("./e2e/helpers/spreadsheet.js");
 const drive = require("./e2e/helpers/drive.js");
 //const URL_GOOGLE_SHEET = JSON.parse(fs.readFileSync("./e2e/helpers/list.json"));
@@ -15,11 +14,6 @@ const device = process.env.DEVICE || 'desktop'; // 'desktop' or 'tablet' or 'mob
 
 const testResultsDir = 'results';
 const testResultsFile = `./${testResultsDir}/testResults.txt`;
-
-const baselineDrive = "1SN8i48Kq2spCpgDcSNRkkIS_niQvkmTB";
-const baselineDir = path.resolve(__dirname, 'pixDiff/baseline');
-const diffDrive = "1EquaYz-FZqUmekhDKCGWA3vU2cAGcvyW";
-const diffDir = path.resolve(__dirname, 'pixDiff/diff');
 
 const jobNunber = process.env.TRAVIS_JOB_NUMBER;
 let repoSlug = process.env.TRAVIS_REPO_SLUG;
@@ -289,16 +283,16 @@ exports.config = {
   },
 
   beforeLaunch: async () => {
-    await drive.deleteFiles(diffDrive);
-    await drive.deleteDir(diffDir);
-    await drive.deleteDir(baselineDir);
-    await drive.downloadFiles(baselineDir, baselineDrive);
+    await drive.deleteFiles('diffDrive');
+    await drive.deleteDir('diffDir');
+    await drive.deleteDir('baselineDir');
+    await drive.downloadFiles('baselineDir', 'baselineDrive');
   },
 
   afterLaunch: (exitCode) => {
     return q.fcall(async () => {
-      await drive.uploadMissingFiles(baselineDir, baselineDrive);
-      await drive.uploadFiles(diffDir, diffDrive);
+      await drive.uploadMissingFiles('baselineDir', 'baselineDrive');
+      await drive.uploadFiles('diffDir', 'diffDrive');
     }).delay(120000);
   },
 
