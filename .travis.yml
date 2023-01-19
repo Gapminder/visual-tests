@@ -33,8 +33,4 @@ script:
   #- npm run wd-update
 
   # run tests
-  - npm install node-sass
-  - npm install node-sass@latest
-  - npm rebuild node-sass --force
-  - npm install node-sass --force
   - npm test

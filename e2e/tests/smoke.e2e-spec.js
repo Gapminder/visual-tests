@@ -1,4 +1,4 @@
-const { percySnapshot } = require('@percy/protractor');
+const percySnapshot = require('@percy/protractor');
 const helper = require("../helpers/helper.js");
 const { browser } = require("protractor");
 
