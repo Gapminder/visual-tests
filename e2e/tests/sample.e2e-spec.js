@@ -12,7 +12,7 @@ describe(`Sample suite`, () => {
 
   it(`Sample test`, async () => {
 
-    let link = "#$state$marker$color$which=time&use=indicator&scaleType=time&spaceRef:null;;;&chart-type=bubbles";
+    let link = "#$model$markers$bubble$encoding$color$data$space@=time;&concept=time;&scale$type:null&domain:null&zoomed:null;;;;;;&chart-type=bubbles&url=v1";
     await browser.get(`${"https://tools.gapminder.org/" + link}`);
 
     const browserSize = await helper.screenSize();
