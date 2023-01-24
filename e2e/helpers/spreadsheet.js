@@ -1,5 +1,5 @@
-const GoogleSpreadsheet = require('google-spreadsheet');
-const { promisify } = require('util');
+const { GoogleSpreadsheet } = require('google-spreadsheet');
+//const { promisify } = require('util');
 const fs = require('fs');
 const jsonObjs = './e2e/testData.json';
 const creds = {
@@ -7,18 +7,25 @@ const creds = {
   private_key: process.env.GOOGLE_PRIVATE_KEY.replace(new RegExp('\\\\n', '\g'), '\n')
 };
 
+const COLUMN_INDEX = {
+  SUITE_NAME: 1,
+  FILTER: 2,
+  TEST_NAME: 3,
+  URL: 4
+};
+const START_ROW = 4;
+
+
 var suiteLinks = {};
 var allSheetsLinks = {};
-var getLinksArr = [];
 
 async function getSheets() {
-
   const doc = new GoogleSpreadsheet(process.env.SPREADSHEET_ID);
-  await promisify(doc.useServiceAccountAuth)(creds)
-  const info = await promisify(doc.getInfo)()
-  //console.log(`Loaded doc: ` + info.title + ` by ` + info.author.email)
+  await doc.useServiceAccountAuth(creds);
+  await doc.loadInfo();
+  console.log(`Loaded doc: ` + doc.title)
 
-  const sheets = info.worksheets;
+  const sheets = doc.sheetsByIndex;
   return sheets;
 }
 
@@ -47,18 +54,14 @@ async function fetchUpdatedSheet() {
 async function getSheetData(index, sheet, sheetTitle) {
 
   console.log(`   --> SHEET INDEX: ${index} => TITLE: ${sheetTitle}`);
-  const slctdSheetCells = await promisify(sheet.getCells)({
+  await sheet.loadCells(
+    `A${START_ROW}:G${sheet.rowCount}`
+  );
 
-    'min-row': 4,
-    'max-row': 800,
-    'min-col': 2,
-    'max-col': 2,
-    'return-empty': true
 
-  });
 
-  for (j = 0; j < slctdSheetCells.length; j++) {
-    await getSuiteNames(sheet, slctdSheetCells, j);
+  for (j = START_ROW - 1; j < sheet.rowCount; j++) {
+    getSuiteNames(sheet, j);
   }
 
   /*allSheetsLinks[ sheetTitle ] = await [suiteLinks];
@@ -67,29 +70,11 @@ async function getSheetData(index, sheet, sheetTitle) {
   await fs.readFile(jsonObjs, 'utf8', function (err, data) {
     if (err) throw err;
     obj = JSON.parse(data);
-
-    if (obj == {}) {
-
-      obj[sheetTitle] = suiteLinks;
-      suiteLinks = {};
-      writeToJsonFile(obj);
-    }
-    else {
-
-      if (obj.hasOwnProperty(sheetTitle)) {
-
-        delete obj[sheetTitle];
-        obj[sheetTitle] = suiteLinks;
-        suiteLinks = {};
-        writeToJsonFile(obj);
-      }
-      else {
-
-        obj[sheetTitle] = suiteLinks;
-        suiteLinks = {};
-        writeToJsonFile(obj);
-      }
-    }
+    
+    delete obj[sheetTitle];
+    obj[sheetTitle] = suiteLinks;
+    suiteLinks = {};
+    writeToJsonFile(obj);
   });
 }
 
@@ -103,58 +88,42 @@ async function writeToJsonFile(toWrite) {
   });
 }
 
-async function getSuiteNames(sheet, slctdSheetCells, j) {
-
-  var suiteName = slctdSheetCells[j].value;
-  var testNameCol = slctdSheetCells[j].col + 1;
-  var urlsCol = slctdSheetCells[j].col + 2;
-  var valRow = slctdSheetCells[j].row + 2;
-
-  if (suiteName !== '') {
-
-    await getTestsData(sheet, valRow, testNameCol, urlsCol, suiteName);
+function getSuiteNames(sheet, j) {
+  var suiteName = sheet.getCell(j, COLUMN_INDEX.SUITE_NAME).value;
+  if (suiteName) {
+    console.log(suiteName);
+    var testNameCol = COLUMN_INDEX.TEST_NAME;
+    var urlsCol = COLUMN_INDEX.URL;
+    var valRow = j + 2;  
+    getTestsData(sheet, valRow, testNameCol, urlsCol, suiteName);
   }
 }
 
-async function getTestsData(sheet, valRow, testNameCol, urlsCol, suiteName) {
+function getTestsData(sheet, valRow, testNameCol, urlsCol, suiteName) {
 
-  const testNames = await promisify(sheet.getCells)({
-    'min-row': valRow,
-    //'max-row': 11,
-    'min-col': testNameCol,
-    'max-col': testNameCol,
-    'return-empty': true
-  });
+  const linksArr = [];
+  const exclusiveLinksArr = [];
 
-  const urls = await promisify(sheet.getCells)({
-    'min-row': valRow,
-    //'max-row': 11,
-    'min-col': urlsCol,
-    'max-col': urlsCol,
-    'return-empty': true
-  });
+  for (k = valRow; k < sheet.rowCount; k++) {
+    const nextSuiteName = sheet.getCell(k, COLUMN_INDEX.SUITE_NAME).value;
+    if (nextSuiteName) break;
 
-  for (k = 0; k < testNames.length; k++) {
+    const testName = sheet.getCell(k, COLUMN_INDEX.TEST_NAME).value;
+    const url = sheet.getCell(k, COLUMN_INDEX.URL).value;
+    const filter = ('' + sheet.getCell(k, COLUMN_INDEX.FILTER).value).toLowerCase();
 
-    if ((testNames[k].value == '' || urls[k].value == '') && (testNames[k + 1].value != '' || urls[k + 1].value != '')) {
+    if (!testName || !url || ['skip','skipped'].includes(filter)) {
       continue;
     }
-    else if ((testNames[k].value == '' || urls[k].value == '') && (testNames[k + 1].value == '' || urls[k + 1].value == '')) {
-      break;
+
+    if (['only', 'exclusive_test', 'exclusive']) {
+      exclusiveLinksArr.push({testName, url});
+    } else {
+      linksArr.push({testName, url});
     }
-    else if (testNames[k].value == '' && urls[k].value == '') {
-      break;
-    }
-    await getLinks(testNames, urls, k);
   }
 
-  suiteLinks[suiteName] = await getLinksArr;
-  getLinksArr = [];
-}
-
-async function getLinks(testNames, urls, j) {
-
-  await getLinksArr.push({ "testName": testNames[j].value, "url": urls[j].value });
+  suiteLinks[suiteName] = exclusiveLinksArr.length ? exclusiveLinksArr : linksArr;
 }
 
 async function checkIfSheetNameExistInJson() {
