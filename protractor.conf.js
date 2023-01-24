@@ -209,7 +209,7 @@ const capabilityForLocalRun = {
   shardTestFiles: true,
   maxInstances: LOCAL_MAX_INSTANCES,
   chromeOptions: {
-    binary: "C:/Program Files/Google/Chrome/Application/chrome.exe",
+    // binary: "C:/Program Files/Google/Chrome/Application/chrome.exe",
     args: ['no-sandbox']//, 'headless']
   }
 };
