@@ -210,7 +210,7 @@ const capabilityForLocalRun = {
   maxInstances: LOCAL_MAX_INSTANCES,
   chromeOptions: {
     // binary: "C:/Program Files/Google/Chrome/Application/chrome.exe",
-    args: ['no-sandbox']//, 'headless']
+    args: ['no-sandbox', 'headless']
   }
 };
 
