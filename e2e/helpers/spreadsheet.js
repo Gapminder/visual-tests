@@ -1,3 +1,7 @@
+if(!process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL)  console.error("missing env variable GOOGLE_SERVICE_ACCOUNT_EMAIL");
+if(!process.env.GOOGLE_PRIVATE_KEY) console.error("missing env variable GOOGLE_PRIVATE_KEY");
+if(!process.env.SPREADSHEET_ID) console.error("missing env variable SPREADSHEET_ID");
+
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 //const { promisify } = require('util');
 const fs = require('fs');

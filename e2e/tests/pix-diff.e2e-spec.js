@@ -82,7 +82,7 @@ function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
     snapshot = snapshot.replace(/>/g, '_');
     await browser.pixDiff.checkScreen(`${snapshot}`).then(result => {
       if (result.code != 5) {
-        expect('Copy failed URL: ').toContain(URL);
+        expect(URL).toContain("identical screenshot");
 
       } else {
         expect(result.code).toEqual(PixDiff.RESULT_IDENTICAL);
