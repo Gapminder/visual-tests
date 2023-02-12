@@ -43,7 +43,7 @@ jobs:
           npm run wd-update
           mkdir pixDiff && mkdir pixDiff/diff && mkdir pixDiff/baseline
           wget "https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${CHROME_VERSION}_amd64.deb"
-          sudo dpkg -i "google-chrome-stable_${VERSION_STRING}_amd64.deb"
+          sudo dpkg -i "google-chrome-stable_${CHROME_VERSION}_amd64.deb"
       - name: run tests
         env: 
           PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
