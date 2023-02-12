@@ -14,7 +14,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Runs a single command using the runners shell
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3.3.0
         with:
           persist-credentials: false
       - name: Setup Node.js environment
@@ -22,8 +22,15 @@ jobs:
         with:
           node-version: 16.16.0
           cache: 'npm'
-      - name: npm install, build and run
+      - name: npm install
         run: |
           npm install
           npm run wd-update
-          npm run smoke:tools-page
+      - name: run tests
+        env: 
+          PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
+          GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
+          GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
+          SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}    
+          PERCY_BRANCH: local            
+        run: npm run smoke:tools-page
