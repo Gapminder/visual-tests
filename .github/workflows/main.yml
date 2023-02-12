@@ -1,0 +1,25 @@
+name: Percy daily
+
+on:
+  schedule:
+    - cron: "0 * * * *"
+    
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "cron"
+  cron:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Runs a single command using the runners shell
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3.6.0
+        with:
+          node-version: 16.16.0
+      - name: npm install, build and run
+        run: |
+          npm install
+          npm run wd-update
+          npm run smoke:tools-page
