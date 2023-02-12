@@ -23,9 +23,14 @@ jobs:
           node-version: 16.16.0
           cache: 'npm'
       - name: npm install
+        env:
+          CHROME_VERSION: "110.0.5481.77-1"
         run: |
           npm install
           npm run wd-update
+          mkdir pixDiff && mkdir pixDiff/diff && mkdir pixDiff/baseline
+          wget "https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${CHROME_VERSION}_amd64.deb"
+          sudo dpkg -i "google-chrome-stable_${CHROME_VERSION}_amd64.deb"
       - name: run tests
         env: 
           PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
