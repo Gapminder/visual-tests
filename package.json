@@ -7,12 +7,12 @@
     "wd-update": "node ./node_modules/protractor/bin/webdriver-manager update",
     "start": "node ./node_modules/protractor/bin/webdriver-manager update && webdriver-manager start",
     "testData": "node ./e2e/helpers/spreadsheet.js",
-    "test": "node ./node_modules/protractor/bin/protractor protractor.conf.js --suite=pix_diff",
+    "test": "node ./node_modules/protractor/bin/protractor protractor.conf.js --suite=gdrive",
     "applitools": "node ./node_modules/protractor/bin/protractor protractor.conf.js --suite=applitools",
-    "smoke": "percy exec -- protractor protractor.conf.js --suite=smoke",
-    "smoke:tools-page": "percy exec -- protractor protractor.conf.js --suite=smoke:tools-page",
-    "smoke:dollar-street": "percy exec -- protractor protractor.conf.js --suite=smoke:dollar-street",
-    "smoke:gapminder": "node ./e2e/helpers/spreadsheet.js && percy exec -- protractor protractor.conf.js --suite=smoke:gapminder",
+    "percy": "percy exec -- protractor protractor.conf.js --suite=percy",
+    "percy:tools-page": "percy exec -- protractor protractor.conf.js --suite=percy:tools-page",
+    "percy:dollar-street": "percy exec -- protractor protractor.conf.js --suite=percy:dollar-street",
+    "percy:gapminder-org": "percy exec -- protractor protractor.conf.js --suite=percy:gapminder-org",
     "sample": "percy exec -- protractor protractor.conf.js --suite=sample"
   },
   "repository": {

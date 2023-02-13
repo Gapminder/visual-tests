@@ -2,12 +2,12 @@ name: Percy daily
 
 on:
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "0 7 * * *" #every morning at 7 AM UTC
     
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "cron"
-  cron:
+  percy:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -31,11 +31,11 @@ jobs:
           mkdir pixDiff && mkdir pixDiff/diff && mkdir pixDiff/baseline
           wget "https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${CHROME_VERSION}_amd64.deb"
           sudo dpkg -i "google-chrome-stable_${CHROME_VERSION}_amd64.deb"
-      - name: run tests
+      - name: ALL VISUAL TESTS HERE
         env: 
           PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
           GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
           GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
           SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}    
-          PERCY_BRANCH: local            
-        run: npm run smoke:tools-page
+          PERCY_BRANCH: daily            
+        run: npm run percy
