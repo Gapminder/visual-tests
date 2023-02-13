@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/Gapminder/visual-tests#readme",
   "devDependencies": {
-    "@percy/cli": "^1.17.0",
+    "@percy/cli": "^1.18.0",
     "@percy/protractor": "^2.0.1",
     "eyes.selenium": "0.0.83",
     "google-spreadsheet": "^3.3.0",
