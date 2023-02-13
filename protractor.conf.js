@@ -1,9 +1,12 @@
 'use strict';
 
+const argv = require('yargs/yargs')(process.argv.slice(2)).argv;
+const runPixDiffSuite = argv.suite ? argv.suite.split(",").includes("pix_diff") : true;
+
 const fs = require('fs');
 const q = require('q');
 const sheetData = require("./e2e/helpers/spreadsheet.js");
-const drive = require("./e2e/helpers/drive.js");
+const drive = runPixDiffSuite ? require("./e2e/helpers/drive.js") : null;
 //const URL_GOOGLE_SHEET = JSON.parse(fs.readFileSync("./e2e/helpers/list.json"));
 const SAUSE_MAX_INSTANCES = 5;
 const SAUSE_MAX_SESSIONS = 5; //1
@@ -283,6 +286,7 @@ exports.config = {
   },
 
   beforeLaunch: async () => {
+    if (!runPixDiffSuite) return;
     await drive.deleteFiles('diffDrive');
     await drive.deleteDir('diffDir');
     await drive.deleteDir('baselineDir');
@@ -290,6 +294,7 @@ exports.config = {
   },
 
   afterLaunch: (exitCode) => {
+    if (!runPixDiffSuite) return;
     return q.fcall(async () => {
       await drive.uploadMissingFiles('baselineDir', 'baselineDrive');
       await drive.uploadFiles('diffDir', 'diffDrive');
@@ -312,14 +317,16 @@ exports.config = {
       }, {}));
     }
 
-    const PixDiff = require('pix-diff');
-    browser.pixDiff = new PixDiff(
-      {
-        baseline: true,
-        basePath: 'pixDiff/baseline/',
-        diffPath: 'pixDiff/'
-      }
-    );
+    if (runPixDiffSuite) {
+      const PixDiff = require('pix-diff');
+      browser.pixDiff = new PixDiff(
+        {
+          baseline: true,
+          basePath: 'pixDiff/baseline/',
+          diffPath: 'pixDiff/'
+        }
+      );
+    }
 
     let SpecReporter = require('jasmine-spec-reporter').SpecReporter;
     jasmine.getEnv().addReporter(
