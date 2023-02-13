@@ -1,4 +1,4 @@
-name: Percy manual
+name: Percy manual ALL SUITES
 
 on:
   workflow_dispatch:
