@@ -9,6 +9,7 @@ gotDom.pageObjects((dom) => {
   const mc = dom.mountain_chart;
   const br = dom.barrank_chart;
   const mp = dom.maps_chart;
+  const ds = dom.dollar_street;
 
   locators['selected'] = {
 
@@ -60,7 +61,10 @@ gotDom.pageObjects((dom) => {
 
     // Maps Chart
     maps_axis_y: mp.maps_axis_y,
-    maps_axis_y_info: mp.maps_axis_y_info
+    maps_axis_y_info: mp.maps_axis_y_info,
+
+    // Dollar Street
+    tour_maybe_later: ds.tour_maybe_later,
   };
 });
 

@@ -82,5 +82,11 @@ var dom = [
       maps_axis_y: $('.vzb-bmc-axis-y-title'),
       maps_axis_y_info: $('.vzb-bmc-axis-y-info.vzb-noexport'),
     },
+
+    'dollar_street': {
+      '_comment': 'Locators belong to DOLLAR STREET',
+
+      tour_maybe_later: element(by.xpath("//*[@class='Tour_TourContainer__1wCVW']//button[2]")),
+    },
   }
 ]
