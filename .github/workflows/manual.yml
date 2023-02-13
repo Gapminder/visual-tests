@@ -9,7 +9,17 @@ jobs:
   percy:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        suite: [tools-page,dollar-street,gapminder-org]
+        include:
+        - suite: tools-page
+          token: PERCY_TOKEN_TOOLS_PAGE
+        - suite: dollar-street
+          token: PERCY_TOKEN_DOLLAR_STREET
+        - suite: gapminder-org
+          token: PERCY_TOKEN_GAPMINDER_ORG
+        
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Runs a single command using the runners shell
@@ -30,11 +40,12 @@ jobs:
           mkdir pixDiff && mkdir pixDiff/diff && mkdir pixDiff/baseline
           wget "https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${CHROME_VERSION}_amd64.deb"
           sudo dpkg -i "google-chrome-stable_${CHROME_VERSION}_amd64.deb"
-      - name: ALL VISUAL TESTS HERE
+      - name: VISUAL TESTS FOR ${{ matrix.suite }}
         env: 
-          PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
+          PERCY_TOKEN: ${{ secrets[matrix.token] }}
           GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
           GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
           SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}    
-          PERCY_BRANCH: manual            
-        run: npm run percy
+          PERCY_BRANCH: manual     
+          PERCY_TARGET_BRANCH: prod
+        run: npm run percy:${{ matrix.suite }}
