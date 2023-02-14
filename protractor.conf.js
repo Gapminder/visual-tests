@@ -3,6 +3,8 @@
 const argv = require('yargs/yargs')(process.argv.slice(2)).argv;
 const runPixDiffSuite = argv.suite ? argv.suite.split(",").includes("pix_diff") : true;
 
+const baseEnv = process.env.BASE_ENV ? process.env.BASE_ENV.split(",") : null;
+
 const fs = require('fs');
 const q = require('q');
 const sheetData = require("./e2e/helpers/spreadsheet.js");
@@ -267,7 +269,8 @@ exports.config = {
     tablet: screenSize.tablet,
     mobile: screenSize.mobile,
     screenWidth: screenSize.width,
-    screenHeight: screenSize.height
+    screenHeight: screenSize.height,
+    baseEnv
   },
   baseUrl: url,
   allScriptsTimeout: 60000,

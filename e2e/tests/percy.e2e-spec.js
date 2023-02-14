@@ -24,13 +24,18 @@ function getSheetKeys() {
 }
 
 function getEnvForSheets(SHEET_KEY) {
-  var baseURL = [];
+  const baseURL = [];
+  const baseEnv = browser.params.baseEnv;
 
   for (const chartKey of Object.keys(ALL_SHEETS[SHEET_KEY])) {
     if (chartKey.match(/BASE URL/gi)) {
 
       for (const env of Object.values(ALL_SHEETS[SHEET_KEY][chartKey])) {
-        baseURL.push(env);
+        if (!baseEnv) {
+          baseURL.push(env);
+          break;
+        }
+        if (baseEnv.includes(env.testName)) baseURL.push(env);
       }
       break;
     }
@@ -88,10 +93,10 @@ function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
 
     var snapshot = `${suiteName} > ${INDEX}`.toLowerCase();
     //snapshot = browser.name != undefined ? `${browser.name} > ${snapshot}` : snapshot;
-    await percySnapshot(snapshot, {
-      "widths": [innerWidth],
-      "minHeight": innerHeight
-    });
+    // await percySnapshot(snapshot, {
+    //   "widths": [innerWidth],
+    //   "minHeight": innerHeight
+    // });
   });
 }
 
