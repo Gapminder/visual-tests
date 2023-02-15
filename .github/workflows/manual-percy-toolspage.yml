@@ -2,6 +2,18 @@ name: Percy manual TOOLS PAGE
 
 on:
   workflow_dispatch:
+    inputs:
+      env:
+        description: "Env (prod,dev,stage,blue,green)"
+        type: string
+      percy_branch:
+        description: "Percy branch"
+        type: string
+        default: "manual"
+      percy_target_branch:
+        description: "Percy target branch"
+        type: string
+        default: "prod"
     
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -35,7 +47,8 @@ jobs:
           PERCY_TOKEN: ${{ secrets.PERCY_TOKEN_TOOLS_PAGE }}
           GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
           GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
-          SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}    
-          PERCY_BRANCH: manual     
-          PERCY_TARGET_BRANCH: prod
+          SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
+          PERCY_BRANCH: ${{ inputs.env || inputs.percy_branch }}
+          PERCY_TARGET_BRANCH: ${{ inputs.percy_target_branch }}
+          BASE_ENV: ${{ inputs.env }}
         run: npm run percy:tools-page
