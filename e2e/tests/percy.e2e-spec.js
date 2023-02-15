@@ -67,11 +67,11 @@ function suiteRunner(ENV, SHEET_KEY, URL, CHART_KEY) {
 
 function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
 
-  var testName = CHART_SELECTED['testName'];
+  var _testName = CHART_SELECTED['testName'];
   var link = CHART_SELECTED['url'];
   var suiteName = `${ENV} > ${SHEET_KEY} > ${CHART_KEY}`;
 
-  testName = `> ${INDEX} > ${suiteName} > ${testName}`.toLowerCase();
+  var testName = `> ${INDEX} > ${suiteName} > ${_testName}`.toLowerCase();
   URL = link == '/' ? URL : `${URL + link}`;
 
   it(testName, async () => {
@@ -91,12 +91,12 @@ function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
     await browser.sleep(3000);
     console.log(`\n${testName} > ${URL}`);
 
-    var snapshot = `${suiteName} > ${INDEX}`.toLowerCase();
+    var snapshot = `${suiteName} > ${_testName} > ${INDEX}`.toLowerCase();
     //snapshot = browser.name != undefined ? `${browser.name} > ${snapshot}` : snapshot;
-    // await percySnapshot(snapshot, {
-    //   "widths": [innerWidth],
-    //   "minHeight": innerHeight
-    // });
+    await percySnapshot(snapshot, {
+      "widths": [innerWidth],
+      "minHeight": innerHeight
+    });
   });
 }
 
