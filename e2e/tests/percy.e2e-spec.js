@@ -69,9 +69,9 @@ function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
 
   var _testName = CHART_SELECTED['testName'];
   var link = CHART_SELECTED['url'];
-  var suiteName = `${ENV} > ${SHEET_KEY} > ${CHART_KEY}`;
+  var suiteName = `${SHEET_KEY} > ${CHART_KEY}`;
 
-  var testName = `> ${INDEX} > ${suiteName} > ${_testName}`.toLowerCase();
+  var testName = `> ${INDEX} > ${ENV} > ${suiteName} > ${_testName}`.toLowerCase();
   URL = link == '/' ? URL : `${URL + link}`;
 
   it(testName, async () => {
