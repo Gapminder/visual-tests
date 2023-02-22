@@ -1,4 +1,4 @@
-const percySnapshot = require('@percy/protractor');
+const percySnapshot = require('@gapminder/percy-protractor');
 const helper = require("../helpers/helper.js");
 const fs = require('fs');
 const { browser } = require("protractor");
