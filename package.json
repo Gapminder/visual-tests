@@ -1,19 +1,19 @@
 {
   "name": "visual-tests",
   "version": "1.0.0",
-  "description": "visually tests all pages of tools-pages",
+  "description": "Visually tests pages by their URLs",
   "main": "protractor.conf.js",
   "scripts": {
-    "wd-update": "node ./node_modules/protractor/bin/webdriver-manager update",
-    "start": "node ./node_modules/protractor/bin/webdriver-manager update && webdriver-manager start",
+    "postinstall": "curl -o node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_110.0.5481.77.zip https://chromedriver.storage.googleapis.com/110.0.5481.77/chromedriver_linux64.zip",
+    "wd-update": "node ./node_modules/protractor/bin/webdriver-manager update --gecko=false",
     "testData": "node ./e2e/helpers/spreadsheet.js",
-    "test": "node ./node_modules/protractor/bin/protractor protractor.conf.js --suite=gdrive",
+    "gdrive": "node ./node_modules/protractor/bin/protractor protractor.conf.js --suite=gdrive",
     "applitools": "node ./node_modules/protractor/bin/protractor protractor.conf.js --suite=applitools",
     "percy": "percy exec -- protractor protractor.conf.js --suite=percy",
     "percy:tools-page": "percy exec -- protractor protractor.conf.js --suite=percy:tools-page",
     "percy:dollar-street": "percy exec -- protractor protractor.conf.js --suite=percy:dollar-street",
     "percy:gapminder-org": "percy exec -- protractor protractor.conf.js --suite=percy:gapminder-org",
-    "sample": "percy exec -- protractor protractor.conf.js --suite=sample"
+    "percy:sample": "percy exec -- protractor protractor.conf.js --suite=sample"
   },
   "repository": {
     "type": "git",
@@ -30,10 +30,10 @@
     "url": "https://github.com/Gapminder/visual-tests/issues"
   },
   "homepage": "https://github.com/Gapminder/visual-tests#readme",
+  "//": "applitools is for now removed from devDependencies — eyes.selenium: 0.0.83",
   "devDependencies": {
     "@percy/cli": "^1.18.0",
     "@percy/protractor": "^2.0.1",
-    "eyes.selenium": "0.0.83",
     "google-spreadsheet": "^3.3.0",
     "googleapis": "^109.0.1",
     "jasmine-spec-reporter": "^4.2.1",
