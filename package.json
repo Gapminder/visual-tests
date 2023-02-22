@@ -33,7 +33,7 @@
   "//": "applitools is for now removed from devDependencies — eyes.selenium: 0.0.83",
   "devDependencies": {
     "@percy/cli": "^1.18.0",
-    "@percy/protractor": "^2.0.1",
+    "@gapminder/percy-protractor": "^2.0.1",
     "google-spreadsheet": "^3.3.0",
     "googleapis": "^109.0.1",
     "jasmine-spec-reporter": "^4.2.1",
