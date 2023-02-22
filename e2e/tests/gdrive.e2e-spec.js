@@ -68,6 +68,8 @@ function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
 
   it(testName, async () => {
 
+    await browser.get(browser.resetUrl);
+    await browser.sleep(100);
     await browser.get(URL);
     if (!(CHART_KEY.match(/(Dollar|Gapminder)/gi))) {
       await helper.visibilityOf('main_chart');

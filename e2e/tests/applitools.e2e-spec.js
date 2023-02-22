@@ -76,6 +76,9 @@ function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
 
   it(testName, async () => {
 
+    await browser.get(browser.resetUrl);
+    await browser.sleep(100);
+
     eyes.open(browser, `${ENV} > ${SHEET_KEY}`, testName);
 
     await browser.get(URL);
