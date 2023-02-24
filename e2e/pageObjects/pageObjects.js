@@ -27,7 +27,7 @@ var dom = [
       button_download: $('.download.button'),
       button_code: $('.button.code'),
       app_language_switcher: $('.lang-current'),
-      button_play: $('.vzb-ts-btn'),
+      button_play: $('.vzb-ts-btn .vzb-icon-play'),
       side_bar: $('.vzb-tool-sidebar'),
       main_chart: $('.vzb-tool'),
       data_doubts: $('.vzb-data-warning.vzb-noexport'),
