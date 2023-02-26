@@ -1,1 +1,73 @@
-{}
+{
+    "percy:tools-page": {
+        "BASE URL": [
+            {
+                "testName": "prod",
+                "url": "https://tools.gapminder.org/"
+            },
+            {
+                "testName": "dev",
+                "url": "http://161.35.211.246/tools/"
+            },
+            {
+                "testName": "stage",
+                "url": "http://46.101.187.163/tools/"
+            },
+            {
+                "testName": "blue",
+                "url": "http://tools-blue.gapminder.org:8080/tools/"
+            },
+            {
+                "testName": "green",
+                "url": "https://tools.gapminder.org/"
+            },
+            {
+                "testName": "test",
+                "url": "http://local.gapminder.org:4200/tools/"
+            }
+        ],
+        "ALL CHARTS": [],
+        "BUBBLE CHART": [
+            {
+                "testName": "home",
+                "url": "#$chart-type=bubbles"
+            }
+        ],
+        "LINE CHART": [
+            {
+                "testName": "home",
+                "url": "#$chart-type=linechart"
+            }
+        ],
+        "MOUNTAIN CHART": [
+            {
+                "testName": "home",
+                "url": "#$chart-type=mountain"
+            }
+        ],
+        "BAR CHART": [
+            {
+                "testName": "home",
+                "url": "#$chart-type=barrank"
+            }
+        ],
+        "MAP CHART": [
+            {
+                "testName": "home",
+                "url": "#$chart-type=map"
+            }
+        ],
+        "POPBYAGE CHART": [
+            {
+                "testName": "home",
+                "url": "#$chart-type=popbyage"
+            }
+        ],
+        "EMBEDDED CHARTS": [
+            {
+                "testName": "WDI dataset alone via github DDF",
+                "url": "?embedded=true#$model$markers$bubble$encoding$x$data$concept=ag_lnd_agri_k2;;&y$data$concept=ag_lnd_agri_zs;;&size$data$concept=ag_con_fert_zs;;&color$data$concept=ag_agr_trac_no;;&label$data$concept=name;;&frame$value=2015&data$concept=year;;;;;&dataSources$data1$path=https:////raw.githubusercontent.com//open-numbers//ddf--world_bank--world_development_indicators//develop&modelType=ddfcsv;;;&chart-type=bubbles&url=v1"
+            }
+        ]
+    }
+}

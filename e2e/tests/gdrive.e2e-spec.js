@@ -1,6 +1,5 @@
 const PixDiff = require('pix-diff');
 const helper = require("../helpers/helper.js");
-const { browser } = require("protractor");
 
 let ALL_SHEETS = helper.ALL_SHEETS;
 let SHEET_KEYS;
@@ -48,11 +47,12 @@ function getSuiteData(SHEET_KEY, ENV, URL) {
 }
 
 function suiteRunner(ENV, SHEET_KEY, URL, CHART_KEY) {
-  var chartSelcted = Object.values(ALL_SHEETS[SHEET_KEY][CHART_KEY]);
+  var chartSelected = Object.values(ALL_SHEETS[SHEET_KEY][CHART_KEY]);
+  if (!chartSelected.length) return;
 
   describe(`${ENV} > ${SHEET_KEY} > ${CHART_KEY}`, () => {
-    for (let j = 0; j < chartSelcted.length; j++) {
-      testRunner(ENV, SHEET_KEY, URL, CHART_KEY, chartSelcted[j], j + 1);
+    for (let j = 0; j < chartSelected.length; j++) {
+      testRunner(ENV, SHEET_KEY, URL, CHART_KEY, chartSelected[j], j + 1);
     }
   });
 }
@@ -68,28 +68,27 @@ function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
 
   it(testName, async () => {
 
-    await browser.get(browser.resetUrl);
-    await browser.sleep(100);
-    await browser.get(URL);
+    await browser.url(helper.resetUrl);
+    await browser.pause(100);
+    await browser.url(URL);
     if (!(CHART_KEY.match(/(Dollar|Gapminder)/gi))) {
       await helper.visibilityOf('main_chart');
       await helper.visibilityOf('button_play');
     }
 
-    await browser.sleep(4000);
+    await browser.pause(4000);
     console.log(`\n${testName} > ${URL}`);
 
     var snapshot = `${suiteName} > ${INDEX}`.toLowerCase();
     //snapshot = browser.name != undefined ? `${browser.name} > ${snapshot}` : snapshot;
     snapshot = snapshot.replace(/>/g, '_');
-    await browser.pixDiff.checkScreen(`${snapshot}`).then(result => {
-      if (result.code != 5) {
-        expect(URL).toContain("identical screenshot");
+    let result = await browser.pixDiff.checkScreen(`${snapshot}`);
+    if (result.code != 5) {
+      expect(URL).toContain("identical screenshot");
 
-      } else {
-        expect(result.code).toEqual(PixDiff.RESULT_IDENTICAL);
-      }
-    });
+    } else {
+      expect(result.code).toEqual(PixDiff.RESULT_IDENTICAL);
+    }
   });
 }
 
