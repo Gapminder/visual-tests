@@ -1,7 +1,6 @@
 const Eyes = require("eyes.selenium").Eyes;
 const helper = require("../helpers/helper.js");
 const fs = require('fs');
-const { browser } = require("protractor");
 
 const eyes = new Eyes();
 eyes.setApiKey(process.env.APPLITOOLS_API_KEY);
@@ -55,12 +54,13 @@ function getSuiteData(ENV, SHEET_KEY, URL) {
 }
 
 function suiteRunner(ENV, SHEET_KEY, URL, CHART_KEY) {
+  var chartSelected = Object.values(ALL_SHEETS[`${SHEET_KEY}`][`${CHART_KEY}`]);
+  if (!chartSelected.length) return;
 
-  var chartSelcted = Object.values(ALL_SHEETS[`${SHEET_KEY}`][`${CHART_KEY}`]);
   describe(`${ENV} > ${SHEET_KEY} > ${CHART_KEY}`, () => {
 
-    for (let j = 0; j < chartSelcted.length; j++) {
-      testRunner(ENV, SHEET_KEY, URL, CHART_KEY, chartSelcted[j], j + 1);
+    for (let j = 0; j < chartSelected.length; j++) {
+      testRunner(ENV, SHEET_KEY, URL, CHART_KEY, chartSelected[j], j + 1);
     }
   });
 }
@@ -76,18 +76,18 @@ function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
 
   it(testName, async () => {
 
-    await browser.get(browser.resetUrl);
-    await browser.sleep(100);
+    await browser.url(helper.resetUrl);
+    await browser.pause(100);
 
     eyes.open(browser, `${ENV} > ${SHEET_KEY}`, testName);
 
-    await browser.get(URL);
+    await browser.url(URL);
     if (!(CHART_KEY.match(/(Dollar|Gapminder)/gi))) {
       await helper.visibilityOf('mainChart');
       await helper.visibilityOf('buttonPlay');
     }
 
-    await browser.sleep(4000);
+    await browser.pause(4000);
     console.log(`\n${testName} > ${URL}`);
 
     var snapshot = `${suiteName} > ${INDEX}`;

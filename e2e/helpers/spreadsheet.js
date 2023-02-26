@@ -3,7 +3,6 @@ if(!process.env.GOOGLE_PRIVATE_KEY) console.error("missing env variable GOOGLE_P
 if(!process.env.SPREADSHEET_ID) console.error("missing env variable SPREADSHEET_ID");
 
 const { GoogleSpreadsheet } = require('google-spreadsheet');
-//const { promisify } = require('util');
 const fs = require('fs');
 const jsonObjs = './e2e/testData.json';
 const creds = {
@@ -33,15 +32,14 @@ async function getSheets() {
   return sheets;
 }
 
-async function fetchUpdatedSheet() {
+async function fetchUpdatedSheet(suites) {
 
-  let suite = browser.suite;
   let title = "";
 
   const sheets = await getSheets();
   for (i = 0; i < sheets.length; i++) {
     title = sheets[i].title;
-    if (title.includes(suite)) await getSheetData(i, sheets[i], title);
+    if (suites.includes(title)) await getSheetData(i, sheets[i], title);
   }
 }
 
@@ -161,8 +159,8 @@ async function deleteAllSheetsFromJson() {
   });
 }
 
-exports.sheets = async () => {
+exports.sheets = async (suites) => {
   await deleteAllSheetsFromJson();
-  await fetchUpdatedSheet();
+  await fetchUpdatedSheet(suites);
   await checkIfSheetNameExistInJson();
 }

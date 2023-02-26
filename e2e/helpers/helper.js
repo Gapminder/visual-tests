@@ -1,21 +1,27 @@
-const { browser } = require("protractor");
 const fs = require('fs')
 let ALL_SHEETS = JSON.parse(fs.readFileSync("./e2e/testData.json"));
 let SHEET_KEYS = Object.keys(ALL_SHEETS);
-global.locators = require("./../pageObjects/locators.js");
 
 const MAX_TIMEOUT = 90000;
-const EC = protractor.ExpectedConditions;
+const EC = require("wdio-wait-for");
 function webUI(ele) { return global.locators[ele.trim()]; }
 
 exports.ALL_SHEETS = ALL_SHEETS;
 
+exports.resetUrl = "data:text/html,<html></html>";
+
 exports.visibilityOf = visibilityOf = async (element) => {
-  await browser.wait(EC.visibilityOf(webUI(element)), MAX_TIMEOUT, element + ' is not visible');
+  await browser.waitUntil(EC.visibilityOf(webUI(element)), {
+    timeout: MAX_TIMEOUT,
+    timeoutMsg: element + ' is not visible'
+  });
 }
 
 exports.clickable = clickable = async (element) => {
-  await browser.wait(EC.elementToBeClickable(webUI(element)), MAX_TIMEOUT, element + ' is not clickable');
+  await browser.waitUntil(EC.elementToBeClickable(webUI(element)), {
+    timeout: MAX_TIMEOUT,
+    timeoutMsg: element + ' is not clickable'
+  });
 }
 
 exports.click = async (element) => {
@@ -25,7 +31,8 @@ exports.click = async (element) => {
 
 exports.hover = async (element) => {
   await visibilityOf(element)
-  await browser.actions().mouseMove(webUI(element)).click().perform();
+  await webUI(element).moveTo();
+  //await webUI(element).moveTo().click();
 }
 
 exports.refresh = async () => {
@@ -42,7 +49,7 @@ exports.scrollByElement = async (element) => {
     console.log("axis.y : " + axis.y);
     return axis.y;
   });
-  await browser.executeScript("window.scrollTo(0, " + (getY + 800) + ")").then(() => {
+  await browser.execute("window.scrollTo(0, " + (getY + 800) + ")").then(() => {
     this.click(element);
   });
 }
@@ -50,7 +57,7 @@ exports.scrollByElement = async (element) => {
 
 
 exports.screenSize = screenSize = async () => {
-  return browserSize = browser.manage().window().getSize().then((size) => {
+  return browserSize = browser.getWindowRect().then((size) => {
     return size;
   });
 }
@@ -66,7 +73,7 @@ exports.padding = () => {
     + "width: window.outerWidth - window.innerWidth,"
     + "height: window.outerHeight - window.innerHeight };";
 
-  return padding = browser.executeScript(JS_GET_PADDING).then((pad) => {
+  return padding = browser.execute(JS_GET_PADDING).then((pad) => {
     return pad;
   });
 }
@@ -76,7 +83,7 @@ exports.viewPort = viewPort = () => {
     + "width: window.innerWidth,"
     + "height: window.innerHeight };";
 
-  return viewPort = browser.executeScript(JS_GET_VIEWPORT).then((visualPort) => {
+  return viewPort = browser.execute(JS_GET_VIEWPORT).then((visualPort) => {
     return visualPort;
   });
 }

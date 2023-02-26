@@ -4,16 +4,15 @@
   "description": "Visually tests pages by their URLs",
   "main": "protractor.conf.js",
   "scripts": {
-    "postinstall": "mkdir -p node_modules/protractor/node_modules/webdriver-manager/selenium/ && curl -o node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_110.0.5481.77.zip https://chromedriver.storage.googleapis.com/110.0.5481.77/chromedriver_linux64.zip",
-    "wd-update": "node ./node_modules/protractor/bin/webdriver-manager update --gecko=false",
+    "wd-update": "node -v",
     "testData": "node ./e2e/helpers/spreadsheet.js",
     "gdrive": "node ./node_modules/protractor/bin/protractor protractor.conf.js --suite=gdrive",
     "applitools": "node ./node_modules/protractor/bin/protractor protractor.conf.js --suite=applitools",
     "percy": "percy exec -- protractor protractor.conf.js --suite=percy",
-    "percy:tools-page": "percy exec -- protractor protractor.conf.js --suite=percy:tools-page",
+    "percy:tools-page": "percy exec -- wdio run ./wdio.conf.js --suite=percy:tools-page",
     "percy:dollar-street": "percy exec -- protractor protractor.conf.js --suite=percy:dollar-street",
     "percy:gapminder-org": "percy exec -- protractor protractor.conf.js --suite=percy:gapminder-org",
-    "percy:sample": "percy exec -- protractor protractor.conf.js --suite=sample"
+    "percy:sample": "percy exec -- wdio run ./wdio.conf.js --suite sample"
   },
   "repository": {
     "type": "git",
@@ -30,14 +29,18 @@
     "url": "https://github.com/Gapminder/visual-tests/issues"
   },
   "homepage": "https://github.com/Gapminder/visual-tests#readme",
-  "//": "applitools is for now removed from devDependencies — eyes.selenium: 0.0.83",
-  "devDependencies": {
-    "@percy/cli": "^1.18.0",
-    "@gapminder/percy-protractor": "^2.0.1",
+  "//": "applitools is for now removed from devDependencies — eyes.selenium: 0.0.83",  "devDependencies": {
+    "@percy/cli": "^1.20.0",
+    "@percy/webdriverio": "^2.0.2",
+    "@wdio/cli": "^8.3.11",
+    "@wdio/jasmine-framework": "^8.3.11",
+    "@wdio/local-runner": "^8.3.11",
+    "@wdio/spec-reporter": "^8.3.0",
     "google-spreadsheet": "^3.3.0",
-    "googleapis": "^109.0.1",
-    "jasmine-spec-reporter": "^4.2.1",
+    "googleapis": "^111.0.0",
     "pix-diff": "^2.0.1",
-    "protractor": "^7.0.0"
+    "wdio-wait-for": "^3.0.2",
+    "wdio-chromedriver-service": "^8.1.1",
+    "chromedriver": "110.0.0"
   }
 }

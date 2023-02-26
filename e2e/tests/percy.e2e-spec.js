@@ -1,6 +1,5 @@
-const percySnapshot = require('@gapminder/percy-protractor');
+const percySnapshot = require('@percy/webdriverio');
 const helper = require("../helpers/helper.js");
-const { browser } = require("protractor");
 
 let innerWidth;
 let innerHeight;
@@ -25,7 +24,7 @@ function getSheetKeys() {
 
 function getEnvForSheets(SHEET_KEY) {
   const baseURL = [];
-  const baseEnv = browser.params.baseEnv;
+  const baseEnv = browser.capabilities["custom:params"].baseEnv;
 
   for (const chartKey of Object.keys(ALL_SHEETS[SHEET_KEY])) {
     if (chartKey.match(/BASE URL/gi)) {
@@ -56,17 +55,17 @@ function getSuiteData(SHEET_KEY, ENV, URL) {
 }
 
 function suiteRunner(ENV, SHEET_KEY, URL, CHART_KEY) {
-  var chartSelcted = Object.values(ALL_SHEETS[SHEET_KEY][CHART_KEY]);
+  var chartSelected = Object.values(ALL_SHEETS[SHEET_KEY][CHART_KEY]);
+  if (!chartSelected.length) return;
 
   describe(`${ENV} > ${SHEET_KEY} > ${CHART_KEY}`, () => {
-    for (let j = 0; j < chartSelcted.length; j++) {
-      testRunner(ENV, SHEET_KEY, URL, CHART_KEY, chartSelcted[j], j + 1);
+    for (let j = 0; j < chartSelected.length; j++) {
+      testRunner(ENV, SHEET_KEY, URL, CHART_KEY, chartSelected[j], j + 1);
     }
   });
 }
 
 function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
-
   var _testName = CHART_SELECTED['testName'];
   var link = CHART_SELECTED['url'];
   var suiteName = `${SHEET_KEY} > ${CHART_KEY}`;
@@ -76,21 +75,21 @@ function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
 
   it(testName, async () => {
 
-    await browser.get(browser.resetUrl);
-    await browser.sleep(100);
-    await browser.get(URL);
+    await browser.url(helper.resetUrl);
+    await browser.pause(100);
+    await browser.url(URL);
     if (!(CHART_KEY.match(/(Dollar|Gapminder)/gi))) {
       await helper.visibilityOf('main_chart');
       await helper.visibilityOf('button_play');
     }
-    await browser.sleep(1000);
+    await browser.pause(1000);
 
     var element = await helper.element(testName);
     if ((testName.match(/click/gi))) await helper.click(element);
     if ((testName.match(/refresh/gi))) await helper.refresh();
     if ((testName.match(/hover/gi))) await helper.hover(element);
 
-    await browser.sleep(3000);
+    await browser.pause(3000);
     console.log(`\n${testName} > ${URL}`);
 
     var snapshot = `${suiteName} > ${_testName} > ${INDEX}`.toLowerCase();
@@ -102,15 +101,14 @@ function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
   });
 }
 
-async function visualView() {
+beforeAll(async function visualView() {
   await helper.getSizeInfo();
   const visualView = await helper.viewPort();
   innerWidth = visualView.width;
   innerHeight = visualView.height;
-}
+});
 
-function startTest() {
-  visualView();
+async function startTest() {
   getSheetKeys();
 }
 
