@@ -4,14 +4,13 @@
   "description": "Visually tests pages by their URLs",
   "main": "protractor.conf.js",
   "scripts": {
-    "wd-update": "node -v",
     "testData": "node ./e2e/helpers/spreadsheet.js",
-    "gdrive": "node ./node_modules/protractor/bin/protractor protractor.conf.js --suite=gdrive",
-    "applitools": "node ./node_modules/protractor/bin/protractor protractor.conf.js --suite=applitools",
-    "percy": "percy exec -- protractor protractor.conf.js --suite=percy",
-    "percy:tools-page": "percy exec -- wdio run ./wdio.conf.js --suite=percy:tools-page",
-    "percy:dollar-street": "percy exec -- protractor protractor.conf.js --suite=percy:dollar-street",
-    "percy:gapminder-org": "percy exec -- protractor protractor.conf.js --suite=percy:gapminder-org",
+    "gdrive": "wdio run ./wdio.conf.js --suite gdrive",
+    "applitools": "wdio run ./wdio.conf.js --suite applitools",
+    "percy": "percy exec -- wdio run ./wdio.conf.js --suite percy",
+    "percy:tools-page": "percy exec -- wdio run ./wdio.conf.js --suite percy:tools-page",
+    "percy:dollar-street": "percy exec -- wdio run ./wdio.conf.js --suite percy:dollar-street",
+    "percy:gapminder-org": "percy exec -- wdio run ./wdio.conf.js --suite percy:gapminder-org",
     "percy:sample": "percy exec -- wdio run ./wdio.conf.js --suite sample"
   },
   "repository": {
@@ -29,7 +28,8 @@
     "url": "https://github.com/Gapminder/visual-tests/issues"
   },
   "homepage": "https://github.com/Gapminder/visual-tests#readme",
-  "//": "applitools is for now removed from devDependencies — eyes.selenium: 0.0.83",  "devDependencies": {
+  "//": "applitools is for now removed from devDependencies — eyes.selenium: 0.0.83",
+  "devDependencies": {
     "@percy/cli": "^1.20.0",
     "@percy/webdriverio": "^2.0.2",
     "@wdio/cli": "^8.3.11",
@@ -39,8 +39,7 @@
     "google-spreadsheet": "^3.3.0",
     "googleapis": "^111.0.0",
     "pix-diff": "^2.0.1",
-    "wdio-wait-for": "^3.0.2",
     "wdio-chromedriver-service": "^8.1.1",
-    "chromedriver": "110.0.0"
+    "wdio-wait-for": "^3.0.2"
   }
 }
