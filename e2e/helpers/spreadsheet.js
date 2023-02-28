@@ -39,7 +39,7 @@ async function fetchUpdatedSheet(suites) {
   const sheets = await getSheets();
   for (i = 0; i < sheets.length; i++) {
     title = sheets[i].title;
-    if (suites.includes(title)) await getSheetData(i, sheets[i], title);
+    if (suites.some(suite => title.includes(suite))) await getSheetData(i, sheets[i], title);
   }
 }
 
