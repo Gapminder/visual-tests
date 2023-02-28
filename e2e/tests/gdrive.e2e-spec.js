@@ -92,8 +92,11 @@ function testRunner(ENV, SHEET_KEY, URL, CHART_KEY, CHART_SELECTED, INDEX) {
   });
 }
 
-function startTest() {
-  helper.getSizeInfo();
+beforeAll(async function visualView() {
+  await helper.getSizeInfo();
+});
+
+async function startTest() {
   getSheetKeys();
 }
 
