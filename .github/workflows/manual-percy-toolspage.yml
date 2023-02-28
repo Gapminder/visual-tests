@@ -41,8 +41,7 @@ jobs:
         env:
           CHROME_VERSION: ${{vars.CHROME_VERSION}}
         run: |
-          CHROME_MAIN_VERSION = `echo $CHROME_VERSION | sed 's/\..*//'`
-          npm i chromedriver@$CHROME_MAIN_VERSION --no-save
+          npm i chromedriver@`echo $CHROME_VERSION | sed 's/\..*//'` --no-save
           wget "https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${CHROME_VERSION}_amd64.deb"
           sudo dpkg -i "google-chrome-stable_${CHROME_VERSION}_amd64.deb"
       - name: VISUAL TESTS FOR TOOLS PAGE
