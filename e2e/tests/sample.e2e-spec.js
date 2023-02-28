@@ -12,7 +12,7 @@ describe(`Sample suite`, () => {
   it(`Sample test`, async () => {
     
     let link = "#$model$markers$bubble$encoding$color$data$space@=time;&concept=time;&scale$type:null&domain:null&zoomed:null;;;;;;&chart-type=bubbles&url=v1";
-    await browser.url(`${"http://local.gapminder.org:4200/tools/" + link}`);
+    await browser.url(`${"https://tools.gapminder.org/" + link}`);
 
     const browserSize = await helper.screenSize();
     const visualView = await helper.viewPort();
