@@ -34,7 +34,6 @@ jobs:
           node-version: 18
           cache: 'npm'
       - name: npm install
-        env:
         run: |
           npm install
           mkdir pixDiff && mkdir pixDiff/diff && mkdir pixDiff/baseline
