@@ -30,7 +30,7 @@ jobs:
           CHROME_VERSION: ${{vars.CHROME_VERSION}}
         run: |
           npm i chromedriver@`echo $CHROME_VERSION | sed 's/\..*//'` --no-save
-          wget "https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${CHROME_VERSION}_amd64.deb"
+          wget "https://mirror.cs.uchicago.edu/google-chrome/pool/main/g/google-chrome-stable/google-chrome-stable_${CHROME_VERSION}_amd64.deb"
           sudo dpkg -i "google-chrome-stable_${CHROME_VERSION}_amd64.deb"
       - name: VISUAL TESTS FOR DOLLAR STREET
         env: 
