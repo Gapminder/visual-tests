@@ -3,6 +3,7 @@ if(!process.env.GOOGLE_PRIVATE_KEY) console.error("missing env variable GOOGLE_P
 if(!process.env.SPREADSHEET_ID) console.error("missing env variable SPREADSHEET_ID");
 
 const { GoogleSpreadsheet } = require('google-spreadsheet');
+const { JWT } = require('google-auth-library');
 const fs = require('fs');
 const jsonObjs = './e2e/testData.json';
 const creds = {
@@ -23,8 +24,15 @@ var suiteLinks = {};
 var allSheetsLinks = {};
 
 async function getSheets() {
-  const doc = new GoogleSpreadsheet(process.env.SPREADSHEET_ID);
-  await doc.useServiceAccountAuth(creds);
+  const serviceAccountAuth = new JWT({
+      email: creds.client_email,
+      key: creds.private_key,
+      scopes: [
+          'https://www.googleapis.com/auth/spreadsheets',
+      ],
+  });
+  
+  const doc = new GoogleSpreadsheet(process.env.SPREADSHEET_ID, serviceAccountAuth);
   await doc.loadInfo();
   console.log(`Loaded doc: ` + doc.title)
 
