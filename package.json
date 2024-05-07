@@ -30,16 +30,16 @@
   "homepage": "https://github.com/Gapminder/visual-tests#readme",
   "//": "applitools is for now removed from devDependencies — eyes.selenium: 0.0.83",
   "devDependencies": {
-    "@percy/cli": "^1.20.0",
-    "@percy/webdriverio": "^2.0.2",
-    "@wdio/cli": "^8.3.11",
-    "@wdio/jasmine-framework": "^8.3.11",
-    "@wdio/local-runner": "^8.3.11",
-    "@wdio/spec-reporter": "^8.3.0",
-    "google-spreadsheet": "^3.3.0",
-    "googleapis": "^111.0.0",
+    "@percy/cli": "^1.28.5",
+    "@percy/webdriverio": "^3.1.1",
+    "@wdio/cli": "^8.36.1",
+    "@wdio/jasmine-framework": "^8.36.1",
+    "@wdio/local-runner": "^8.36.1",
+    "@wdio/spec-reporter": "^8.36.1",
+    "google-spreadsheet": "^4.1.1",
+    "googleapis": "^123.0.0",
     "pix-diff": "^2.0.1",
     "wdio-chromedriver-service": "^8.1.1",
-    "wdio-wait-for": "^3.0.2"
+    "wdio-wait-for": "^3.0.11"
   }
 }
